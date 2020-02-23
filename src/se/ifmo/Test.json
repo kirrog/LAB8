@@ -1,0 +1,56 @@
+"HashTable":[
+	{
+		"id": 345,
+		"name": "vasia",
+		"coordinates": {
+			"x": 234567,
+			"y": 234567.5
+		},
+		"creationDate": 23022020,
+		"price": 5243,
+		"refundable": true,
+		"type": "VIP",
+		"venue": {
+			"id": 654,
+			"name": petia,
+			"capacity": 120,
+			"type": "OPEN_AREA",
+			"address": {
+				"zipCode": "rute",
+				"town": {
+					"x": 34567.5
+					"y": 67.5
+					"z": 34
+					"name": "karpet"
+				}
+			}
+		}
+	}
+	{
+		"id": 545,
+		"name": "vasia",
+		"coordinates": {
+			"x": 234567,
+			"y": 234567.5
+		},
+		"creationDate": 23022020,
+		"price": 5243,
+		"refundable": true,
+		"type": "VIP",
+		"venue": {
+			"id": 654,
+			"name": petia,
+			"capacity": 120,
+			"type": "OPEN_AREA",
+			"address": {
+				"zipCode": "rute",
+				"town": {
+					"x": 34567.5
+					"y": 67.5
+					"z": 34
+					"name": "karpet"
+				}
+			}
+		}
+	}
+]
