@@ -1,6 +1,8 @@
 package se.ifmo.ru.Collection;
 
-class Venue {
+import org.json.simple.JSONObject;
+
+public class Venue {
 
     private long id;
     private String name;
@@ -34,6 +36,13 @@ class Venue {
         this.capacity = capacity;
         this.type = type;
         this.address = address;
+    }
+    public Venue(JSONObject jo) {
+        this.id = (long)jo.get("id");
+        this.name = (String)jo.get("name");
+        this.capacity = (Integer)jo.get("capacity");
+        this.type = VenueType.valueOf((String)jo.get("type"));
+        this.address = new Address((JSONObject)jo.get("address"));
     }
 
 }

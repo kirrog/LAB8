@@ -1,6 +1,7 @@
 package se.ifmo.ru.Collection;
 
 import java.time.ZonedDateTime;
+import java.util.Date;
 
 public class Ticket {
     private int id;
@@ -49,8 +50,20 @@ public class Ticket {
         return venue;
     }
 
-    public Ticket(String name, Coordinates coordinates, ZonedDateTime creationDate, long price, String comment, boolean refundable, TicketType type, Venue venue) {
+    public Ticket(String name, Coordinates coordinates, long price, String comment, boolean refundable, TicketType type, Venue venue) {
         this.id = IdGenerator.toGenerate();
+        this.name = name;
+        this.coordinates = coordinates;
+        this.creationDate = java.time.ZonedDateTime.now();
+        this.price = price;
+        this.comment = comment;
+        this.refundable = refundable;
+        this.type = type;
+        this.venue = venue;
+    }
+
+    public Ticket(int id, String name, Coordinates coordinates, java.time.ZonedDateTime creationDate, long price, String comment, boolean refundable, TicketType type, Venue venue) {
+        this.id = id;
         this.name = name;
         this.coordinates = coordinates;
         this.creationDate = creationDate;

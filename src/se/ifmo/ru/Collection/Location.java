@@ -1,6 +1,8 @@
 package se.ifmo.ru.Collection;
 
-class Location {
+import org.json.simple.JSONObject;
+
+public class Location {
     private Double x;
     private Float y;
     private Long z;
@@ -27,5 +29,11 @@ class Location {
         this.y = y;
         this.z = z;
         this.name = name;
+    }
+    Location(JSONObject jo) {
+        this.x = (Double) jo.get("x");
+        this.y =(Float) jo.get("y");
+        this.z = (Long) jo.get("z");
+        this.name = (String) jo.get("name");
     }
 }
