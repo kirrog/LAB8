@@ -13,54 +13,40 @@ import java.time.ZonedDateTime;
 import java.util.Iterator;
 import java.util.Scanner;
 
+
 import static se.ifmo.ru.Main.TicketsHashTable;
 
 
 public class JsonParser {
 
+    private File jString;
+
+    public File getjString() {
+        return jString;
+    }
+
+    public void setjString(File jString) {
+        this.jString = jString;
+    }
 
     public JsonParser(File jsonString) {
+        jString = jsonString;
+    }
+
+    public void parse(File jsonString){
         try {
             Scanner scanner = new Scanner(jsonString);
 
             String line = scanner.next();
-//            int numberOfHooks = 0;
-//
-//            if (line.contains("{")) {
-//                numberOfHooks++;
-//            }
-
-//            while (numberOfHooks > 0) { //Cutting file to objects
-//                line = scanner.nextLine();
-//                boolean read = false;
-//                if (line.contains("{")) {
-//                    numberOfHooks++;
-//                }
-//                if (line.contains("}")) {
-//                    numberOfHooks--;
-//                }
-//                if (line.contains("[")) {
-//                    read = true;
-//                }
-//                if (line.contains("]")) {
-//                    read = false;
-//                }
-//
-//                if(read){
-//
-//                }
-//
-//            }
             try {
                 JSONObject jsonObject = (JSONObject) new JSONParser().parse(line);;
                 int numberOfTickets = (int) jsonObject.get("numberOfTickets");
-                JSONArray TicketsArr = (JSONArray) jsonObject.get("phoneNumbers");
+                JSONArray TicketsArr = (JSONArray) jsonObject.get("Tickets");
                 Iterator TicketsItr = TicketsArr.iterator();
-                Ticket[] tickets = new Ticket[numberOfTickets];
                 while (TicketsItr.hasNext()) {
                     JSONObject tick = (JSONObject) TicketsItr.next();
                     Ticket Tick = getTicket(tick);
-                    TicketsHashTable.put((int)Tick.getId(),Tick);
+                    TicketsHashTable.put((String) Tick.getName(),Tick);
                 }
 
             } catch (ParseException e) {
@@ -69,32 +55,19 @@ public class JsonParser {
         } catch (FileNotFoundException e) {
             System.out.println("Can't find file!");
         }
-
     }
 
     private Ticket getTicket(JSONObject jo){
          int id = (int)jo.get("id");
          String name = (String)jo.get("name");
          Coordinates coordinates = new Coordinates((JSONObject)jo.get("Coordinates"));
-         java.time.ZonedDateTime creationDate = ZDTgetter((JSONObject)jo.get("creationDate"));
+         java.time.ZonedDateTime creationDate = java.time.ZonedDateTime.parse((String)jo.get("creationDate"));
          long price = (long)jo.get("price");
          String comment = (String)jo.get("comment");
          boolean refundable = (boolean)jo.get("refundable");
          TicketType type = TicketType.valueOf((String)jo.get("type"));
          Venue venue = new Venue((JSONObject)jo.get("Venue"));
          return new Ticket(id, name, coordinates, creationDate, price, comment, refundable, type, venue);
-    }
-
-    private java.time.ZonedDateTime ZDTgetter(JSONObject jo){
-        int year = (int) jo.get("year");
-        int month = (int) jo.get("month");
-        int dayOfMonth = (int) jo.get("dayOfMonth");
-        int hour = (int) jo.get("hour");
-        int minute = (int) jo.get("minute");
-        int second = (int) jo.get("second");
-        int nanoOfSecond = (int) jo.get("nanoOfSecond");
-        ZoneId zone = ZoneId.of((String)jo.get("zone"));
-        return ZonedDateTime.of(year,month,dayOfMonth,hour,minute,second,nanoOfSecond,zone);
     }
 
 }

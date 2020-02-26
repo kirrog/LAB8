@@ -1,9 +1,9 @@
 package se.ifmo.ru.Collection;
 
 import java.time.ZonedDateTime;
-import java.util.Date;
+import java.util.Comparator;
 
-public class Ticket {
+public class Ticket implements Comparable<Ticket>{
     private int id;
     private String name;
     private Coordinates coordinates;
@@ -73,4 +73,10 @@ public class Ticket {
         this.type = type;
         this.venue = venue;
     }
+
+    @Override
+    public int compareTo(Ticket o) {
+        return name.compareTo(o.getName());
+    }
 }
+

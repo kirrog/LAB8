@@ -6,6 +6,14 @@ public class Address {
     private String zipCode = null;
     private Location town = null;
 
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public Location getTown() {
+        return town;
+    }
+
     Address(String zipCode, Location town){
         this.zipCode = zipCode;
         this.town = town;
