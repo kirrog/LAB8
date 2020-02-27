@@ -1,11 +1,13 @@
 package se.ifmo.ru.Comands;
 
-import java.util.concurrent.Executor;
 
-public class Help implements Executor {
+import java.util.Scanner;
+
+public class Help implements Execute {
+
 
     @Override
-    public void execute(Runnable command) {
+    public void execute(String string, Scanner scan) {
         System.out.println("help - справка\n");
         System.out.println("info - вывод информации о коллекции\n");
         System.out.println("show - вывод элементов коллекции в строковом формате\n");
@@ -23,5 +25,4 @@ public class Help implements Executor {
         System.out.println("print_descending - вывести элементы коллекции в порядке убывания\n");
         System.out.println("print_field_descending_type type - вывести значения поля type в порядке убывания\n");
     }
-
 }

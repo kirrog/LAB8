@@ -30,7 +30,7 @@ public class Venue {
         return address;
     }
 
-    Venue(String name, Integer capacity, VenueType type, Address address) {
+    public Venue(String name, Integer capacity, VenueType type, Address address) {
         this.id = IdGenerator.toGenerate();
         this.name = name;
         this.capacity = capacity;

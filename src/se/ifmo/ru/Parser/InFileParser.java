@@ -7,7 +7,6 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Enumeration;
 
-import static java.lang.System.out;
 import static se.ifmo.ru.Main.TicketsHashTable;
 
 public class InFileParser {

@@ -14,7 +14,7 @@ public class Address {
         return town;
     }
 
-    Address(String zipCode, Location town){
+    public Address(String zipCode, Location town){
         this.zipCode = zipCode;
         this.town = town;
     }

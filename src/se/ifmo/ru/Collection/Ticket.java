@@ -1,7 +1,6 @@
 package se.ifmo.ru.Collection;
 
 import java.time.ZonedDateTime;
-import java.util.Comparator;
 
 public class Ticket implements Comparable<Ticket>{
     private int id;

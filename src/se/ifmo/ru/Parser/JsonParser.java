@@ -33,9 +33,9 @@ public class JsonParser {
         jString = jsonString;
     }
 
-    public void parse(File jsonString){
+    public void parse(){
         try {
-            Scanner scanner = new Scanner(jsonString);
+            Scanner scanner = new Scanner(jString);
 
             String line = scanner.next();
             try {

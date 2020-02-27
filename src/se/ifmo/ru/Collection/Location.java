@@ -24,7 +24,7 @@ public class Location {
         return name;
     }
 
-    Location(Double x, Float y, Long z, String name) {
+    public Location(Double x, Float y, Long z, String name) {
         this.x = x;
         this.y = y;
         this.z = z;
