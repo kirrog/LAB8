@@ -1,11 +1,9 @@
 package se.ifmo.ru.Comands;
 
-import org.json.simple.JSONObject;
 import se.ifmo.ru.Collection.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -77,7 +75,7 @@ public class ExeClass {
                 if (inner.hasNextLine()) {
                     arguments = inner.nextLine();
                 }
-                hashMap.get(command).execute(arguments, inner);
+                hashMap.get(command).execute(arguments, inner, this);
             }
         }
     }
@@ -189,7 +187,7 @@ public class ExeClass {
         return new Coordinates(x, y);
     }
 
-    private Venue getVenue() {
+    public Venue getVenue() {
 
         long id = IdGenerator.toGenerate();
         String name = "";
@@ -310,6 +308,38 @@ public class ExeClass {
         return new Location(x, y, z, name);
     }
 
+    public static void writeTicket(Ticket tick){
+        Coordinates coord = tick.getCoordinates();
+        Venue ven = tick.getVenue();
+        Address addr = ven.getAddress();
+        Location loc = addr.getTown();
+        System.out.print("Id: " + tick.getId() + " ");
+        System.out.print("Name: " + tick.getName() + " ");
+        System.out.print("Coordinates:{" + " ");
+        System.out.print("X: " + coord.getX() + " ");
+        System.out.print("Y: " + coord.getX() + " ");
+        System.out.print("}" + " ");
+        System.out.print("Creation date: " + tick.getCreationDate() + " ");
+        System.out.print("Price: " + tick.getPrice() + " ");
+        System.out.print("Comment: " + tick.getComment() + " ");
+        System.out.print("Refundable: " + tick.isRefundable() + " ");
+        System.out.print("Type: " + tick.getId() + " ");
+        System.out.print("Venue:{" + " ");
+        System.out.print("Id: " + ven.getId() + " ");
+        System.out.print("Name: " + ven.getName() + " ");
+        System.out.print("Capacity: " + ven.getCapacity() + " ");
+        System.out.print("Type: " + ven.getType() + " ");
+        System.out.print("Address:{" + " ");
+        System.out.print("ZipCode: " + addr.getZipCode() + " ");
+        System.out.print("Town:{" + " ");
+        System.out.print("X: " + loc.getX() + " ");
+        System.out.print("Y: " + loc.getY() + " ");
+        System.out.print("Z: " + loc.getZ() + " ");
+        System.out.print("Name: " + loc.getName() + " ");
+        System.out.print("}" + " ");
+        System.out.print("}" + " ");
+        System.out.println("}");
+    }
 
 //    private static boolean isNumber(String s){
 //        try {

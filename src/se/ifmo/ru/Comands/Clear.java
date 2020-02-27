@@ -8,7 +8,7 @@ import static se.ifmo.ru.Main.TicketsHashTable;
 public class Clear implements Execute {
 
     @Override
-    public void execute(String string, Scanner scan) {
+    public void execute(String string, Scanner scan, ExeClass eCla) {
         TicketsHashTable.clear();
         System.out.println("Where are nothing in Hashtable");
     }

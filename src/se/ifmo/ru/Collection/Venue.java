@@ -45,4 +45,10 @@ public class Venue {
         this.address = new Address((JSONObject)jo.get("address"));
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        Venue ven = (Venue) obj;
+
+        return (this.getId() == ven.getId())&(this.getName() == ven.getName())&(this.getCapacity() == ven.getCapacity());
+    }
 }

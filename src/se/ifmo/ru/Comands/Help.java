@@ -7,7 +7,7 @@ public class Help implements Execute {
 
 
     @Override
-    public void execute(String string, Scanner scan) {
+    public void execute(String string, Scanner scan, ExeClass eCla) {
         System.out.println("help - справка\n");
         System.out.println("info - вывод информации о коллекции\n");
         System.out.println("show - вывод элементов коллекции в строковом формате\n");

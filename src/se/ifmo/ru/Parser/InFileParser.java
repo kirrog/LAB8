@@ -1,6 +1,7 @@
 package se.ifmo.ru.Parser;
 
 import se.ifmo.ru.Collection.*;
+import se.ifmo.ru.Main;
 
 import java.io.*;
 import java.time.ZonedDateTime;
@@ -12,14 +13,14 @@ import static se.ifmo.ru.Main.TicketsHashTable;
 public class InFileParser {
 
     String a = "\t";
-    FileOutputStream outputStream;
+    private FileOutputStream outputStream;
 
-    InFileParser(File outFile) {
+    public InFileParser(File outFile) {
         try (FileOutputStream outputStream = new FileOutputStream(outFile)) {
-            System.out.println("File successfully opened to write in");
+            System.out.println("File successfully opened to write in!");
             this.outputStream = outputStream;
         } catch (IOException ex) {
-            System.out.println(ex.getMessage());
+            System.out.println("Can't open file to write!");
         }
     }
 
@@ -35,6 +36,10 @@ public class InFileParser {
             bos.write(buffer, 0, buffer.length);
 
             str = ("\t\"NumberOfTickets\": " + TicketsHashTable.size() + ",\n");
+            buffer = str.getBytes();
+            bos.write(buffer, 0, buffer.length);
+
+            str = ("\t\"DateOfCreation\": "+ Main.getHashCreationDate() +"\n");
             buffer = str.getBytes();
             bos.write(buffer, 0, buffer.length);
 
@@ -74,7 +79,7 @@ public class InFileParser {
         Venue venue = t.getVenue();
 
         String str[] = new String[13];
-        str[0] = (a + a + "\"Ticket\": {\n");
+        str[0] = (a + a + "{\n");
         str[1] = (a + a + a + "\"id\": " + id + ",\n");
         str[2] = (a + a + a + "\"name\": " + "\"" + name + "\"" + ",\n");
         str[3] = (a + a + a + "\"coordinates\": {\n");

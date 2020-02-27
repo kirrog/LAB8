@@ -77,5 +77,84 @@ public class Ticket implements Comparable<Ticket>{
     public int compareTo(Ticket o) {
         return name.compareTo(o.getName());
     }
+
+    public int compByField(int i, Ticket o){
+        switch (i){
+            case 0:
+                if (this.getId() < o.getId()){
+                    return -1;
+                }else {
+                    return 1;
+                }
+            case 1:
+                return this.getName().compareTo(o.getName());
+            case 2:
+                if (this.getCoordinates().getX() < o.getCoordinates().getX()){
+                    return -1;
+                }else {
+                    return 1;
+                }
+            case 3:
+                if (this.getCoordinates().getY() < o.getCoordinates().getY()){
+                    return -1;
+                }else {
+                    return 1;
+                }
+            case 4:
+                return this.getCreationDate().compareTo(o.getCreationDate());
+            case 5:
+                if (this.getPrice() < o.getPrice()){
+                    return -1;
+                }else {
+                    return 1;
+                }
+            case 6:
+                if (!this.isRefundable() & o.isRefundable()){
+                    return -1;
+                }else {
+                    return 1;
+                }
+            case 7:
+                return this.getType().compareTo(o.getType());
+            case 8:
+                if (this.getVenue().getId() < o.getVenue().getId()){
+                    return -1;
+                }else {
+                    return 1;
+                }
+            case 9:
+                return this.getVenue().getName().compareTo(o.getVenue().getName());
+            case 10:
+                if (this.getVenue().getCapacity() < o.getVenue().getCapacity()){
+                    return -1;
+                }else {
+                    return 1;
+                }
+            case 11:
+                return this.getVenue().getAddress().getZipCode().compareTo(o.getVenue().getAddress().getZipCode());
+            case 12:
+                if (this.getVenue().getAddress().getTown().getX() < o.getVenue().getAddress().getTown().getX()){
+                    return -1;
+                }else {
+                    return 1;
+                }
+            case 13:
+                if (this.getVenue().getAddress().getTown().getY() < o.getVenue().getAddress().getTown().getY()){
+                    return -1;
+                }else {
+                    return 1;
+                }
+            case 14:
+                if (this.getVenue().getAddress().getTown().getZ() < o.getVenue().getAddress().getTown().getZ()){
+                    return -1;
+                }else {
+                    return 1;
+                }
+            case 15:
+                return this.getVenue().getAddress().getTown().getName().compareTo(o.getVenue().getAddress().getTown().getName());
+            default: return 0;
+
+        }
+    }
 }
 

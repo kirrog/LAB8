@@ -7,10 +7,10 @@ import java.util.Scanner;
 public class ExecuteScript implements Execute {
 
     @Override
-    public void execute(String string, Scanner scan) {
+    public void execute(String string, Scanner scan, ExeClass eCla) {
         File file = new File(string);
-        ExeClass eCla = new ExeClass(file);
-        eCla.start(true);
+        ExeClass exeClass = new ExeClass(file);
+        exeClass.start(true);
 
     }
 }
