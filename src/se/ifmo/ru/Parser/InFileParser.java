@@ -84,7 +84,7 @@ public class InFileParser {
         str[2] = (a + a + a + "\"name\": " + "\"" + name + "\"" + ",\n");
         str[3] = (a + a + a + "\"coordinates\": {\n");
         str[4] = makeJSONCoordinates(coordinates);
-        str[5] = (a + a + a + "\"creationDate\": " + creationDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy - HH:mm:ss Z")) + "\n");
+        str[5] = (a + a + a + "\"creationDate\": " + creationDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy - HH:mm:ss ZZ")) + "\n");
         str[6] = (a + a + a + "\"price\": " + price + ",\n");
         str[7] = (a + a + a + "\"comment\": " + "\"" + comment + "\"" + ",\n");
         str[8] = (a + a + a + "\"refundable\": " + "\"" + refundable + "\"" + ",\n");

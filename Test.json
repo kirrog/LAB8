@@ -1,6 +1,6 @@
-"file":{
+{
 	"NumberOfTickets": 2,
-	"DateOfCreation": "12/23/1990 - 12:56:34 05:00",
+	"DateOfCreation": "12/23/1990 - 12:56:34 +1300",
 	"Tickets":[		
 		{
 			"id": 345,
@@ -9,7 +9,7 @@
 				"x": 234567,
 				"y": 234567.5
 			},
-			"creationDate": "12/23/1990 - 12:56:34 05:00",
+			"creationDate": "12/23/1990 - 12:56:34 +1300",
 			"price": 5243,
 			"comment": "nothing",
 			"refundable": true,
@@ -37,7 +37,7 @@
 				"x": 234567,
 				"y": 234567.5
 			},
-			"creationDate": "12/23/1990 - 12:56:34 05:00",
+			"creationDate": "12/23/1990 - 12:56:34 +1300",
 			"price": 5243,
 			"comment": "nothing",
 			"refundable": true,

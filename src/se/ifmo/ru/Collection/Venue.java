@@ -37,6 +37,13 @@ public class Venue {
         this.type = type;
         this.address = address;
     }
+    public Venue(long id, String name, Integer capacity, VenueType type, Address address) {
+        this.id = id;
+        this.name = name;
+        this.capacity = capacity;
+        this.type = type;
+        this.address = address;
+    }
     public Venue(JSONObject jo) {
         this.id = (long)jo.get("id");
         this.name = (String)jo.get("name");

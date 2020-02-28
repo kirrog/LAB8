@@ -11,7 +11,6 @@ import static se.ifmo.ru.Main.TicketsHashTable;
 
 public class Show implements Execute {
 
-
     @Override
     public void execute(String string, Scanner scan, ExeClass eCla) {
 
