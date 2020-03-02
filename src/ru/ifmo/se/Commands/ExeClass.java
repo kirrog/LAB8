@@ -1,7 +1,6 @@
 package ru.ifmo.se.Commands;
 
 import ru.ifmo.se.Collection.*;
-import se.ifmo.ru.Collection.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;

@@ -8,6 +8,7 @@ import ru.ifmo.se.Commands.ExeClass;
 import ru.ifmo.se.Parser.JsonParser;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.util.Hashtable;
@@ -21,7 +22,7 @@ public class Main {
 
     static ZonedDateTime hashCreationDate = ZonedDateTime.now();
 
-    public static String fileRWName = "Test.json";
+    public static String fileRWName = "Tickets.json";
 
     public static boolean[] programState;
     //0 - dir of file exists
@@ -29,10 +30,11 @@ public class Main {
     //2 - dir of file writeable
     //3 - dir of file executable
     //4 - Splitter is '/' of file exists
-    //5 - file of file exists
-    //6 - file of file readable
-    //7 - file of file writeable
-    //8 - file of file executable
+    //5 - file exists
+    //6 - file readable
+    //7 - file writeable
+    //8 - file executable
+    //9 - entered isn't file (example: dir)
 
     public static ZonedDateTime getHashCreationDate() {
         return hashCreationDate;
@@ -45,7 +47,7 @@ public class Main {
     public static void main(String[] args) {
 
         fileRWName = readLogs();
-
+        Scanner scan = new Scanner(System.in);
         File f = new File(fileRWName);
 
         boolean[] ps = new boolean[9];
@@ -59,16 +61,14 @@ public class Main {
             ps = writeFileStatus(fileRWName);
         }
 
-        Scanner scan = new Scanner(System.in);
-        String filename = scan.nextLine();
+
+
         boolean end = true;
         while (end) {
             File checkFile = f;
             boolean[] cs = showCommands(ps);
             System.out.println("Enter only one digit. Chooooooose your command:");
             String com = scan.nextLine();
-
-
 
             switch (com.charAt(0)) {
                 case '1':
@@ -89,8 +89,10 @@ public class Main {
                     ps = writeFileStatus(string);
                     break;
                 case '3':
-                    end = false;
-
+                    if (cs[2]) {
+                        end = false;
+                        f = checkFile;
+                    }
                     break;
                 case '4':
                     end = false;
@@ -101,74 +103,91 @@ public class Main {
             }
         }
 
-        JsonParser jPars = new JsonParser(f);
-        jPars.parse();
+        if (ps[6]) {
+            JsonParser jPars = new JsonParser(f);
+            jPars.parse();
+        } else {
+            System.out.println("Can't get collection because of permission denied!");
+        }
+
         ExeClass eCla = new ExeClass();
         eCla.start(false);
+
 
     }
 
     private static String readLogs() {
-        Scanner scanner = new Scanner("ru/ifmo/se//Parser/logs.json");
+        Scanner scanner = null;
+        try {
+            scanner = new Scanner(new File("src/ru/ifmo/se/Parser/logs.json"));
+        } catch (FileNotFoundException e) {
+            System.out.println("Troubles with src/ru/ifmo/se/Parser/logs.json");
+        }
         String string = scanner.nextLine();
-        string = scanner.nextLine();
-        string = scanner.nextLine();
+        string += scanner.nextLine();
+        string += scanner.nextLine();
+
         try {
             JSONObject jsonObject = (JSONObject) new JSONParser().parse(string);
+            System.out.println(jsonObject);
             return (String) jsonObject.get("FileName");
         } catch (ParseException e) {
             System.out.println("Trouble with logs " + string);
         }
 
-        return "Test.json";
+        return "Tickets.json";
     }
 
     private static boolean[] writeFileStatus(String jStr) {
 
         File f = new File(jStr);
 
-        String[] strings = splitPathInArr(f);
-        boolean[] ps = writeDirStatus(strings);
+        boolean[] ps = new boolean[10];
+        for (boolean s : ps) {
+            s = false;
+        }
 
-        if (ps[0]) {
-            if (f.exists()) {
-                ps[5] = true;
-                if (f.canRead()) {
-                    System.out.println("Can read! ");
-                    ps[6] = true;
+        if (f.isFile()){
+            String[] strings = splitPathInArr(f);
+            ps = writeDirStatus(strings);
+
+            if (ps[0]) {
+                if (f.exists()){
+
+                    ps[5] = true;
+                    if (f.canRead()) {
+                        System.out.println("Can read! ");
+                        ps[6] = true;
+                    } else {
+                        System.out.println("Can't read! ");
+                        ps[6] = false;
+                    }
+                    if (f.canWrite()) {
+                        System.out.println("Can write! ");
+                        ps[7] = true;
+                    } else {
+                        System.out.println("Can't write! ");
+                        ps[7] = false;
+                    }
+                    if (f.canExecute()) {
+                        System.out.println("Can execute! ");
+                        ps[8] = true;
+                    } else {
+                        System.out.println("Can't execute! ");
+                        ps[8] = false;
+                    }
+
                 } else {
-                    System.out.println("Can't read! ");
-                    ps[6] = false;
-                }
-                if (f.canWrite()) {
-                    System.out.println("Can write! ");
-                    ps[7] = true;
-                } else {
-                    System.out.println("Can't write! ");
-                    ps[7] = false;
-                }
-                if (f.canExecute()) {
-                    System.out.println("Can execute! ");
-                    ps[8] = true;
-                } else {
-                    System.out.println("Can't execute! ");
-                    ps[8] = false;
+                    System.out.println("File doesn't exists!");
+                    ps[5] = false;
                 }
             } else {
-                System.out.println("File doesn't exists!");
-                ps[5] = false;
+                System.out.println("Dir doesn't exist");
             }
-        } else {
-            System.out.println("Dir doesn't exist");
+        }else{
+            System.out.println("It's not a file!!!");
+            ps[9] = true;
         }
-
-        if(ps[6]){
-            System.out.println("We wouldn't have collection at start with this file!");
-        }
-        if (ps[7]){
-            System.out.println("We wouldn't have possibility to save collection");
-        }
-
         return ps;
     }
 
@@ -176,7 +195,7 @@ public class Main {
 
         String string = "";
         String splitter = "" + strings[0].charAt(strings[0].length() - 1);
-        boolean[] ps = new boolean[9];
+        boolean[] ps = new boolean[10];
 
         for (boolean booleans : ps) {
             booleans = false;
@@ -245,23 +264,32 @@ public class Main {
         // exit from program
         // choose another file
         boolean[] cs = new boolean[4];
-        for (boolean s : cs){
+        for (boolean s : cs) {
             s = false;
         }
 
-        if (ps[0] & ps[2]) {
+        if (ps[0] & ps[2] & !ps[5]) {
             cs[0] = true;
             System.out.println("1 - Create new file");
 
         }
-        System.out.println("2 - Choose another file");
 
-        if (ps[7]){
-            System.out.println("3 - Save new file and start working");
+        System.out.println("2 - Choose another file");
+        cs[1] = true;
+
+        if ((ps[7] | ps[6]) & ! ps[9]) {
+            System.out.println("3 - Save as main file new one and start working");
+            if (!ps[6]) {
+                System.out.println("\tWe cant get collection from it, only write in!");
+            }
+            if (!ps[7]) {
+                System.out.println("\tWe wouldn't save whe collection!");
+            }
             cs[2] = true;
         }
 
-        System.out.println("4 - Exit with default file and start working");
+        System.out.println("4 - Exit with default file (Tickets.json) and start working");
+        cs[3] = true;
 
         return cs;
     }

@@ -4,7 +4,6 @@ import org.json.simple.parser.*;
 import org.json.simple.*;
 import ru.ifmo.se.Collection.*;
 import ru.ifmo.se.Main;
-import se.ifmo.ru.Collection.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;

@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c2400d9c-b475-4f07-8c7a-9f0f8cccd628" name="Default Changelist" comment="" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -23,12 +22,17 @@
   </component>
   <component name="ProjectId" id="1YD0FMX767yyTngOFLDMyMjEbRB" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="configurable.group.tools" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -37,23 +41,10 @@
       <recent name="C:\MyProjects\Java\LAB5\src\se\ifmo\ru\Parser" />
     </key>
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
-  </component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="se.ifmo.ru.Main" />
+      <option name="MAIN_CLASS_NAME" value="ru.ifmo.se.Main" />
       <module name="LAB5" />
-      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Run" />
       <method v="2">
@@ -82,7 +73,40 @@
       </map>
     </option>
   </component>
+  <component name="VcsManagerConfiguration">
+    <ignored-roots>
+      <path value="$PROJECT_DIR$" />
+    </ignored-roots>
+  </component>
   <component name="WindowStateProjectService">
+    <state x="137" y="19" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1583163574868">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="137" y="19" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1366.728@0.0.1366.728" timestamp="1583163574868" />
+    <state x="412" y="148" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1583163572934">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="412" y="148" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1366.728@0.0.1366.728" timestamp="1583163572934" />
+    <state width="1345" height="46" key="GridCell.Tab.0.bottom" timestamp="1583167851613">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1345" height="46" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1583167851613" />
+    <state width="1345" height="46" key="GridCell.Tab.0.center" timestamp="1583167851613">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1345" height="46" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1583167851613" />
+    <state width="1345" height="46" key="GridCell.Tab.0.left" timestamp="1583167851613">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1345" height="46" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1583167851613" />
+    <state width="1345" height="46" key="GridCell.Tab.0.right" timestamp="1583167851613">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1345" height="46" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1583167851613" />
+    <state x="184" y="7" key="SettingsEditor" timestamp="1583160136988">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="184" y="7" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1583160136988" />
     <state x="379" y="188" key="com.intellij.ide.util.TipDialog" timestamp="1583159869154">
       <screen x="0" y="0" width="1366" height="728" />
     </state>

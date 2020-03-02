@@ -1,7 +1,6 @@
 package ru.ifmo.se.Parser;
 
 import ru.ifmo.se.Collection.*;
-import se.ifmo.ru.Collection.*;
 import ru.ifmo.se.Main;
 
 import java.io.*;

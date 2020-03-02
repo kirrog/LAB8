@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import static ru.ifmo.se.Main.fileRWName;
+import static ru.ifmo.se.Main.programState;
 
 
 /** This class save collection in file*/
@@ -14,16 +15,19 @@ public class Save implements Execute {
 
     @Override
     public void execute(String string, Scanner scan, ExeClass eCla) {
-        File file = new File(fileRWName);
+        if (programState[7]){
+            File file = new File(fileRWName);
+            File logs = new File("src/ru/ifmo/se/Parser/logs.json");
 
-        try {
-            file.delete();
-            file.createNewFile();
-        } catch (IOException e) {
-            System.out.println("Can't create file when write!");
+            try {
+                file.delete();
+                file.createNewFile();
+            } catch (IOException e) {
+                System.out.println("Can't create file when write!");
+            }
+
+            InFileParser IFP = new InFileParser(file);
+            IFP.saveInFile();
         }
-
-        InFileParser IFP = new InFileParser(file);
-        IFP.saveInFile();
     }
 }
