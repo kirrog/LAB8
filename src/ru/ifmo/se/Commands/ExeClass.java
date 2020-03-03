@@ -55,16 +55,16 @@ public class ExeClass {
         try {
             inner = new Scanner(str);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("Problem with reading script");
         }
     }
 
     public void start(boolean file) {
         boolean notExit = true;
         while (notExit) {
-            System.out.print("Enter command: ");
+            System.out.println("Enter command: ");
             String command = inner.nextLine();
-            if (command.equals("exit")) {
+            if (command.indexOf("exit") == 0) {
                 notExit = false;
                 break;
             }

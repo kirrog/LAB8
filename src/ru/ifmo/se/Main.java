@@ -35,6 +35,9 @@ public class Main {
     //7 - file writeable
     //8 - file executable
     //9 - entered isn't file (example: dir)
+    //10 - last session file
+    //11 - default file
+
 
     public static ZonedDateTime getHashCreationDate() {
         return hashCreationDate;
@@ -48,24 +51,47 @@ public class Main {
 
         fileRWName = readLogs();
         Scanner scan = new Scanner(System.in);
-        File f = new File(fileRWName);
+        File workFile = new File(fileRWName);
+        File defaulted = new File("Tickets.json");
+        File checkFile = null;
 
-        boolean[] ps = new boolean[9];
+        if (args.length > 0){
+            checkFile = new File(args[args.length-1]);
+        }else{
+            System.out.println("You didn't wrote any file!");
+        }
 
+
+        boolean[] ps = new boolean[16];
         for (boolean s : ps) {
             s = false;
         }
 
-        if (f.exists()) {
-            System.out.println("Opened file from previous session: " + fileRWName);
-            ps = writeFileStatus(fileRWName);
+
+
+        if(workFile.isFile() & workFile.exists()){
+            System.out.println("Last session file found");
+            programState[10] = true;
+        }else {
+            System.out.println("Can't find last session file");
         }
-
-
+        if(defaulted.isFile() & defaulted.exists()){
+            System.out.println("Default file found");
+            programState[11] = true;
+        }else {
+            System.out.println("Can't find default file");
+        }
+        if(! (checkFile == null)){
+            if (checkFile.isFile() & checkFile.exists()){
+                System.out.println("Argument file found");
+                ps = writeFileStatus(args[args.length-1]);
+            }
+        }else{
+            System.out.println("Argument didn't find");
+        }
 
         boolean end = true;
         while (end) {
-            File checkFile = f;
             boolean[] cs = showCommands(ps);
             System.out.println("Enter only one digit. Chooooooose your command:");
             String com = scan.nextLine();
@@ -75,6 +101,7 @@ public class Main {
                     if (cs[0]) {
                         try {
                             checkFile.createNewFile();
+                            ps = writeFileStatus(checkFile.getAbsolutePath());
                         } catch (IOException e) {
                             System.out.println("Can't create file");
                         }
@@ -91,10 +118,28 @@ public class Main {
                 case '3':
                     if (cs[2]) {
                         end = false;
-                        f = checkFile;
+                        workFile = checkFile;
+                    } else {
+                        System.out.println("You can't use this command!");
                     }
                     break;
                 case '4':
+                    if(cs[3]){
+                        workFile = defaulted;
+                        end = false;
+                    }else {
+                        System.out.println("You can't use this command!");
+                    }
+                    break;
+                case '5':
+                    if(cs[4]){
+                        workFile = new File(fileRWName);
+                        end = false;
+                    }else {
+                        System.out.println("You can't use this command!");
+                    }
+                    break;
+                case '6':
                     end = false;
                     break;
                 default:
@@ -102,9 +147,15 @@ public class Main {
                     break;
             }
         }
+        if (!(workFile == null)){
+            fileRWName = workFile.getAbsolutePath();
+            programState = writeFileStatus(fileRWName);
+        }else{
+            System.out.println("Houston we have problems with previous or default file");
+        }
 
         if (ps[6]) {
-            JsonParser jPars = new JsonParser(f);
+            JsonParser jPars = new JsonParser(workFile);
             jPars.parse();
         } else {
             System.out.println("Can't get collection because of permission denied!");
@@ -112,29 +163,24 @@ public class Main {
 
         ExeClass eCla = new ExeClass();
         eCla.start(false);
-
-
     }
 
     private static String readLogs() {
         Scanner scanner = null;
         try {
             scanner = new Scanner(new File("src/ru/ifmo/se/Parser/logs.json"));
+            String string = scanner.nextLine();
+            string += scanner.nextLine();
+            string += scanner.nextLine();
+            try {
+                JSONObject jsonObject = (JSONObject) new JSONParser().parse(string);
+                return (String) jsonObject.get("FileName");
+            } catch (ParseException e) {
+                System.out.println("Trouble with logs " + string);
+            }
         } catch (FileNotFoundException e) {
             System.out.println("Troubles with src/ru/ifmo/se/Parser/logs.json");
         }
-        String string = scanner.nextLine();
-        string += scanner.nextLine();
-        string += scanner.nextLine();
-
-        try {
-            JSONObject jsonObject = (JSONObject) new JSONParser().parse(string);
-            System.out.println(jsonObject);
-            return (String) jsonObject.get("FileName");
-        } catch (ParseException e) {
-            System.out.println("Trouble with logs " + string);
-        }
-
         return "Tickets.json";
     }
 
@@ -142,52 +188,57 @@ public class Main {
 
         File f = new File(jStr);
 
-        boolean[] ps = new boolean[10];
-        for (boolean s : ps) {
-            s = false;
-        }
+        boolean[] ps;
 
-        if (f.isFile()){
-            String[] strings = splitPathInArr(f);
-            ps = writeDirStatus(strings);
+        String[] strings = splitPathInArr(f);
+        ps = writeDirStatus(strings);
 
-            if (ps[0]) {
-                if (f.exists()){
+        ps[10] = programState[10];
+        ps[11] = programState[11];
 
-                    ps[5] = true;
-                    if (f.canRead()) {
-                        System.out.println("Can read! ");
-                        ps[6] = true;
+        if (!(f == null)){
+            if (f.isFile()) {
+
+
+                if (ps[0]) {
+                    if (f.exists()) {
+
+                        ps[5] = true;
+                        if (f.canRead()) {
+                            System.out.println("Can read! ");
+                            ps[6] = true;
+                        } else {
+                            System.out.println("Can't read! ");
+                            ps[6] = false;
+                        }
+                        if (f.canWrite()) {
+                            System.out.println("Can write! ");
+                            ps[7] = true;
+                        } else {
+                            System.out.println("Can't write! ");
+                            ps[7] = false;
+                        }
+                        if (f.canExecute()) {
+                            System.out.println("Can execute! ");
+                            ps[8] = true;
+                        } else {
+                            System.out.println("Can't execute! ");
+                            ps[8] = false;
+                        }
+
                     } else {
-                        System.out.println("Can't read! ");
-                        ps[6] = false;
+                        System.out.println("File doesn't exists!");
+                        ps[5] = false;
                     }
-                    if (f.canWrite()) {
-                        System.out.println("Can write! ");
-                        ps[7] = true;
-                    } else {
-                        System.out.println("Can't write! ");
-                        ps[7] = false;
-                    }
-                    if (f.canExecute()) {
-                        System.out.println("Can execute! ");
-                        ps[8] = true;
-                    } else {
-                        System.out.println("Can't execute! ");
-                        ps[8] = false;
-                    }
-
                 } else {
-                    System.out.println("File doesn't exists!");
-                    ps[5] = false;
+                    System.out.println("Dir doesn't exist");
                 }
-            } else {
-                System.out.println("Dir doesn't exist");
+            }else{
+                System.out.println("It's not a file!!!");
+                ps[9] = true;
             }
-        }else{
-            System.out.println("It's not a file!!!");
-            ps[9] = true;
         }
+
         return ps;
     }
 
@@ -195,7 +246,7 @@ public class Main {
 
         String string = "";
         String splitter = "" + strings[0].charAt(strings[0].length() - 1);
-        boolean[] ps = new boolean[10];
+        boolean[] ps = new boolean[16];
 
         for (boolean booleans : ps) {
             booleans = false;
@@ -211,7 +262,6 @@ public class Main {
         }
 
         File dir = new File(string);
-
 
         if (dir.exists()) {
             System.out.println("Dir exists!");
@@ -263,7 +313,7 @@ public class Main {
         // create new file
         // exit from program
         // choose another file
-        boolean[] cs = new boolean[4];
+        boolean[] cs = new boolean[5];
         for (boolean s : cs) {
             s = false;
         }
@@ -288,8 +338,16 @@ public class Main {
             cs[2] = true;
         }
 
-        System.out.println("4 - Exit with default file (Tickets.json) and start working");
-        cs[3] = true;
+        if (ps[11]){
+            System.out.println("4 - Exit with default file (Tickets.json) and start working");
+            cs[3] = ps[11];
+        }
+        if (ps[10]){
+            System.out.println("5 - Exit with last session file (" + fileRWName + ") and start working");
+            cs[4] = ps[10];
+        }
+
+        System.out.println("6 - Continue without collection");
 
         return cs;
     }

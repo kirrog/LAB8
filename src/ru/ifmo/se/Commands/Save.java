@@ -28,6 +28,8 @@ public class Save implements Execute {
 
             InFileParser IFP = new InFileParser(file);
             IFP.saveInFile();
+        }else{
+            System.out.println("You choose file in which you can't write");
         }
     }
 }

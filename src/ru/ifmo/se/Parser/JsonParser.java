@@ -11,33 +11,35 @@ import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 
-/** This class parse json file!*/
+/**
+ * This class parse json file!
+ */
 public class JsonParser {
 
-    private File jString;
+    private File jsonFile;
 
     public File getjString() {
-        return jString;
+        return jsonFile;
     }
 
     public void setjString(File jString) {
-        this.jString = jString;
+        this.jsonFile = jString;
     }
 
-    public JsonParser(File jsonString) {
-        jString = jsonString;
+    public JsonParser(File jString) {
+        jsonFile = jString;
     }
 
     public void parse() {
         try {
-            Scanner scanner = new Scanner(jString);
+            Scanner scanner = new Scanner(jsonFile);
             String line = "";
 //            while (scanner.hasNextLine()){
 //                System.out.println(scanner.nextLine());
-//                //line = line + "\n" + scanner.nextLine();
+//                line = line + "\n" + scanner.nextLine();
 //            }
 
-//            try {
+            try {
 
             scanner.nextLine();
             line = scanner.nextLine();
@@ -45,13 +47,16 @@ public class JsonParser {
             scanner.nextLine();
             line = "{" + line + "}";
             JSONObject jsonObject = null;
+
             try {
                 jsonObject = (JSONObject) new JSONParser().parse(line);
             } catch (ParseException e) {
                 System.out.println("At beginning -1");
             }
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy - HH:mm:ss ZZ");
+
             int numberOfTickets = (int) (long) jsonObject.get("NumberOfTickets");
+
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy - HH:mm:ss ZZ");
             Main.setHashCreationDate(java.time.ZonedDateTime.parse((String) jsonObject.get("DateOfCreation"), dtf));
 
 
@@ -83,7 +88,7 @@ public class JsonParser {
                 }
 
 
-                id = (long)tick.get("id");
+                id = (long) tick.get("id");
                 name = (String) tick.get("name");
 
                 line = "";
@@ -124,16 +129,16 @@ public class JsonParser {
                 venue = getVenue(scanner);
 
 
-                Tick = new Ticket((int)id, name, new Coordinates(xCord, yCord), creationDate, price, comment, refundable, type, venue);
+                Tick = new Ticket((int) id, name, new Coordinates(xCord, yCord), creationDate, price, comment, refundable, type, venue);
                 Main.TicketsHashTable.put((String) Tick.getName(), Tick);
                 scanner.nextLine();
                 scanner.nextLine();
                 scanner.nextLine();
             }
 
-//            } catch (ParseException e) {
-//                System.out.println("There are mistakes in the file! While parsing.");
-//            }
+            } catch (Exception e) {
+                System.out.println("There are mistakes in the file! Can't parse.");
+            }
 
 
         } catch (FileNotFoundException e) {
@@ -156,7 +161,7 @@ public class JsonParser {
 
             long id = (long) tick.get("id");
             String name = (String) tick.get("name");
-            Integer capacity = (int)(long) tick.get("capacity");
+            Integer capacity = (int) (long) tick.get("capacity");
             VenueType type = VenueType.valueOf((String) tick.get("type"));
             Address address = getAddress(scanner);
 
@@ -201,7 +206,7 @@ public class JsonParser {
             JSONObject tick = (JSONObject) new JSONParser().parse(line);
 
             Double x = (Double) tick.get("x");
-            Float y = (float)(double) tick.get("y");
+            Float y = (float) (double) tick.get("y");
             Long z = (Long) tick.get("z");
             String name = (String) tick.get("name");
             return new Location(x, y, z, name);

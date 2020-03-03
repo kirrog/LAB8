@@ -28,13 +28,16 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Test" />
     <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\MyProjects\Java\Test" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\MyProjects\Java\LAB5" />
       <recent name="C:\MyProjects\Java\LAB5\src" />
@@ -87,22 +90,26 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="412" y="148" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1366.728@0.0.1366.728" timestamp="1583163572934" />
-    <state width="1345" height="46" key="GridCell.Tab.0.bottom" timestamp="1583167851613">
+    <state x="121" y="106" key="FileChooserDialogImpl" timestamp="1583219317022">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="46" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1583167851613" />
-    <state width="1345" height="46" key="GridCell.Tab.0.center" timestamp="1583167851613">
+    <state x="121" y="106" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1583219317022" />
+    <state width="1345" height="141" key="GridCell.Tab.0.bottom" timestamp="1583179186306">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="46" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1583167851613" />
-    <state width="1345" height="46" key="GridCell.Tab.0.left" timestamp="1583167851613">
+    <state width="1345" height="141" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1583179186306" />
+    <state width="1345" height="141" key="GridCell.Tab.0.center" timestamp="1583179186305">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="46" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1583167851613" />
-    <state width="1345" height="46" key="GridCell.Tab.0.right" timestamp="1583167851613">
+    <state width="1345" height="141" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1583179186305" />
+    <state width="1345" height="141" key="GridCell.Tab.0.left" timestamp="1583179186305">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="46" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1583167851613" />
+    <state width="1345" height="141" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1583179186305" />
+    <state width="1345" height="141" key="GridCell.Tab.0.right" timestamp="1583179186306">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1345" height="141" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1583179186306" />
     <state x="184" y="7" key="SettingsEditor" timestamp="1583160136988">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -111,5 +118,9 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="379" y="188" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1583159869154" />
+    <state x="339" y="162" key="run.anything.popup" timestamp="1583178665357">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="339" y="162" key="run.anything.popup/0.0.1366.728@0.0.1366.728" timestamp="1583178665357" />
   </component>
 </project>
