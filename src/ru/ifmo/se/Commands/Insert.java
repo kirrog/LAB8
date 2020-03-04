@@ -15,8 +15,8 @@ public class Insert implements Execute {
     @Override
     public void execute(String string, Scanner scan, ExeClass eCla) {
         System.out.println("Enter key: ");
-        String key = scan.nextLine();
-        Ticket tick = eCla.readTicket();
+        String key = string;
+        Ticket tick = eCla.getTicket();
         TicketsHashTable.put(key,tick);
     }
 }

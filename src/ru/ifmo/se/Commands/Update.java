@@ -38,7 +38,7 @@ public class Update implements Execute {
             Ticket tick = ( TicketsHashTable.get(string));
             if(tick.getId() == Id){
 
-                TicketsHashTable.put(str,eCla.readTicket());
+                TicketsHashTable.put(str,eCla.getTicket());
                 find = true;
                 break;
             }

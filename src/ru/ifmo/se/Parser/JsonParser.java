@@ -3,12 +3,18 @@ package ru.ifmo.se.Parser;
 import org.json.simple.parser.*;
 import org.json.simple.*;
 import ru.ifmo.se.Collection.*;
-import ru.ifmo.se.Main;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.StringReader;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Iterator;
 import java.util.Scanner;
+
+import static ru.ifmo.se.Main.TicketsHashTable;
+import static ru.ifmo.se.Main.setHashCreationDate;
 
 
 /**
@@ -31,191 +37,115 @@ public class JsonParser {
     }
 
     public void parse() {
+
+        File f = jsonFile;
+
         try {
-            Scanner scanner = new Scanner(jsonFile);
-            String line = "";
-//            while (scanner.hasNextLine()){
-//                System.out.println(scanner.nextLine());
-//                line = line + "\n" + scanner.nextLine();
-//            }
-
+            Scanner scan = new Scanner(f);
+            String string = "";
+            for (; scan.hasNextLine(); string += scan.nextLine()) {
+            }
             try {
+                JSONObject jObj = (JSONObject) new JSONParser().parse(new StringReader(string));
+                //int numberOfTickets = (int) (long) jObj.get("NumberOfTickets");
+                setHashCreationDate(ZonedDateTime.parse((String)jObj.get("DateOfCreation"), DateTimeFormatter.ofPattern("MM/dd/yyyy - HH:mm:ss ZZ")));
+                JSONArray tickets = (JSONArray) jObj.get("Tickets");
+                Iterator tickers = tickets.iterator();
 
-            scanner.nextLine();
-            line = scanner.nextLine();
-            line = line + "\n" + scanner.nextLine();
-            scanner.nextLine();
-            line = "{" + line + "}";
-            JSONObject jsonObject = null;
+                for (; tickers.hasNext(); ) {
+                    JSONObject jObject = (JSONObject) tickers.next();
+                    Ticket ticket = getTicket(jObject);
+                    TicketsHashTable.put((String) ticket.getName(), ticket);
 
-            try {
-                jsonObject = (JSONObject) new JSONParser().parse(line);
-            } catch (ParseException e) {
-                System.out.println("At beginning -1");
-            }
-
-            int numberOfTickets = (int) (long) jsonObject.get("NumberOfTickets");
-
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy - HH:mm:ss ZZ");
-            Main.setHashCreationDate(java.time.ZonedDateTime.parse((String) jsonObject.get("DateOfCreation"), dtf));
-
-
-            for (int i = 0; i < numberOfTickets; i++) {
-                Ticket Tick;
-                JSONObject tick = null;
-                line = "";
-                long id = 0;
-                String name = "";
-                long xCord = 9;
-                double yCord = 9;
-                java.time.ZonedDateTime creationDate = null;
-                long price = 0;
-                String comment = "";
-                boolean refundable = false;
-                TicketType type = null;
-                Venue venue = null;
-                line = "";
-
-                line = scanner.nextLine();
-                line = line + "\n" + scanner.nextLine();
-                line = line + "\n" + scanner.nextLine();
-                line = line + "}";
-
-                try {
-                    tick = (JSONObject) new JSONParser().parse(line);
-                } catch (ParseException e) {
-                    System.out.println("At beginning");
                 }
-
-
-                id = (long) tick.get("id");
-                name = (String) tick.get("name");
-
-                line = "";
-
-                scanner.nextLine();
-                line = "{" + "\n" + scanner.nextLine();
-                line = line + "\n" + scanner.nextLine() + "}";
-                scanner.nextLine();
-                try {
-                    tick = (JSONObject) new JSONParser().parse(line);
-                } catch (ParseException e) {
-                    System.out.println("At beginning 2");
-                }
-
-                xCord = (long) tick.get("x");
-                yCord = (double) tick.get("y");
-
-                line = "";
-
-                line = "{" + scanner.nextLine();
-                line = line + "\n" + scanner.nextLine();
-                line = line + "\n" + scanner.nextLine();
-                line = line + "\n" + scanner.nextLine();
-                line = line + "\n" + scanner.nextLine() + "}";
-                try {
-                    tick = (JSONObject) new JSONParser().parse(line);
-                } catch (ParseException e) {
-                    System.out.println("At beginning 3");
-                }
-
-                creationDate = java.time.ZonedDateTime.parse((String) tick.get("creationDate"), dtf);
-                price = (long) tick.get("price");
-                comment = (String) tick.get("comment");
-                refundable = (boolean) tick.get("refundable");
-                type = TicketType.valueOf((String) tick.get("type"));
-
-                line = "";
-                venue = getVenue(scanner);
-
-
-                Tick = new Ticket((int) id, name, new Coordinates(xCord, yCord), creationDate, price, comment, refundable, type, venue);
-                Main.TicketsHashTable.put((String) Tick.getName(), Tick);
-                scanner.nextLine();
-                scanner.nextLine();
-                scanner.nextLine();
+            } catch (ParseException | IOException e) {
+                System.out.println("There are mistakes in file");
             }
-
-            } catch (Exception e) {
-                System.out.println("There are mistakes in the file! Can't parse.");
-            }
-
-
         } catch (FileNotFoundException e) {
-            System.out.println("Can't find file!");
+            System.out.println("File not found!");
         }
-
 
     }
 
-    private Venue getVenue(Scanner scanner) {
-        String line = "{";
-        scanner.nextLine();
-        line = line + "\n" + scanner.nextLine();
-        line = line + "\n" + scanner.nextLine();
-        line = line + "\n" + scanner.nextLine();
-        line = line + "\n" + scanner.nextLine() + "}";
+    /**
+     * Create Ticket without checking fields' values
+     *
+     * @param jsonObject
+     * @return
+     */
+    private Ticket getTicket(JSONObject jsonObject) {
 
-        try {
-            JSONObject tick = (JSONObject) new JSONParser().parse(line);
+        int id = (int)(long) jsonObject.get("id");
+        String name = (String) jsonObject.get("name");
+        Coordinates coordinates = getCoordinates((JSONObject) jsonObject.get("coordinates"));
+        java.time.ZonedDateTime creationDate = ZonedDateTime.parse((String)jsonObject.get("creationDate"), DateTimeFormatter.ofPattern("MM/dd/yyyy - HH:mm:ss ZZ"));
+        long price = (long) jsonObject.get("price");
+        String comment = (String) jsonObject.get("comment");
+        boolean refundable = (boolean) jsonObject.get("refundable");
+        TicketType type = TicketType.valueOf((String) jsonObject.get("type"));
+        Venue venue = getVenue((JSONObject) jsonObject.get("venue"));
+        return new Ticket(id, name, coordinates, creationDate, price, comment, refundable, type, venue);
 
-            long id = (long) tick.get("id");
-            String name = (String) tick.get("name");
-            Integer capacity = (int) (long) tick.get("capacity");
-            VenueType type = VenueType.valueOf((String) tick.get("type"));
-            Address address = getAddress(scanner);
-
-            return new Venue(id, name, capacity, type, address);
-
-        } catch (ParseException e) {
-            System.out.println("There are mistakes in venue");
-        }
-
-        return null;
     }
 
-    private Address getAddress(Scanner scanner) {
-        String line = "{";
-        scanner.nextLine();
-        line = line + "\n" + scanner.nextLine() + "}";
+    /**
+     * Create Coordinates without checking fields' values
+     *
+     * @param jsonObject
+     * @return
+     */
+    private Coordinates getCoordinates(JSONObject jsonObject) {
+        long x = (long) jsonObject.get("x");
+        double y = (double) jsonObject.get("y");
+        return new Coordinates(x, y);
 
-        try {
-            JSONObject tick = (JSONObject) new JSONParser().parse(line);
-
-            String zipCode = (String) tick.get("zipCode");
-
-            return new Address(zipCode, getLocation(scanner));
-
-        } catch (ParseException e) {
-            System.out.println("There are mistakes in address");
-        }
-
-        return null;
     }
 
-    private Location getLocation(Scanner scanner) {
-        String line = "{";
-        scanner.nextLine();
-        line = line + "\n" + scanner.nextLine();
-        line = line + "\n" + scanner.nextLine();
-        line = line + "\n" + scanner.nextLine();
-        line = line + "\n" + scanner.nextLine();
-        line = line + "\n" + scanner.nextLine();
+    /**
+     * Create Venue without checking fields' values
+     *
+     * @param jsonObject
+     * @return
+     */
+    private Venue getVenue(JSONObject jsonObject) {
 
-        try {
-            JSONObject tick = (JSONObject) new JSONParser().parse(line);
+        long id = (long) jsonObject.get("id");
+        String name = (String) jsonObject.get("name");
+        Integer capacity = (int) (long) jsonObject.get("capacity");
+        VenueType type = VenueType.valueOf((String) jsonObject.get("type"));
+        Address address = getAddress((JSONObject) jsonObject.get("address"));
+        return new Venue(id, name, capacity, type, address);
 
-            Double x = (Double) tick.get("x");
-            Float y = (float) (double) tick.get("y");
-            Long z = (Long) tick.get("z");
-            String name = (String) tick.get("name");
-            return new Location(x, y, z, name);
-
-        } catch (ParseException e) {
-            System.out.println("There are mistakes in location");
-        }
-
-        return null;
     }
 
+
+    /**
+     * Create Address without checking fields' values
+     *
+     * @param jsonObject
+     * @return
+     */
+    private Address getAddress(JSONObject jsonObject) {
+        String zipCode = (String) jsonObject.get("zipCode");
+        return new Address(zipCode, getLocation((JSONObject) jsonObject.get("town")));
+    }
+
+    /**
+     * Create Location without checking fields' values
+     *
+     * @param jsonObject
+     * @return
+     */
+    private Location getLocation(JSONObject jsonObject) {
+
+        Double x = (Double) jsonObject.get("x");
+
+        Float y = (float) (double) jsonObject.get("y");
+
+        Long z = (Long) jsonObject.get("z");
+
+        String name = (String) jsonObject.get("name");
+
+        return new Location(x, y, z, name);
+    }
 }

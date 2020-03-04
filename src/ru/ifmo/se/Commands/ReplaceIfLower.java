@@ -17,7 +17,7 @@ public class ReplaceIfLower implements Execute {
         System.out.println("Enter key: ");
         String str = scan.nextLine();
         if(TicketsHashTable.containsKey(str)){
-            Ticket tick = eCla.readTicket();
+            Ticket tick = eCla.getTicket();
             if (TicketsHashTable.get(str).compareTo(tick) < 0 ){
                 TicketsHashTable.put(str,tick);
             }

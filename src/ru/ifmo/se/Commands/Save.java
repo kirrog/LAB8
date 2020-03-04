@@ -2,12 +2,10 @@ package ru.ifmo.se.Commands;
 
 import ru.ifmo.se.Parser.InFileParser;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.Scanner;
 
-import static ru.ifmo.se.Main.fileRWName;
-import static ru.ifmo.se.Main.programState;
+import static ru.ifmo.se.Main.*;
 
 
 /** This class save collection in file*/
@@ -16,8 +14,20 @@ public class Save implements Execute {
     @Override
     public void execute(String string, Scanner scan, ExeClass eCla) {
         if (programState[7]){
-            File file = new File(fileRWName);
+            File file = new File(RWfiles[2]);
             File logs = new File("src/ru/ifmo/se/Parser/logs.json");
+
+            try (FileOutputStream outputStream = new FileOutputStream(logs)) {
+                try (BufferedOutputStream bos = new BufferedOutputStream(outputStream)) {
+                    String str = ("{\n\t\"FileName\": \"" + RWfiles[2] + "\"\n}");
+                    byte[] buffer = str.getBytes();
+                    bos.write(buffer, 0, buffer.length);
+                }catch (IOException e){
+                    System.out.println("There are problems with updating logs.json while writing");
+                }
+            } catch (IOException e) {
+                System.out.println("There are problems with updating logs.json while opening");
+            }
 
             try {
                 file.delete();

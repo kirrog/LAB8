@@ -15,7 +15,7 @@ public class RemoveLower implements Execute {
 
     @Override
     public void execute(String string, Scanner scan, ExeClass eCla) {
-        Ticket tick = eCla.readTicket();
+        Ticket tick = eCla.getTicket();
         Enumeration enums = TicketsHashTable.keys();
         while (enums.hasMoreElements()){
             String key = (String) enums.nextElement();

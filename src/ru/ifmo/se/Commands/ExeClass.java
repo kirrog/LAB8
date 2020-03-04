@@ -8,18 +8,23 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 
-/** This class contains methods for execution commands*/
+/**
+ * This class contains methods for execution commands
+ */
 public class ExeClass {
 
     private HashMap<String, Execute> hashMap = new HashMap<String, Execute>();
 
     private Scanner inner;
 
+    private boolean isFile = false;
+
+    public static byte numberOfProceses = 0;
+
     public ExeClass() {
         hashMap.put("help", new Help());
         hashMap.put("clear", new Clear());
         hashMap.put("execute_script", new ExecuteScript());
-        hashMap.put("exit", new Exit());
         hashMap.put("filter_by_venue", new FilterByVenue());
         hashMap.put("info", new Info());
         hashMap.put("insert", new Insert());
@@ -39,7 +44,6 @@ public class ExeClass {
         hashMap.put("help", new Help());
         hashMap.put("clear", new Clear());
         hashMap.put("execute_script", new ExecuteScript());
-        hashMap.put("exit", new Exit());
         hashMap.put("filter_by_venue", new FilterByVenue());
         hashMap.put("info", new Info());
         hashMap.put("insert", new Insert());
@@ -60,38 +64,52 @@ public class ExeClass {
     }
 
     public void start(boolean file) {
+
+        isFile = file;
+
         boolean notExit = true;
+
         while (notExit) {
             System.out.println("Enter command: ");
             String command = inner.nextLine();
-            if (command.indexOf("exit") == 0) {
-                notExit = false;
-                break;
+            String arguments = "";
+            if (command.contains(" ")) {
+                arguments = command.substring(command.indexOf(" "));
+                command = command.substring(0, command.indexOf(" "));
             }
-            if (file & !(inner.hasNext())) {
+            if (command.equals("exit")) {
                 notExit = false;
-                break;
-            }
-            if (hashMap.containsKey(command)) {
-                String arguments = null;
-//                if (inner.hasNextLine()) {
-//                    arguments = inner.nextLine();
-//                }
-                hashMap.get(command).execute(arguments, inner, this);
-            }else {
-                System.out.println("Can't find this command");
+            } else {
+                if (isFile) {
+                    if (!(inner.hasNext())) {
+                        notExit = false;
+                    } else {
+                        if (hashMap.containsKey(command)) {
+                            hashMap.get(command).execute(arguments, inner, this);
+                        } else {
+                            System.out.println("This is not command in file!");
+                        }
+                    }
+                } else {
+                    if (hashMap.containsKey(command)) {
+                        hashMap.get(command).execute(arguments, inner, this);
+                    } else {
+                        System.out.println("Can't find this command!");
+                    }
+                }
             }
         }
     }
 
     boolean isNotRight = true;
 
-    public Ticket readTicket() {
+    public Ticket getTicket() {
 
         int id = IdGenerator.toGenerate();
         long price = 0;
         boolean refundable = false;
         TicketType type = TicketType.USUAL;
+
         System.out.println("Enter \"Ticket\" name: ");
         String name = inner.nextLine();
 
@@ -99,26 +117,18 @@ public class ExeClass {
 
         java.time.ZonedDateTime creationDate = java.time.ZonedDateTime.now();
 
+        isNotRight = true;
         while (isNotRight) {
-            try {
-                System.out.println("It should cost more then 0! Enter price: ");
-
-                try {
-                    inner.wait(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
+            System.out.println("It should cost more then 0! Enter price: ");
+            if (inner.hasNextLong()) {
                 price = inner.nextLong();
-
-            } catch (java.util.InputMismatchException e) {
-                System.out.println("Wrong type of variable");
-                continue;
-            }
-            if (price > 0) {
-                break;
+                if (price > 0) {
+                    isNotRight = false;
+                } else {
+                    System.out.println("Price must be more then 0!");
+                }
             } else {
-                System.out.println("Price must be more then 0!");
+                System.out.println("Wrong type of variable");
             }
         }
 
@@ -127,36 +137,25 @@ public class ExeClass {
             comment = null;
         }
 
+        isNotRight = true;
         while (isNotRight) {
-            try {
-                System.out.println("Is it refundable?\n Enter \"true\" or \"false\": ");
+            System.out.println("Is it refundable?\n Enter \"true\" or \"false\": ");
+            if (inner.hasNextBoolean()) {
                 refundable = inner.nextBoolean();
-                break;
-            } catch (java.util.InputMismatchException e) {
+                isNotRight = false;
+            } else {
                 System.out.println("Wrong type of variable");
-                continue;
             }
         }
 
-        while (isNotRight) {
-            try {
-                System.out.println("Is it refundable?\n Enter \"true\" or \"false\": ");
-                refundable = inner.nextBoolean();
-                break;
-            } catch (java.util.InputMismatchException e) {
-                System.out.println("Wrong type of variable");
-                continue;
-            }
-        }
-
+        isNotRight = true;
         while (isNotRight) {
             try {
                 System.out.println("Type of \"Ticket\"\n Enter \"VIP\" or \"USUAL\" or \"BUDGETARY\" or \"CHEAP\": ");
                 type = TicketType.valueOf(inner.nextLine());
-                break;
+                isNotRight = false;
             } catch (java.lang.IllegalArgumentException e) {
                 System.out.println("Wrong type of variable");
-                continue;
             }
         }
 
@@ -170,28 +169,29 @@ public class ExeClass {
         long x = 0;
         double y = 0;
 
+        isNotRight = true;
         while (isNotRight) {
-            try {
-                System.out.println("Enter \"x\" position: ");
+            System.out.println("Enter \"x\" position: ");
+            if (inner.hasNextLong()) {
                 x = inner.nextLong();
-                break;
-            } catch (java.util.InputMismatchException e) {
+                isNotRight = false;
+            } else {
                 System.out.println("Wrong type of variable");
-                continue;
             }
         }
 
+        isNotRight = true;
         while (isNotRight) {
-            try {
-                System.out.println("It should be more then -959! Enter \"y\" position: ");
+            System.out.println("It should be more then -959! Enter \"y\" position: ");
+            if (inner.hasNextDouble()) {
                 y = inner.nextDouble();
-
-            } catch (java.util.InputMismatchException e) {
+                if (y > -959) {
+                    isNotRight = false;
+                } else {
+                    System.out.println("Wrong value");
+                }
+            } else {
                 System.out.println("Wrong type of variable");
-                continue;
-            }
-            if (y > -959) {
-                break;
             }
         }
 
@@ -205,36 +205,40 @@ public class ExeClass {
         Integer capacity = 0;
         VenueType type = null;
 
+        isNotRight = true;
         while (isNotRight) {
             System.out.println("It can't be \"\"! Enter \"name\": ");
             name = inner.nextLine();
             if (name.length() > 0) {
-                break;
+                isNotRight = false;
+            } else {
+                System.out.println("It can't be void!");
             }
         }
 
+        isNotRight = true;
         while (isNotRight) {
-            try {
-                System.out.println("Enter \"capacity\": ");
+            System.out.println("It should be > 0. Enter \"capacity\": ");
+            if (inner.hasNextInt()) {
                 capacity = inner.nextInt();
-
-            } catch (java.util.InputMismatchException e) {
+                if (capacity > 0) {
+                    isNotRight = false;
+                } else {
+                    System.out.println("Wrong value");
+                }
+            } else {
                 System.out.println("Wrong type of variable");
-                continue;
-            }
-            if (capacity > 0) {
-                break;
             }
         }
 
+        isNotRight = true;
         while (isNotRight) {
             try {
                 System.out.println("Type of \"Venue\"\n Enter \"PUB\" or \"LOFT\" or \"OPEN_AREA\" or \"MALL\" or \"STADIUM\": ");
                 type = VenueType.valueOf(inner.nextLine());
-                break;
+                isNotRight = false;
             } catch (java.lang.IllegalArgumentException e) {
                 System.out.println("Wrong type of variable");
-                continue;
             }
         }
 
@@ -244,16 +248,18 @@ public class ExeClass {
     private Address getAddress() {
         String zipCode = null;
 
+        isNotRight = true;
         while (isNotRight) {
             System.out.println("It should be taller then 8 symbols! Enter \"zipcode\": ");
             zipCode = inner.nextLine();
             if (zipCode.isEmpty()) {
                 zipCode = null;
+                isNotRight = false;
             } else {
                 if (zipCode.length() < 9) {
                     continue;
                 } else {
-                    break;
+                    isNotRight = false;
                 }
             }
         }
@@ -267,59 +273,65 @@ public class ExeClass {
         Long z = (long) 0; //Поле не может быть null
         String name = ""; //Длина строки не должна быть больше 881, Поле может быть null
 
-
+        isNotRight = true;
         while (isNotRight) {
-            try {
-                System.out.println("Enter \"x\" position: ");
+            System.out.println("Enter \"x\" position: ");
+            if (inner.hasNextDouble()) {
                 x = inner.nextDouble();
-                break;
-            } catch (java.util.InputMismatchException e) {
+                isNotRight = false;
+            } else {
                 System.out.println("Wrong type of variable");
                 continue;
             }
         }
 
+        isNotRight = true;
         while (isNotRight) {
-            try {
-                System.out.println("Enter \"y\" position: ");
+            System.out.println("Enter \"y\" position: ");
+            if (inner.hasNextFloat()) {
                 y = inner.nextFloat();
-                break;
-            } catch (java.util.InputMismatchException e) {
+                isNotRight = false;
+            } else {
                 System.out.println("Wrong type of variable");
                 continue;
             }
         }
 
+        isNotRight = true;
         while (isNotRight) {
-            try {
-                System.out.println("Enter \"z\" position: ");
+            System.out.println("Enter \"z\" position: ");
+            if (inner.hasNextLong()) {
                 z = inner.nextLong();
-                break;
-            } catch (java.util.InputMismatchException e) {
+                isNotRight = false;
+            } else {
                 System.out.println("Wrong type of variable");
+
                 continue;
             }
         }
 
+        isNotRight = true;
         while (isNotRight) {
             try {
                 System.out.println("It should be less then 881 symbols! Enter \"name\": ");
                 name = inner.nextLine();
-
+                if (name.length() < 882) {
+                    isNotRight = false;
+                }
+                if (name.length() == 0) {
+                    isNotRight = false;
+                    name = null;
+                }
             } catch (java.util.InputMismatchException e) {
                 System.out.println("Wrong type of variable");
                 continue;
             }
-            if (name.length() < 882) {
-                break;
-            }
         }
-
 
         return new Location(x, y, z, name);
     }
 
-    public static void writeTicket(Ticket tick){
+    public static void writeTicket(Ticket tick) {
         Coordinates coord = tick.getCoordinates();
         Venue ven = tick.getVenue();
         Address addr = ven.getAddress();

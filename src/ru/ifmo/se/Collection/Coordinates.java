@@ -20,9 +20,4 @@ public class Coordinates {
         this.x = x;
         this.y = y;
     }
-
-    public Coordinates(JSONObject jo) {
-        this.x = (long)jo.get("x");
-        this.y = (double)jo.get("y");
-    }
 }

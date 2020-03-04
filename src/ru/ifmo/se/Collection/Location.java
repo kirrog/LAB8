@@ -32,10 +32,5 @@ public class Location {
         this.z = z;
         this.name = name;
     }
-    Location(JSONObject jo) {
-        this.x = (Double) jo.get("x");
-        this.y =(Float) jo.get("y");
-        this.z = (Long) jo.get("z");
-        this.name = (String) jo.get("name");
-    }
+
 }

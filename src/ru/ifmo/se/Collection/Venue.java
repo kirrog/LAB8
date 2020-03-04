@@ -3,7 +3,9 @@ package ru.ifmo.se.Collection;
 import org.json.simple.JSONObject;
 
 
-/** This class contains venue*/
+/**
+ * This class contains venue
+ */
 public class Venue {
 
     private long id;
@@ -39,6 +41,7 @@ public class Venue {
         this.type = type;
         this.address = address;
     }
+
     public Venue(long id, String name, Integer capacity, VenueType type, Address address) {
         this.id = id;
         this.name = name;
@@ -46,18 +49,12 @@ public class Venue {
         this.type = type;
         this.address = address;
     }
-    public Venue(JSONObject jo) {
-        this.id = (long)jo.get("id");
-        this.name = (String)jo.get("name");
-        this.capacity = (Integer)jo.get("capacity");
-        this.type = VenueType.valueOf((String)jo.get("type"));
-        this.address = new Address((JSONObject)jo.get("address"));
-    }
+
 
     @Override
     public boolean equals(Object obj) {
         Venue ven = (Venue) obj;
 
-        return (this.getId() == ven.getId())&(this.getName() == ven.getName())&(this.getCapacity() == ven.getCapacity());
+        return (this.getId() == ven.getId()) & (this.getName() == ven.getName()) & (this.getCapacity() == ven.getCapacity());
     }
 }

@@ -20,8 +20,5 @@ public class Address {
         this.zipCode = zipCode;
         this.town = town;
     }
-    Address(JSONObject jo){
-        this.zipCode = (String) jo.get("zipCode");
-        this.town = new Location((JSONObject)jo.get("town"));
-    }
+
 }

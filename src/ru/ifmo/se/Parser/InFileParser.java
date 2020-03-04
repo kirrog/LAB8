@@ -17,57 +17,58 @@ import static ru.ifmo.se.Main.TicketsHashTable;
 public class InFileParser {
 
     String a = "\t";
-    private FileOutputStream outputStream;
+    private File output;
 
     public InFileParser(File outFile) {
-        try (FileOutputStream outputStream = new FileOutputStream(outFile)) {
-            System.out.println("File successfully opened to write in!");
-            this.outputStream = outputStream;
-        } catch (IOException ex) {
-            System.out.println("Can't open file to write!");
-        }
+        output = outFile;
     }
 
     public void saveInFile() {
 
-        Enumeration enums = TicketsHashTable.elements();
+        try (FileOutputStream outputStream = new FileOutputStream(output)) {
+            System.out.println("File successfully opened to write in!");
+            Enumeration enums = TicketsHashTable.elements();
 
-        try (BufferedOutputStream bos = new BufferedOutputStream(outputStream)) {
+            try (BufferedOutputStream bos = new BufferedOutputStream(outputStream)) {
 
+                String str = ("file:{\n");
+                byte[] buffer = str.getBytes();
+                bos.write(buffer, 0, buffer.length);
 
-            String str = ("file:{\n");
-            byte[] buffer = str.getBytes();
-            bos.write(buffer, 0, buffer.length);
-
-            str = ("\t\"NumberOfTickets\": " + TicketsHashTable.size() + ",\n");
-            buffer = str.getBytes();
-            bos.write(buffer, 0, buffer.length);
-
-            str = ("\t\"DateOfCreation\": " + Main.getHashCreationDate() + "\n");
-            buffer = str.getBytes();
-            bos.write(buffer, 0, buffer.length);
-
-            str = ("\t\"Tickets\": [\n");
-            buffer = str.getBytes();
-            bos.write(buffer, 0, buffer.length);
-
-            for (; enums.hasMoreElements(); ) {
-                str = makeJSONTicket((Ticket) enums.nextElement());
+                str = ("\t\"NumberOfTickets\": " + TicketsHashTable.size() + ",\n");
                 buffer = str.getBytes();
                 bos.write(buffer, 0, buffer.length);
+
+                str = ("\t\"DateOfCreation\": " + Main.getHashCreationDate() + "\n");
+                buffer = str.getBytes();
+                bos.write(buffer, 0, buffer.length);
+
+                str = ("\t\"Tickets\": [\n");
+                buffer = str.getBytes();
+                bos.write(buffer, 0, buffer.length);
+
+                for (; enums.hasMoreElements(); ) {
+                    str = makeJSONTicket((Ticket) enums.nextElement());
+                    buffer = str.getBytes();
+                    bos.write(buffer, 0, buffer.length);
+                }
+
+                str = ("\t]\n");
+                buffer = str.getBytes();
+                bos.write(buffer, 0, buffer.length);
+
+                str = ("}\n");
+                buffer = str.getBytes();
+                bos.write(buffer, 0, buffer.length);
+
+            } catch (IOException ex) {
+                System.out.println(ex.getMessage());
             }
 
-            str = ("\t]\n");
-            buffer = str.getBytes();
-            bos.write(buffer, 0, buffer.length);
-
-            str = ("}\n");
-            buffer = str.getBytes();
-            bos.write(buffer, 0, buffer.length);
-
         } catch (IOException ex) {
-            System.out.println(ex.getMessage());
+            System.out.println("Can't open file to write!");
         }
+
     }
 
     public String makeJSONTicket(Ticket t) {
