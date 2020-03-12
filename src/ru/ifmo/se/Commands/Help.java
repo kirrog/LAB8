@@ -10,21 +10,21 @@ public class Help implements Execute {
 
     @Override
     public void execute(String string, Scanner scan, ExeClass eCla) {
-        System.out.println("help - справка\n");
-        System.out.println("info - вывод информации о коллекции\n");
-        System.out.println("show - вывод элементов коллекции в строковом формате\n");
-        System.out.println("insert key - добавить элемент с заданным ключём\n");
-        System.out.println("update id - обновить элемент с заданым ключём\n");
-        System.out.println("remove_key key - удалить элемент по ключу\n");
-        System.out.println("clear - очистить коллекцию\n");
-        System.out.println("save - сохранить коллекцию\n");
-        System.out.println("execute_script file_name - считать из файла скрипт и исполнить\n");
-        System.out.println("exit - завершение работы программы без сохранения в файл\n");
-        System.out.println("remove_lower {element} - удалить из коллекции все элементы меньше чем заданный\n");
-        System.out.println("replace_if_lower key {element} - заменить значение по ключу, если новое больше старого\n");
-        System.out.println("remove_greater_key key - удалить все элементы, ключ которых превышает заданный\n");
-        System.out.println("filter_by_venue venue - вывод всеъ элементов с заданным значением venue\n");
-        System.out.println("print_descending - вывести элементы коллекции в порядке убывания\n");
-        System.out.println("print_field_descending_type type - вывести значения поля type в порядке убывания\n");
+        System.out.println("help - справка");
+        System.out.println("info - вывод информации о коллекции");
+        System.out.println("show - вывод элементов коллекции в строковом формате");
+        System.out.println("insert key - добавить элемент с заданным ключём");
+        System.out.println("update id - обновить элемент с заданым ключём");
+        System.out.println("remove_key key - удалить элемент по ключу");
+        System.out.println("clear - очистить коллекцию");
+        System.out.println("save - сохранить коллекцию");
+        System.out.println("execute_script file_name - считать из файла скрипт и исполнить");
+        System.out.println("exit - завершение работы программы без сохранения в файл");
+        System.out.println("remove_lower {element} - удалить из коллекции все элементы меньше чем заданный");
+        System.out.println("replace_if_lower key {element} - заменить значение по ключу, если новое больше старого");
+        System.out.println("remove_greater_key key - удалить все элементы, ключ которых превышает заданный");
+        System.out.println("filter_by_venue venue - вывод всеъ элементов с заданным значением venue");
+        System.out.println("print_descending - вывести элементы коллекции в порядке убывания");
+        System.out.println("print_field_descending_type type - вывести значения поля type в порядке убывания");
     }
 }

@@ -15,8 +15,13 @@ public class FilterByVenue implements Execute {
 
     @Override
     public void execute(String string, Scanner scan, ExeClass eCla) {
-        System.out.println("Enter venue:");
-        Venue ven = eCla.getVenue();
+        System.out.println("Enter venue: ");
+        Venue ven = null;
+        if(eCla.isFile()){
+            ven = eCla.readVenue();
+        }else {
+            ven = eCla.getVenue();
+        }
         Enumeration enums = TicketsHashTable.keys();
         while (enums.hasMoreElements()){
             String key = (String) enums.nextElement();

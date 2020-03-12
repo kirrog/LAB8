@@ -1,4 +1,4 @@
-package ru.ifmo.se.Parser;
+package ru.ifmo.se.WriteInOut;
 
 import org.json.simple.parser.*;
 import org.json.simple.*;

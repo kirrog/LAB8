@@ -14,9 +14,14 @@ public class Insert implements Execute {
 
     @Override
     public void execute(String string, Scanner scan, ExeClass eCla) {
-        System.out.println("Enter key: ");
         String key = string;
-        Ticket tick = eCla.getTicket();
+        Ticket tick = null;
+        if(eCla.isFile()){
+            tick = eCla.readTicket();
+        }else {
+            tick = eCla.getTicket();
+        }
         TicketsHashTable.put(key,tick);
     }
+
 }

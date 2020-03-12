@@ -1,6 +1,6 @@
 package ru.ifmo.se.Commands;
 
-import ru.ifmo.se.Parser.InFileParser;
+import ru.ifmo.se.WriteInOut.InFileParser;
 
 import java.io.*;
 import java.util.Scanner;
@@ -13,13 +13,13 @@ public class Save implements Execute {
 
     @Override
     public void execute(String string, Scanner scan, ExeClass eCla) {
-        if (programState[7]){
-            File file = new File(RWfiles[2]);
+        if (justTerm.programState[7]){
+            File file = new File(justTerm.RWfiles[2]);
             File logs = new File("src/ru/ifmo/se/Parser/logs.json");
 
             try (FileOutputStream outputStream = new FileOutputStream(logs)) {
                 try (BufferedOutputStream bos = new BufferedOutputStream(outputStream)) {
-                    String str = ("{\n\t\"FileName\": \"" + RWfiles[2] + "\"\n}");
+                    String str = ("{\n\t\"FileName\": \"" + justTerm.RWfiles[2] + "\"\n}");
                     byte[] buffer = str.getBytes();
                     bos.write(buffer, 0, buffer.length);
                 }catch (IOException e){

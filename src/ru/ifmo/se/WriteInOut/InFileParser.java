@@ -1,4 +1,4 @@
-package ru.ifmo.se.Parser;
+package ru.ifmo.se.WriteInOut;
 
 import ru.ifmo.se.Collection.*;
 import ru.ifmo.se.Main;

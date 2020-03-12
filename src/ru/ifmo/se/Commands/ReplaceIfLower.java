@@ -14,12 +14,10 @@ public class ReplaceIfLower implements Execute {
 
     @Override
     public void execute(String string, Scanner scan, ExeClass eCla) {
-        System.out.println("Enter key: ");
-        String str = scan.nextLine();
-        if(TicketsHashTable.containsKey(str)){
+        if(TicketsHashTable.containsKey(string)){
             Ticket tick = eCla.getTicket();
-            if (TicketsHashTable.get(str).compareTo(tick) < 0 ){
-                TicketsHashTable.put(str,tick);
+            if (TicketsHashTable.get(string).compareTo(tick) < 0 ){
+                TicketsHashTable.put(string,tick);
             }
         }else {
             System.out.println("In HashTable isn't exist value with this key");

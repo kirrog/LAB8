@@ -16,16 +16,17 @@ public class Update implements Execute {
     @Override
     public void execute(String string, Scanner scan, ExeClass eCla) {
         int Id=0;
-        while (true) {
+        boolean whileTrue = true;
+        while (whileTrue) {
             try {
-                System.out.println("Enter Id: ");
+                System.out.print("Enter Id: \n> ");
                 Id = scan.nextInt();
             } catch (java.util.InputMismatchException e) {
                 System.out.println("Wrong type of variable");
-                continue;
+                scan.nextLine();
             }
             if (Id > 0) {
-                break;
+                whileTrue = false;
             } else {
                 System.out.println("Id must be more then 0!");
             }
@@ -37,8 +38,13 @@ public class Update implements Execute {
             String str = (String) enums.nextElement();
             Ticket tick = ( TicketsHashTable.get(string));
             if(tick.getId() == Id){
-
-                TicketsHashTable.put(str,eCla.getTicket());
+                Ticket ticker = null;
+                if(eCla.isFile()){
+                    ticker = eCla.readTicket();
+                }else {
+                    ticker = eCla.getTicket();
+                }
+                TicketsHashTable.put(str,ticker);
                 find = true;
                 break;
             }
