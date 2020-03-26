@@ -132,6 +132,10 @@ public class TicketReader {
 
     public Venue getVenue() {
 
+        if(isFile){
+            return readVenue();
+        }
+
         long id = IdGenerator.toGenerate();
         String name;
         Integer capacity;

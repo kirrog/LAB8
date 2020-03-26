@@ -14,10 +14,10 @@ public class Show implements Execute {
 
     @Override
     public void execute(String string, Scanner scan, ExeClass eCla) {
-        System.out.println("Start execution show");
         Enumeration enums = TicketsHashTable.keys();
         while (enums.hasMoreElements()) {
             String ticket = (String) enums.nextElement();
+            System.out.println("Key: " + ticket);
             TicketsHashTable.get(ticket).writeTicket();
         }
     }

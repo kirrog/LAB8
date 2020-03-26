@@ -4,54 +4,25 @@
 	"Tickets": [
 		{
 			"key": "meh",
-			"id": 244020029,
+			"id": 51099119,
 			"name": "name",
 			"coordinates": {
 				"x": 123,
 				"y": 123.0
 			},
-			"creationDate": "03/26/2020 - 21:31:31 +0300",
+			"creationDate": "03/26/2020 - 23:10:09 +0300",
 			"price": 120,
 			"comment": "Hey",
 			"refundable": true,
 			"type": "VIP",
 			"venue": {
-				"id": 245020029,
+				"id": 52099119,
 				"name": "name",
 				"capacity": 123,
 				"type": "MALL",
 				"address": {
 					"zipCode": "comment124567",
 					"town": "null"
-				}
-			}
-		},
-		{
-			"key": "guh",
-			"id": 246056254,
-			"name": "While",
-			"coordinates": {
-				"x": 51,
-				"y": 1532.0
-			},
-			"creationDate": "03/26/2020 - 20:57:58 +0300",
-			"price": 14,
-			"comment": "null",
-			"refundable": true,
-			"type": "CHEAP",
-			"venue": {
-				"id": 8224255,
-				"name": "true",
-				"capacity": 4556,
-				"type": "MALL",
-				"address": {
-					"zipCode": "dfghjkldfgsdfg",
-					"town": {
-						"x": 135.0,
-						"y": 6235.0,
-						"z": 1364,
-						"name": "136t4yrahtaa"
-					}
 				}
 			}
 		},
@@ -112,6 +83,30 @@
 			"type": "VIP",
 			"venue": {
 				"id": 206212029,
+				"name": "name",
+				"capacity": 123,
+				"type": "MALL",
+				"address": {
+					"zipCode": "comment124567",
+					"town": "null"
+				}
+			}
+		},
+		{
+			"key": "klass",
+			"id": 50099119,
+			"name": "name",
+			"coordinates": {
+				"x": 123,
+				"y": 123.0
+			},
+			"creationDate": "03/26/2020 - 23:10:09 +0300",
+			"price": 120,
+			"comment": "Hey",
+			"refundable": true,
+			"type": "VIP",
+			"venue": {
+				"id": 51099119,
 				"name": "name",
 				"capacity": 123,
 				"type": "MALL",

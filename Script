@@ -1,3 +1,6 @@
+help
+info
+show
 insert klass
 name
 123
@@ -12,3 +15,30 @@ MALL
 Address:
 comment124567
 
+update 244020029
+name
+123
+123
+120
+Hey
+true
+VIP
+name
+123
+MALL
+Address:
+comment124567
+
+remove_key guh
+filter_by_venue
+name
+123
+MALL
+Address:
+comment124567
+
+print_descending
+print_field_descending_type id
+save
+clear
+show

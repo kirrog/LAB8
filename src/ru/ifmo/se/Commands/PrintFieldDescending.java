@@ -3,6 +3,7 @@ package ru.ifmo.se.Commands;
 
 import ru.ifmo.se.Collection.Ticket;
 
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Scanner;
 import java.util.Set;
@@ -34,12 +35,8 @@ public class PrintFieldDescending implements Execute {
         System.out.println("venue.address.town.z");
         System.out.println("venue.address.town.name");
 
-        System.out.println("Enter field you would like to choose: ");
-
-        String str = scan.nextLine();
-
         Ticket [] tickets = new Ticket [0];
-        switch (str){
+        switch (string){
             case "id":
                 tickets = writeField(0);
                 break;
@@ -105,12 +102,11 @@ public class PrintFieldDescending implements Execute {
 
     private Ticket [] writeField(int field){
 
-        Set set = TicketsHashTable.entrySet();
-        Iterator iter = set.iterator();
+        Enumeration enumeration = TicketsHashTable.keys();
         Ticket [] TickArray = new Ticket[TicketsHashTable.size()];
         int i = 0;
-        while (iter.hasNext()) {
-            TickArray[i] = (Ticket) iter.next();
+        while (enumeration.hasMoreElements()) {
+            TickArray[i] = TicketsHashTable.get(enumeration.nextElement());
             i++;
         }
 

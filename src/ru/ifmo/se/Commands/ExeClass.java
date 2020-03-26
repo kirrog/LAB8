@@ -27,7 +27,7 @@ public class ExeClass {
         hashMap.put("info", new Info());
         hashMap.put("insert", new Insert());
         hashMap.put("print_descending", new PrintDescending());
-        hashMap.put("print_fiend_descending", new PrintFieldDescending());
+        hashMap.put("print_field_descending_type", new PrintFieldDescending());
         hashMap.put("remove_greater_key", new RemoveGreaterKey());
         hashMap.put("remove_key", new RemoveKey());
         hashMap.put("remove_lower", new RemoveLower());

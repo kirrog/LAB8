@@ -3,6 +3,7 @@ package ru.ifmo.se.Commands;
 
 import ru.ifmo.se.Collection.Ticket;
 
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Scanner;
 import java.util.Set;
@@ -15,12 +16,12 @@ public class PrintDescending implements Execute {
 
     @Override
     public void execute(String string, Scanner scan, ExeClass eCla) {
-        Set set = TicketsHashTable.entrySet();
-        Iterator iter = set.iterator();
+        Enumeration enumeration = TicketsHashTable.elements();
+
         Ticket [] TickArray = new Ticket[TicketsHashTable.size()];
         int i = 0;
-        while (iter.hasNext()) {
-            TickArray[i] = (Ticket) iter.next();
+        while (enumeration.hasMoreElements()) {
+            TickArray[i] = (Ticket) enumeration.nextElement();
             i++;
         }
 
