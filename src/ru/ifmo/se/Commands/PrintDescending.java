@@ -40,7 +40,7 @@ public class PrintDescending implements Execute {
         }
 
         for (i = 0; i < TickArray.length; i++) {
-            ExeClass.writeTicket(TickArray[i]);
+            TickArray[i].writeTicket();
         }
     }
 }

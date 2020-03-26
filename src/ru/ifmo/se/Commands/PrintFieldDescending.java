@@ -99,7 +99,7 @@ public class PrintFieldDescending implements Execute {
                 break;
         }
         for (int j = 0; j < tickets.length; j++) {
-            eCla.writeTicket(tickets[j]);
+            tickets[j].writeTicket();
         }
     }
 

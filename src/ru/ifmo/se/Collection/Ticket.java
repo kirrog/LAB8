@@ -1,8 +1,5 @@
 package ru.ifmo.se.Collection;
 
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
-
 import java.time.ZonedDateTime;
 
 
@@ -162,5 +159,46 @@ public class Ticket implements Comparable<Ticket>{
         }
     }
 
+    public void writeTicket() {
+        Coordinates coord = this.getCoordinates();
+        Venue ven = this.getVenue();
+
+        System.out.print("Id: " + this.getId() + " ");
+        System.out.print("Name: " + this.getName() + " ");
+        System.out.print("Coordinates:{" + " ");
+        System.out.print("X: " + coord.getX() + " ");
+        System.out.print("Y: " + coord.getX() + " ");
+        System.out.print("}" + " ");
+        System.out.print("Creation date: " + this.getCreationDate() + " ");
+        System.out.print("Price: " + this.getPrice() + " ");
+        System.out.print("Comment: " + this.getComment() + " ");
+        System.out.print("Refundable: " + this.isRefundable() + " ");
+        System.out.print("Type: " + this.getType() + " ");
+        System.out.print("Venue:{" + " ");
+        System.out.print("Id: " + ven.getId() + " ");
+        System.out.print("Name: " + ven.getName() + " ");
+        System.out.print("Capacity: " + ven.getCapacity() + " ");
+        System.out.print("Type: " + ven.getType() + " ");
+        System.out.print("Address:{" + " ");
+        if(ven.getAddress() == null){
+            System.out.println("null }");
+        }else {
+            Address addr = ven.getAddress();
+            System.out.print("ZipCode: " + addr.getZipCode() + " ");
+            System.out.print("Town:{" + " ");
+            if(addr.getTown() == null){
+                System.out.println("null }");
+            }else {
+                Location loc = addr.getTown();
+                System.out.print("X: " + loc.getX() + " ");
+                System.out.print("Y: " + loc.getY() + " ");
+                System.out.print("Z: " + loc.getZ() + " ");
+                System.out.print("Name: " + loc.getName() + " ");
+                System.out.print("}" + " ");
+                System.out.print("}" + " ");
+                System.out.println("}");
+            }
+        }
+    }
 }
 

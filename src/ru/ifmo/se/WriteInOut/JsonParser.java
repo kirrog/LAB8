@@ -42,27 +42,29 @@ public class JsonParser {
 
         try {
             Scanner scan = new Scanner(f);
-            String string = "";
-            for (; scan.hasNextLine(); string += scan.nextLine()) {
+            StringBuilder string = new StringBuilder();
+            for (; scan.hasNextLine(); ) {
+                String str = scan.nextLine();
+                string.append(str);
             }
             try {
-                JSONObject jObj = (JSONObject) new JSONParser().parse(new StringReader(string));
+                JSONObject jObj = (JSONObject) new JSONParser().parse(new StringReader(string.toString()));
                 //int numberOfTickets = (int) (long) jObj.get("NumberOfTickets");
-                setHashCreationDate(ZonedDateTime.parse((String)jObj.get("DateOfCreation"), DateTimeFormatter.ofPattern("MM/dd/yyyy - HH:mm:ss ZZ")));
+                setHashCreationDate(ZonedDateTime.parse((String) jObj.get("DateOfCreation"), DateTimeFormatter.ofPattern("MM/dd/yyyy - HH:mm:ss ZZ")));
                 JSONArray tickets = (JSONArray) jObj.get("Tickets");
                 Iterator tickers = tickets.iterator();
-
                 for (; tickers.hasNext(); ) {
                     JSONObject jObject = (JSONObject) tickers.next();
+                    String key = (String) jObject.get("key");
                     Ticket ticket = getTicket(jObject);
-                    TicketsHashTable.put((String) ticket.getName(), ticket);
-
+                    TicketsHashTable.put(key, ticket);
                 }
+                System.out.println("Reading from file: success");
             } catch (ParseException | IOException e) {
-                System.out.println("There are mistakes in file");
+                System.out.println("Reading from file: mistake in");
             }
         } catch (FileNotFoundException e) {
-            System.out.println("File not found!");
+            System.out.println("Reading from file: file not found");
         }
 
     }
@@ -75,10 +77,10 @@ public class JsonParser {
      */
     private Ticket getTicket(JSONObject jsonObject) {
 
-        int id = (int)(long) jsonObject.get("id");
+        int id = (int) (long) jsonObject.get("id");
         String name = (String) jsonObject.get("name");
         Coordinates coordinates = getCoordinates((JSONObject) jsonObject.get("coordinates"));
-        java.time.ZonedDateTime creationDate = ZonedDateTime.parse((String)jsonObject.get("creationDate"), DateTimeFormatter.ofPattern("MM/dd/yyyy - HH:mm:ss ZZ"));
+        java.time.ZonedDateTime creationDate = ZonedDateTime.parse((String) jsonObject.get("creationDate"), DateTimeFormatter.ofPattern("MM/dd/yyyy - HH:mm:ss ZZ"));
         long price = (long) jsonObject.get("price");
         String comment = (String) jsonObject.get("comment");
         boolean refundable = (boolean) jsonObject.get("refundable");
@@ -113,7 +115,12 @@ public class JsonParser {
         String name = (String) jsonObject.get("name");
         Integer capacity = (int) (long) jsonObject.get("capacity");
         VenueType type = VenueType.valueOf((String) jsonObject.get("type"));
-        Address address = getAddress((JSONObject) jsonObject.get("address"));
+        Address address;
+        if (jsonObject.get("address").equals("null")) {
+            address = null;
+        } else {
+            address = getAddress((JSONObject) jsonObject.get("address"));
+        }
         return new Venue(id, name, capacity, type, address);
 
     }
@@ -127,7 +134,14 @@ public class JsonParser {
      */
     private Address getAddress(JSONObject jsonObject) {
         String zipCode = (String) jsonObject.get("zipCode");
-        return new Address(zipCode, getLocation((JSONObject) jsonObject.get("town")));
+        Location location;
+        if (jsonObject.get("town").equals("null")) {
+            location = null;
+        } else {
+            location = getLocation((JSONObject) jsonObject.get("town"));
+        }
+        return new Address(zipCode, location);
+
     }
 
     /**
@@ -143,8 +157,13 @@ public class JsonParser {
         Float y = (float) (double) jsonObject.get("y");
 
         Long z = (Long) jsonObject.get("z");
+        String name;
+        if(jsonObject.get("name").equals("null")){
+            name = null;
+        }else {
+            name = (String) jsonObject.get("name");
+        }
 
-        String name = (String) jsonObject.get("name");
 
         return new Location(x, y, z, name);
     }

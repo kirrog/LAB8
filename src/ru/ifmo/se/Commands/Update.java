@@ -17,41 +17,43 @@ public class Update implements Execute {
     public void execute(String string, Scanner scan, ExeClass eCla) {
         int Id=0;
         boolean whileTrue = true;
+
         while (whileTrue) {
             try {
                 System.out.print("Enter Id: \n> ");
                 Id = scan.nextInt();
+                if (Id > 0) {
+                    whileTrue = false;
+                } else {
+                    System.out.println("Id must be more then 0!");
+                }
             } catch (java.util.InputMismatchException e) {
                 System.out.println("Wrong type of variable");
                 scan.nextLine();
             }
-            if (Id > 0) {
-                whileTrue = false;
-            } else {
-                System.out.println("Id must be more then 0!");
-            }
         }
 
+        String str = null;
+        Ticket ticker = null;
         Enumeration enums = TicketsHashTable.keys();
         boolean find = false;
         while (enums.hasMoreElements()) {
-            String str = (String) enums.nextElement();
-            Ticket tick = ( TicketsHashTable.get(string));
+            str = (String) enums.nextElement();
+            Ticket tick = ( TicketsHashTable.get(str));
             if(tick.getId() == Id){
-                Ticket ticker = null;
-                if(eCla.isFile()){
-                    ticker = eCla.readTicket();
-                }else {
-                    ticker = eCla.getTicket();
+                ticker = eCla.getTicket();
+                if(ticker == null){
+                    System.out.println("Entered ticket is null");
+                    return;
                 }
-                TicketsHashTable.put(str,ticker);
                 find = true;
                 break;
             }
         }
         if (!find){
             System.out.println("Didn't find object with this id: " + Id);
+        }else{
+            TicketsHashTable.put(str,ticker);
         }
-
     }
 }

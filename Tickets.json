@@ -1,24 +1,125 @@
-while (isNotRight) {
-  try {
-  System.out.println("Enter \"x\" position: ");
-  x = inner.nextDouble();
-  isNotRight = false;
-} catch (java.util.InputMismatchException e) {
-  System.out.println("Wrong type of variable");
-  continue;
-}
-}
-
-while (isNotRight) {
-try {
-System.out.println("It should be less then 881 symbols! Enter \"name\": ");
-name = inner.nextLine();
-if (name.length() < 882) {
-isNotRight = false;
-}
-} catch (java.util.InputMismatchException e) {
-System.out.println("Wrong type of variable");
-continue;
-}
-
+{
+	"NumberOfTickets": 5,
+	"DateOfCreation": "03/26/2020 - 19:14:07 +0300",
+	"Tickets": [
+		{
+			"key": "meh",
+			"id": 244020029,
+			"name": "name",
+			"coordinates": {
+				"x": 123,
+				"y": 123.0
+			},
+			"creationDate": "03/26/2020 - 21:31:31 +0300",
+			"price": 120,
+			"comment": "Hey",
+			"refundable": true,
+			"type": "VIP",
+			"venue": {
+				"id": 245020029,
+				"name": "name",
+				"capacity": 123,
+				"type": "MALL",
+				"address": {
+					"zipCode": "comment124567",
+					"town": "null"
+				}
+			}
+		},
+		{
+			"key": "guh",
+			"id": 246056254,
+			"name": "While",
+			"coordinates": {
+				"x": 51,
+				"y": 1532.0
+			},
+			"creationDate": "03/26/2020 - 20:57:58 +0300",
+			"price": 14,
+			"comment": "null",
+			"refundable": true,
+			"type": "CHEAP",
+			"venue": {
+				"id": 8224255,
+				"name": "true",
+				"capacity": 4556,
+				"type": "MALL",
+				"address": {
+					"zipCode": "dfghjkldfgsdfg",
+					"town": {
+						"x": 135.0,
+						"y": 6235.0,
+						"z": 1364,
+						"name": "136t4yrahtaa"
+					}
+				}
+			}
+		},
+		{
+			"key": "mehani",
+			"id": 1324325111,
+			"name": "kil",
+			"coordinates": {
+				"x": 617,
+				"y": 261.0
+			},
+			"creationDate": "03/26/2020 - 19:54:23 +0300",
+			"price": 3,
+			"comment": "null",
+			"refundable": false,
+			"type": "USUAL",
+			"venue": {
+				"id": 878628023,
+				"name": "la",
+				"capacity": 24,
+				"type": "OPEN_AREA",
+				"address": "null"
+			}
+		},
+		{
+			"key": "geh",
+			"id": 994020919,
+			"name": "File",
+			"coordinates": {
+				"x": 123,
+				"y": 4567.0
+			},
+			"creationDate": "03/26/2020 - 19:14:07 +0300",
+			"price": 32,
+			"comment": "null",
+			"refundable": true,
+			"type": "VIP",
+			"venue": {
+				"id": 1748798089,
+				"name": "Velue",
+				"capacity": 234,
+				"type": "LOFT",
+				"address": "null"
+			}
+		},
+		{
+			"key": "heh",
+			"id": 205212029,
+			"name": "name",
+			"coordinates": {
+				"x": 123,
+				"y": 123.0
+			},
+			"creationDate": "03/26/2020 - 21:32:20 +0300",
+			"price": 120,
+			"comment": "Hey",
+			"refundable": true,
+			"type": "VIP",
+			"venue": {
+				"id": 206212029,
+				"name": "name",
+				"capacity": 123,
+				"type": "MALL",
+				"address": {
+					"zipCode": "comment124567",
+					"town": "null"
+				}
+			}
+		}
+	]
 }

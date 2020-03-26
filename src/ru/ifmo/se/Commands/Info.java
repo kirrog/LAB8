@@ -3,6 +3,7 @@ package ru.ifmo.se.Commands;
 
 import ru.ifmo.se.Main;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 import static ru.ifmo.se.Main.TicketsHashTable;
@@ -14,7 +15,7 @@ public class Info  implements Execute {
     @Override
     public void execute(String string, Scanner scan, ExeClass eCla) {
         System.out.println("Type: HashTable <Integer, Ticket>");
-        System.out.println("Date of creation: " + Main.getHashCreationDate());
+        System.out.println("Date of creation: " + Main.getHashCreationDate().format(DateTimeFormatter.ofPattern("MM/dd/yyyy - HH:mm:ss ZZ")));
         System.out.println("Number of elements: " + TicketsHashTable.size());
         System.out.println("Template: ");
         System.out.println("\"id\": int,");

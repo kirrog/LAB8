@@ -27,11 +27,11 @@ public class InFileParser {
 
         try (FileOutputStream outputStream = new FileOutputStream(output)) {
             System.out.println("File successfully opened to write in!");
-            Enumeration enums = TicketsHashTable.elements();
+            Enumeration enums = TicketsHashTable.keys();
 
             try (BufferedOutputStream bos = new BufferedOutputStream(outputStream)) {
 
-                String str = ("file:{\n");
+                String str = ("{\n");
                 byte[] buffer = str.getBytes();
                 bos.write(buffer, 0, buffer.length);
 
@@ -39,7 +39,7 @@ public class InFileParser {
                 buffer = str.getBytes();
                 bos.write(buffer, 0, buffer.length);
 
-                str = ("\t\"DateOfCreation\": " + Main.getHashCreationDate() + "\n");
+                str = ("\t\"DateOfCreation\": \"" + Main.getHashCreationDate().format(DateTimeFormatter.ofPattern("MM/dd/yyyy - HH:mm:ss ZZ")) + "\",\n");
                 buffer = str.getBytes();
                 bos.write(buffer, 0, buffer.length);
 
@@ -48,12 +48,16 @@ public class InFileParser {
                 bos.write(buffer, 0, buffer.length);
 
                 for (; enums.hasMoreElements(); ) {
-                    str = makeJSONTicket((Ticket) enums.nextElement());
+                    String key = (String) enums.nextElement();
+                    str = makeJSONTicket(TicketsHashTable.get(key),key);
+                    if (enums.hasMoreElements()) {
+                        str += ",\n";
+                    }
                     buffer = str.getBytes();
                     bos.write(buffer, 0, buffer.length);
                 }
 
-                str = ("\t]\n");
+                str = ("\n\t]\n");
                 buffer = str.getBytes();
                 bos.write(buffer, 0, buffer.length);
 
@@ -71,7 +75,7 @@ public class InFileParser {
 
     }
 
-    public String makeJSONTicket(Ticket t) {
+    public String makeJSONTicket(Ticket t, String key) {
 
         long id = t.getId();
         String name = t.getName();
@@ -83,27 +87,28 @@ public class InFileParser {
         TicketType type = t.getType();
         Venue venue = t.getVenue();
 
-        String str[] = new String[13];
+        String str[] = new String[14];
         str[0] = (a + a + "{\n");
-        str[1] = (a + a + a + "\"id\": " + id + ",\n");
-        str[2] = (a + a + a + "\"name\": " + "\"" + name + "\"" + ",\n");
-        str[3] = (a + a + a + "\"coordinates\": {\n");
-        str[4] = makeJSONCoordinates(coordinates);
-        str[5] = (a + a + a + "\"creationDate\": " + creationDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy - HH:mm:ss ZZ")) + "\n");
-        str[6] = (a + a + a + "\"price\": " + price + ",\n");
-        str[7] = (a + a + a + "\"comment\": " + "\"" + comment + "\"" + ",\n");
-        str[8] = (a + a + a + "\"refundable\": " + "\"" + refundable + "\"" + ",\n");
-        str[9] = (a + a + a + "\"type\": " + "\"" + type.toString() + "\"" + ",\n");
-        str[10] = (a + a + a + "\"venue\": {\n");
-        str[11] = makeJSONVenue(venue);
-        str[12] = a + a + "}\n";
+        str[1] = (a + a + a + "\"key\": \"" + key + "\",\n");
+        str[2] = (a + a + a + "\"id\": " + id + ",\n");
+        str[3] = (a + a + a + "\"name\": " + "\"" + name + "\"" + ",\n");
+        str[4] = (a + a + a + "\"coordinates\": {\n");
+        str[5] = makeJSONCoordinates(coordinates);
+        str[6] = (a + a + a + "\"creationDate\": \"" + creationDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy - HH:mm:ss ZZ")) + "\",\n");
+        str[7] = (a + a + a + "\"price\": " + price + ",\n");
+        str[8] = (a + a + a + "\"comment\": " + "\"" + comment + "\"" + ",\n");
+        str[9] = (a + a + a + "\"refundable\": " + refundable + ",\n");
+        str[10] = (a + a + a + "\"type\": " + "\"" + type.toString() + "\"" + ",\n");
+        str[11] = (a + a + a + "\"venue\": {\n");
+        str[12] = makeJSONVenue(venue);
+        str[13] = a + a + "}";
         return String.join("", str);
     }
 
     private String makeJSONCoordinates(Coordinates coor) {
         String str[] = new String[3];
         str[0] = (a + a + a + a + "\"x\": " + coor.getX()) + ",\n";
-        str[1] = (a + a + a + a + "\"y\": " + coor.getY()) + ",\n";
+        str[1] = (a + a + a + a + "\"y\": " + coor.getY()) + "\n";
         str[2] = (a + a + a + "},\n");
         return String.join("", str);
     }
@@ -150,7 +155,7 @@ public class InFileParser {
         str[0] = (a + a + a + a + a + a + "\"x\": " + loc.getX()) + ",\n";
         str[1] = (a + a + a + a + a + a + "\"y\": " + loc.getY()) + ",\n";
         str[2] = (a + a + a + a + a + a + "\"z\": " + loc.getZ()) + ",\n";
-        str[3] = (a + a + a + a + a + a + "\"name\": " + "\"" + loc.getName()) + "\"" + ",\n";
+        str[3] = (a + a + a + a + a + a + "\"name\": " + "\"" + loc.getName()) + "\"" + "\n";
         str[4] = (a + a + a + a + a + "}\n");
 
         return String.join("", str);

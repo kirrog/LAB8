@@ -29,20 +29,20 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Test" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\MyProjects\Java\Test" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\MyProjects\Java\LAB5" />
       <recent name="C:\MyProjects\Java\LAB5\src" />
       <recent name="C:\MyProjects\Java\LAB5\src\se\ifmo\ru\Parser" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\MyProjects\Java\Test" />
     </key>
   </component>
   <component name="RunManager">
@@ -83,10 +83,18 @@
     </ignored-roots>
   </component>
   <component name="WindowStateProjectService">
+    <state x="413" y="119" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog" timestamp="1584088914525">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="413" y="119" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog/0.0.1366.728@0.0.1366.728" timestamp="1584088914525" />
     <state x="137" y="19" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1584054150786">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="137" y="19" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1366.728@0.0.1366.728" timestamp="1584054150786" />
+    <state x="453" y="167" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1584082122413">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="453" y="167" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1366.728@0.0.1366.728" timestamp="1584082122413" />
     <state x="488" y="48" key="#com.intellij.ide.util.MemberChooser" timestamp="1584052362395">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -95,26 +103,26 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="412" y="148" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1366.728@0.0.1366.728" timestamp="1583163572934" />
-    <state x="121" y="106" key="FileChooserDialogImpl" timestamp="1583219317022">
+    <state x="121" y="106" key="FileChooserDialogImpl" timestamp="1584056128104">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="121" y="106" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1583219317022" />
-    <state width="1345" height="361" key="GridCell.Tab.0.bottom" timestamp="1583351406881">
+    <state x="121" y="106" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1584056128104" />
+    <state width="1345" height="2" key="GridCell.Tab.0.bottom" timestamp="1585250344544">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="361" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1583351406881" />
-    <state width="1345" height="361" key="GridCell.Tab.0.center" timestamp="1583351406880">
+    <state width="1345" height="2" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1585250344544" />
+    <state width="1345" height="2" key="GridCell.Tab.0.center" timestamp="1585250344543">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="361" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1583351406880" />
-    <state width="1345" height="361" key="GridCell.Tab.0.left" timestamp="1583351406880">
+    <state width="1345" height="2" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1585250344543" />
+    <state width="1345" height="2" key="GridCell.Tab.0.left" timestamp="1585250344543">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="361" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1583351406880" />
-    <state width="1345" height="361" key="GridCell.Tab.0.right" timestamp="1583351406880">
+    <state width="1345" height="2" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1585250344543" />
+    <state width="1345" height="2" key="GridCell.Tab.0.right" timestamp="1585250344543">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="361" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1583351406880" />
+    <state width="1345" height="2" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1585250344543" />
     <state width="1345" height="361" key="GridCell.Tab.1.bottom" timestamp="1583351406882">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -131,14 +139,14 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state width="1345" height="361" key="GridCell.Tab.1.right/0.0.1366.728@0.0.1366.728" timestamp="1583351406882" />
-    <state x="184" y="7" key="SettingsEditor" timestamp="1583160136988">
+    <state x="184" y="0" key="SettingsEditor" timestamp="1584089935872">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="184" y="7" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1583160136988" />
-    <state x="379" y="188" key="com.intellij.ide.util.TipDialog" timestamp="1584023418360">
+    <state x="184" y="0" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1584089935872" />
+    <state x="379" y="188" key="com.intellij.ide.util.TipDialog" timestamp="1585196044595">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="379" y="188" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1584023418360" />
+    <state x="379" y="188" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1585196044595" />
     <state x="413" y="130" key="extract.method.dialog" timestamp="1583321489121">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -147,16 +155,5 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="339" y="162" key="run.anything.popup/0.0.1366.728@0.0.1366.728" timestamp="1583328943246" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/ru/ifmo/se/Commands/ExeClass.java</url>
-          <line>517</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

@@ -1,6 +1,8 @@
 package ru.ifmo.se.Commands;
 
 
+import ru.ifmo.se.Collection.Ticket;
+
 import java.util.Enumeration;
 import java.util.Scanner;
 
@@ -15,7 +17,8 @@ public class Show implements Execute {
         System.out.println("Start execution show");
         Enumeration enums = TicketsHashTable.keys();
         while (enums.hasMoreElements()) {
-            ExeClass.writeTicket(TicketsHashTable.get( enums.nextElement()));
+            String ticket = (String) enums.nextElement();
+            TicketsHashTable.get(ticket).writeTicket();
         }
     }
 }

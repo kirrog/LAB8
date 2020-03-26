@@ -15,13 +15,21 @@ public class Insert implements Execute {
     @Override
     public void execute(String string, Scanner scan, ExeClass eCla) {
         String key = string;
-        Ticket tick = null;
-        if(eCla.isFile()){
-            tick = eCla.readTicket();
-        }else {
-            tick = eCla.getTicket();
+        if(key.isEmpty()){
+            System.out.println("Need a key");
+            return;
         }
-        TicketsHashTable.put(key,tick);
-    }
+        Ticket tick = eCla.getTicket();
 
+        try{
+            if(tick == null){
+                System.out.println("Bad ticket");
+            }else {
+                TicketsHashTable.put(key,tick);
+            }
+        }catch (NullPointerException e){
+            System.out.println("Wrong ticket");
+        }
+
+    }
 }
