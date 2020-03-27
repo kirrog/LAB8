@@ -82,7 +82,7 @@ public class Terminal {
                     if (cs[2]) {
                         programState = writeFileStatus(RWfiles[2]);
                         if (RWfiles[2].canRead()) {
-                            JsonParser jPars = new JsonParser(RWfiles[1]);
+                            JsonParser jPars = new JsonParser(RWfiles[2]);
                             jPars.parse();
                         }
                         return;
@@ -268,7 +268,14 @@ public class Terminal {
         cs[1] = true;
 
         if (ps[5] & (ps[7] | ps[6])) {
-            System.out.println("3 - Save as main file new one and start working");
+            System.out.print("3 - Save as main file new one and start working");
+            if (ps[9]){
+                if(ps[10]){
+                    System.out.println(" with default file");
+                }else if(ps[11]){
+                    System.out.println(" with last session file");
+                }
+            }
             if (!ps[6]) {
                 System.out.println("\tWe can't get collection from it, only write in!");
             }

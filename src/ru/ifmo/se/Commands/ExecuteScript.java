@@ -14,7 +14,7 @@ public class ExecuteScript implements Execute {
 
     @Override
     public void execute(String string, Scanner scan, ExeClass eCla) {
-        if (numberOfProceses < 20) {
+        try {
             File file = new File(string);
             if(file.exists() & file.isFile() &  file.canRead() & file.canExecute()){
                 ExeClass exeClass = new ExeClass(string);
@@ -32,8 +32,8 @@ public class ExecuteScript implements Execute {
                     System.out.println("Can't execute it");
                 }
             }
-        } else {
-            System.out.println("Bad recursion");
+        } catch(StackOverflowError error) {
+            System.out.println("Bad recursion: " + numberOfProceses);
         }
     }
 }

@@ -123,30 +123,25 @@ public class ExeClass {
                     command = command.substring(0, command.indexOf(" "));
                 }
                 if (command.isEmpty()) {
-                    System.out.println("Wrong entering at " + i + " string!");
+                    System.out.println("Wrong entering at " + i + " command!");
                     break;
                 }
                 if (arguments.contains(" ")) {
-                    System.out.println("Too many arguments at " + i + " string!\nWill work only with first");
+                    System.out.println("Too many arguments at " + i + " command!\nWill work only with first");
                     arguments = arguments.substring(0, arguments.indexOf(" "));
                 }
 
                 if (command.equals("exit")) {
                     notExit = false;
                 } else {
-                    if (!(inner.hasNextLine())) {
-                        System.out.println("Script complete!");
-                        break;
+                    if (hashMap.containsKey(command)) {
+                        hashMap.get(command).execute(arguments, inner, this);
                     } else {
-                        if (hashMap.containsKey(command)) {
-                            hashMap.get(command).execute(arguments, inner, this);
-                        } else {
-                            System.out.println("This is not command in file!");
-                        }
+                        System.out.println("This is not command in file!");
                     }
                 }
             } else {
-                System.out.println("Script complete!");
+                System.out.println("Script complete at " + i +" command!");
                 break;
             }
         }
