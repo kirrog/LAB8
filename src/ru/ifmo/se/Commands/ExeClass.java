@@ -45,7 +45,7 @@ public class ExeClass {
         return isFile;
     }
 
-    private String status = "";
+    private String string = "";
 
     public ExeClass() {
         inner = new Scanner(System.in);
@@ -55,8 +55,9 @@ public class ExeClass {
         try {
             inner = new Scanner(new File(str));
             isFile = true;
+            string = str;
         } catch (FileNotFoundException e) {
-            System.out.println("Problem with reading script");
+            System.out.println("Problem with reading script: " + str);
             Terminal.writeFileStatus(new File(str));
         }
     }
@@ -112,6 +113,7 @@ public class ExeClass {
     private void startFromScript() {
         boolean notExit = true;
         int i = 0;
+
         while (notExit) {
             i++;
             if(inner.hasNextLine()) {
@@ -138,10 +140,11 @@ public class ExeClass {
                         hashMap.get(command).execute(arguments, inner, this);
                     } else {
                         System.out.println("This is not command in file!");
+                        i--;
                     }
                 }
             } else {
-                System.out.println("Script complete at " + i +" command!");
+                System.out.println("Script" +  " complete at " + (i-1) +" command!");
                 break;
             }
         }

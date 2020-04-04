@@ -49,7 +49,7 @@ public class Terminal {
         RWfiles[1] = new File(readLogs());
         RWfiles[2] = null;
 
-        ps = checkFilesStatuses(args, ps);
+        ps = checkFilesStatuses(args);
 
         while (true) {
             boolean[] cs = showCommands(ps);
@@ -147,9 +147,8 @@ public class Terminal {
 
     public static boolean[] writeFileStatus(File jStr) {
         RWfiles[2] = jStr;
-        File f = jStr;
 
-        boolean[] ps = writeDirStatus(splitPathInArr(f));
+        boolean[] ps = writeDirStatus(splitPathInArr(jStr));
 
         ps[10] = programState[10];
         ps[11] = programState[11];
@@ -158,23 +157,23 @@ public class Terminal {
             return ps;
         }
         System.out.print("File status: ");
-        if (f.isFile()) {
+        if (jStr.isFile()) {
             ps[5] = true;
-            if (f.canRead()) {
+            if (jStr.canRead()) {
                 System.out.print("r");
                 ps[6] = true;
             } else {
                 System.out.print("-");
                 ps[6] = false;
             }
-            if (f.canWrite()) {
+            if (jStr.canWrite()) {
                 System.out.print("w");
                 ps[7] = true;
             } else {
                 System.out.print("-");
                 ps[7] = false;
             }
-            if (f.canExecute()) {
+            if (jStr.canExecute()) {
                 System.out.println("x");
                 ps[8] = true;
             } else {
@@ -268,14 +267,16 @@ public class Terminal {
         cs[1] = true;
 
         if (ps[5] & (ps[7] | ps[6])) {
-            System.out.print("3 - Save as main file new one and start working");
-            if (ps[9]){
-                if(ps[10]){
-                    System.out.println(" with default file");
-                }else if(ps[11]){
-                    System.out.println(" with last session file");
-                }
-            }
+            System.out.println("3 - Save as main file and start working");
+//            if (ps[9]){
+//                if(ps[10]){
+//                    System.out.println(" with default file");
+//                }else if(ps[11]){
+//                    System.out.println(" with last session file");
+//                }else{
+//                    System.out.println("");
+//                }
+//            }
             if (!ps[6]) {
                 System.out.println("\tWe can't get collection from it, only write in!");
             }
@@ -285,12 +286,12 @@ public class Terminal {
             cs[2] = true;
         }
 
-        if (ps[10] & (!(RWfiles[2].equals(RWfiles[0])))) {
+        if (ps[10] & (!(RWfiles[2].getAbsolutePath().equals(RWfiles[0].getAbsolutePath())))) {
             System.out.println("4 - Start working with default file (Tickets.json)");
             cs[3] = true;
         }
 
-        if (ps[11] & (!(RWfiles[1].equals("Tickets.json"))) & (!(RWfiles[2].equals(RWfiles[1]))) & (!(RWfiles[2].equals(RWfiles[0])))) {
+        if (ps[11] & (!(RWfiles[1].getAbsolutePath().equals(RWfiles[0].getAbsolutePath()))) & (!(RWfiles[2].equals(RWfiles[1])))) {
             System.out.println("5 - Start working with last session file (" + RWfiles[1].getAbsolutePath() + ")");
             cs[4] = true;
         }
@@ -310,18 +311,21 @@ public class Terminal {
         return array;
     }
 
-    private static boolean[] checkFilesStatuses(String[] args, boolean[] ps) {
+    private static boolean[] checkFilesStatuses(String[] args) {
+
+        boolean[] ps;
+
         if (RWfiles[1].isFile()) {
             System.out.println("Last session file found");
             programState[11] = true;
         } else {
-            System.out.println("Can't find last session file");
+            System.out.println("Last session file isn't found");
         }
         if (RWfiles[0].isFile()) {
             System.out.println("Default file found");
             programState[10] = true;
         } else {
-            System.out.println("Can't find default file");
+            System.out.println("Default file isn't found");
         }
         if (args.length > 0) {
             RWfiles[2] = new File(args[args.length - 1]);
@@ -349,9 +353,11 @@ public class Terminal {
         if (programState[10]) {
             System.out.println("Default file status: ");
             ps = writeFileStatus(RWfiles[0]);
+            RWfiles[2] = RWfiles[0];
         } else if (programState[11]) {
             System.out.println("Last session file status: ");
             ps = writeFileStatus(RWfiles[1]);
+            RWfiles[2] = RWfiles[1];
         }
         return ps;
     }
