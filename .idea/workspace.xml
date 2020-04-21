@@ -7,6 +7,9 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="CodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
+  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -29,25 +32,76 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/Help.uml" />
-    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="jdk.selected.JAVA_MODULE" value="1.8.0_161" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/ServerModule/json.jar!/" />
+    <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="preferences.toDoOptions" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\MyProjects\Java\LAB5" />
-      <recent name="C:\MyProjects\Java\LAB5\src" />
-      <recent name="C:\MyProjects\Java\LAB5\src\se\ifmo\ru\Parser" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\MyProjects\Java\LAB5\ClientModule\src" />
+      <recent name="C:\MyProjects\Java\LAB5\src\ru\ifmo\se\ClientModule" />
       <recent name="C:\MyProjects\Java\Test" />
     </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="" />
+      <recent name="ClientModule" />
+      <recent name="ServerModule" />
+      <recent name="Module.Server" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\MyProjects\Java\LAB5\ServerModule" />
+      <recent name="C:\MyProjects\Java\LAB5\ClientModule\src" />
+      <recent name="C:\MyProjects\Java\LAB5\ServerModule\src" />
+      <recent name="C:\MyProjects\Java\LAB5\ClientModule" />
+      <recent name="C:\MyProjects\Java\LAB5" />
+    </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.ClientMain (1)">
+    <configuration name="ClientMain (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Starter.ClientMain" />
+      <module name="ClientModule" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Starter.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ClientMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ClientModule.ClientMain" />
+      <module name="LAB5" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ClientModule.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Main (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Starter.Main" />
+      <module name="ServerModule" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Starter.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Main" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="ru.ifmo.se.Main" />
+      <option name="MAIN_CLASS_NAME" value="ServerModule.Main" />
       <module name="LAB5" />
       <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Run" />
@@ -55,8 +109,32 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="ServerMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ServerModule.ServerMain" />
+      <module name="LAB5" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value=".*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ServerMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Starter.ServerMain" />
+      <module name="ServerModule" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.ClientMain (1)" />
+        <item itemvalue="Application.Main (1)" />
+        <item itemvalue="Application.ClientMain" />
+        <item itemvalue="Application.ServerMain" />
         <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
@@ -83,46 +161,62 @@
     </ignored-roots>
   </component>
   <component name="WindowStateProjectService">
+    <state x="275" y="22" key="#Project_Structure" timestamp="1587120694505">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="275" y="22" key="#Project_Structure/0.0.1366.728@0.0.1366.728" timestamp="1587120694505" />
     <state x="413" y="119" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog" timestamp="1584088914525">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="413" y="119" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog/0.0.1366.728@0.0.1366.728" timestamp="1584088914525" />
-    <state x="137" y="19" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1584054150786">
+    <state x="137" y="19" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1587325378521">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="137" y="19" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1366.728@0.0.1366.728" timestamp="1584054150786" />
+    <state x="137" y="19" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1366.728@0.0.1366.728" timestamp="1587325378521" />
     <state x="453" y="167" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1585300854583">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="453" y="167" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1366.728@0.0.1366.728" timestamp="1585300854583" />
-    <state x="488" y="48" key="#com.intellij.ide.util.MemberChooser" timestamp="1584052362395">
+    <state x="488" y="48" key="#com.intellij.ide.util.MemberChooser" timestamp="1587481588578">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="488" y="48" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1584052362395" />
+    <state x="488" y="48" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1587481588578" />
     <state x="412" y="148" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1583163572934">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="412" y="148" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1366.728@0.0.1366.728" timestamp="1583163572934" />
-    <state x="121" y="106" key="FileChooserDialogImpl" timestamp="1585285590187">
+    <state x="421" y="289" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1587063210794">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="121" y="106" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1585285590187" />
-    <state width="1345" height="142" key="GridCell.Tab.0.bottom" timestamp="1585943018660">
+    <state x="421" y="289" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.0.1366.728@0.0.1366.728" timestamp="1587063210794" />
+    <state x="479" y="223" width="408" height="288" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1587387170829">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="142" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1585943018660" />
-    <state width="1345" height="142" key="GridCell.Tab.0.center" timestamp="1585943018660">
+    <state x="479" y="223" width="408" height="288" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1366.728@0.0.1366.728" timestamp="1587387170829" />
+    <state x="441" y="235" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1" timestamp="1587120908645">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="142" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1585943018660" />
-    <state width="1345" height="142" key="GridCell.Tab.0.left" timestamp="1585943018660">
+    <state x="441" y="235" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1366.728@0.0.1366.728" timestamp="1587120908645" />
+    <state x="505" y="134" key="FileChooserDialogImpl" timestamp="1587120777674">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="142" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1585943018660" />
-    <state width="1345" height="142" key="GridCell.Tab.0.right" timestamp="1585943018660">
+    <state x="505" y="134" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1587120777674" />
+    <state width="1345" height="284" key="GridCell.Tab.0.bottom" timestamp="1587484849580">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="142" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1585943018660" />
+    <state width="1345" height="284" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1587484849580" />
+    <state width="1345" height="284" key="GridCell.Tab.0.center" timestamp="1587484849579">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1345" height="284" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1587484849579" />
+    <state width="1345" height="284" key="GridCell.Tab.0.left" timestamp="1587484849579">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1345" height="284" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1587484849579" />
+    <state width="1345" height="284" key="GridCell.Tab.0.right" timestamp="1587484849579">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1345" height="284" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1587484849579" />
     <state width="1345" height="361" key="GridCell.Tab.1.bottom" timestamp="1583351406882">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -139,21 +233,29 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state width="1345" height="361" key="GridCell.Tab.1.right/0.0.1366.728@0.0.1366.728" timestamp="1583351406882" />
-    <state x="184" y="0" key="SettingsEditor" timestamp="1584089935872">
+    <state x="184" y="0" key="SettingsEditor" timestamp="1587120888157">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="184" y="0" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1584089935872" />
-    <state x="379" y="188" key="com.intellij.ide.util.TipDialog" timestamp="1585938096451">
+    <state x="184" y="0" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1587120888157" />
+    <state x="379" y="188" key="com.intellij.ide.util.TipDialog" timestamp="1587038712962">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="379" y="188" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1585938096451" />
+    <state x="379" y="188" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1587038712962" />
     <state x="413" y="130" key="extract.method.dialog" timestamp="1583321489121">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="413" y="130" key="extract.method.dialog/0.0.1366.728@0.0.1366.728" timestamp="1583321489121" />
+    <state x="359" y="0" key="new project wizard" timestamp="1587063179420">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="359" y="0" key="new project wizard/0.0.1366.728@0.0.1366.728" timestamp="1587063179420" />
     <state x="339" y="162" key="run.anything.popup" timestamp="1583328943246">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="339" y="162" key="run.anything.popup/0.0.1366.728@0.0.1366.728" timestamp="1583328943246" />
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1587307240068">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1587307240068" />
   </component>
 </project>
