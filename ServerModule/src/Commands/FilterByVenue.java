@@ -2,7 +2,9 @@ package Commands;
 
 
 import Collection.Venue;
+import Starter.Main;
 import Web.Command;
+import WriteInOut.TicketReader;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -14,6 +16,10 @@ import static Starter.Main.TicketsHashTable;
 
 /** This class print all elements with this venue*/
 public class FilterByVenue extends AbstractCommand {
+
+    public FilterByVenue(){
+        name = "filter_by_venue";
+    }
 
     @Override
     public void execute(String string, Scanner scan, ExeClass eCla) {
@@ -48,16 +54,27 @@ public class FilterByVenue extends AbstractCommand {
         for (; enums.hasMoreElements(); ) {
             stringLinkedList.add((String) enums.nextElement());
         }
-        stringLinkedList.stream()
-                .filter(key -> TicketsHashTable.get(key).getVenue().equals(ven))
-                .forEach(key->{
-            Command c = new Command();
-            c.setNameOfCommand("filter_by_venue");
-            c.setFirstArgument(key);
-            c.setThirdArgument(TicketsHashTable.get(key));
-            commands.add(c);
-        });
-        this.sort(commands);
-        send(commands);
+        if(stringLinkedList.stream().noneMatch(key -> TicketsHashTable.get(key).getVenue().equals(ven))){
+            com.setFirstArgument(com.getFirstArgument() + "None with this venue");
+            com.setSecondArgument(0);
+            Main.sender.send(com);
+        }else {
+            stringLinkedList.stream()
+                    .filter(key -> TicketsHashTable.get(key).getVenue().equals(ven))
+                    .forEach(key->{
+                        Command c = new Command();
+                        c.setNameOfCommand("filter_by_venue");
+                        c.setFirstArgument(key);
+                        c.setThirdArgument(TicketsHashTable.get(key));
+                        commands.add(c);
+                    });
+            this.sort(commands);
+            send(commands);
+        }
+    }
+
+    @Override
+    protected void setArgs(String str, Scanner scanner) {
+        com.setThirdArgument(new TicketReader(scanner, true).readVenue());
     }
 }

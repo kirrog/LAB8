@@ -40,4 +40,9 @@ public class Command implements Serializable {
     private Number secondArgument;
     private Serializable thirdArgument;
 
+    @Override
+    public String toString() {
+        String str = getNameOfCommand() + getFirstArgument() + getSecondArgument() + getThirdArgument();
+        return str;
+    }
 }

@@ -21,7 +21,7 @@ public class Receiver {
             ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
             ObjectInputStream ois = new ObjectInputStream(bais);
             Command com = (Command) ois.readObject();
-            System.out.println("Command Received");
+            System.out.println("Received");
             return com;
         } catch (ClassNotFoundException e) {
             System.out.println("Bad command received");

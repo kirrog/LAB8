@@ -12,8 +12,6 @@ import static Starter.ClientMain.receiver;
 
 public class FilterByVenue extends AbstractCommand {
 
-    protected Command command = new Command();
-
     @Override
     public void check(String command, String arg) {
         this.command.setThirdArgument(new TicketReader(new Scanner(System.in),false).getVenue());
@@ -24,6 +22,9 @@ public class FilterByVenue extends AbstractCommand {
     public boolean receive() {
         try {
             Command com = receiver.receive();
+            if(com.getFirstArgument() != null){
+                System.out.println(com.getFirstArgument());
+            }
             int cs = (int) com.getSecondArgument();
             ArrayList<Command> ac = new ArrayList<>();
             for (int i = 0; i < cs; i++) {

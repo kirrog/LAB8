@@ -11,6 +11,9 @@ import java.util.Scanner;
 /** This class print all commands*/
 public class Help extends AbstractCommand {
 
+    public Help(){
+        name = "help";
+    }
 
     @Override
     public void execute(String string, Scanner scan, ExeClass eCla) {
@@ -57,5 +60,10 @@ public class Help extends AbstractCommand {
     @Override
     public void send(ArrayList<Command> commands) {
         Main.sender.send(com);
+    }
+
+    @Override
+    protected void setArgs(String str, Scanner scanner) {
+        return;
     }
 }

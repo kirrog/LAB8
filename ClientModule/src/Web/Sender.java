@@ -54,7 +54,7 @@ public class Sender {
 
         try {
             dataSock.send(datagramPacket);
-            System.out.println("Successfully send!");
+            System.out.println("Send");
             return true;
         } catch (IOException e) {
             e.printStackTrace();

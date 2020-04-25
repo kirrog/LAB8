@@ -14,6 +14,10 @@ import static Starter.Main.TicketsHashTable;
 /** This class print information about collection*/
 public class Info  extends AbstractCommand {
 
+    public Info(){
+        name = "info";
+    }
+
     @Override
     public void execute(String string, Scanner scan, ExeClass eCla) {
         System.out.println("Type: HashTable <Integer, Ticket>");
@@ -88,5 +92,10 @@ public class Info  extends AbstractCommand {
     @Override
     public void send(ArrayList<Command> commands) {
         Main.sender.send(com);
+    }
+
+    @Override
+    protected void setArgs(String str, Scanner scanner) {
+        return;
     }
 }

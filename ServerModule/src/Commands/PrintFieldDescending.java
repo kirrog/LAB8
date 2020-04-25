@@ -2,9 +2,12 @@ package Commands;
 
 
 import Collection.Ticket;
+import Starter.Main;
 import Web.Command;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Scanner;
 
 import static Starter.Main.TicketsHashTable;
 
@@ -13,6 +16,10 @@ import static Starter.Main.TicketsHashTable;
  * This class print sorted elements by field
  */
 public class PrintFieldDescending extends AbstractCommand {
+
+    public PrintFieldDescending(){
+        name = "print_field_descending_type";
+    }
 
     @Override
     public void execute(String string, Scanner scan, ExeClass eCla) {
@@ -150,11 +157,14 @@ public class PrintFieldDescending extends AbstractCommand {
     @Override
     public void exe() {
         ArrayList<Command> commands = new ArrayList<>();
-
+        if ((int)com.getSecondArgument() == -1){
+            com.setSecondArgument(0);
+            Main.sender.send(com);
+        }
         writeField((int)com.getSecondArgument()).stream()
                 .forEachOrdered(key->{
                     Command c = new Command();
-                    c.setNameOfCommand("print_field_descending");
+                    c.setNameOfCommand("print_field_descending_type");
                     c.setFirstArgument(key);
                     c.setThirdArgument(TicketsHashTable.get(key));
                     commands.add(c);
@@ -164,4 +174,55 @@ public class PrintFieldDescending extends AbstractCommand {
         }
         send(commands);
     }
+
+    @Override
+    protected void setArgs(String str, Scanner scanner) {
+        int i = chooseType(str);
+        com.setSecondArgument(i);
+    }
+
+    private int chooseType(String str){
+        switch (str) {
+            case "id":
+                return 0;
+            case "name":
+                return 1;
+            case "coordinates.x":
+                return 2;
+            case "coordinates.y":
+                return 3;
+            case "creation date":
+                return 4;
+            case "prise":
+                return 5;
+            case "comment":
+                return 6;
+            case "refundable":
+                return 7;
+            case "type":
+                return 8;
+            case "venue.id":
+                return 9;
+            case "venue.name":
+                return 10;
+            case "venue.capacity":
+                return 11;
+            case "venue.type":
+                return 12;
+            case "venue.address.zipCode":
+                return 13;
+            case "venue.address.town.x":
+                return 14;
+            case "venue.address.town.y":
+                return 15;
+            case "venue.address.town.z":
+                return 16;
+            case "venue.address.town.name":
+                return 17;
+            default:
+                com.setFirstArgument(com.getFirstArgument() + "There is not field with this name!");
+                return -1;
+        }
+    }
+
 }

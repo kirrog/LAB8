@@ -3,6 +3,7 @@ package Commands;
 
 import Starter.Main;
 import Web.Command;
+import WriteInOut.ServerUI;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -13,8 +14,13 @@ import java.util.Scanner;
  * This class execute file script
  */
 public class ExecuteScript extends AbstractCommand {
+    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ExecuteScript.class);
 
     public static int numberOfProceses = 0;
+
+    public ExecuteScript() {
+        name = "execute_script";
+    }
 
     @Override
     public void execute(String string, Scanner scan, ExeClass eCla) {
@@ -37,7 +43,7 @@ public class ExecuteScript extends AbstractCommand {
                 }
             }
         } catch (StackOverflowError error) {
-            System.out.println("Bad recursion: " + numberOfProceses + " proc.");
+            log.info("Bad recursion: " + numberOfProceses + " proc.");
         }
     }
 
@@ -47,15 +53,21 @@ public class ExecuteScript extends AbstractCommand {
         try {
             File file = new File(str);
             if (file.exists() & file.isFile() & file.canRead() & file.canExecute()) {
-                ExeClass exeClass = new ExeClass(str);
+
+                ServerUI serverUI = new ServerUI();
 
                 numberOfProceses++;
-
-                exeClass.start();
+                try {
+                    serverUI.startFromScript(str, com);
+                } catch (NullPointerException e) {
+                    if (numberOfProceses > 1) {
+                        throw new NullPointerException();
+                    }else {
+                        System.out.println("Script killed, because of miss message");
+                    }
+                }
 
                 numberOfProceses--;
-
-                com.setFirstArgument(com.getFirstArgument() + ": script end his job");
 
             } else {
                 if (!file.exists()) {
@@ -70,6 +82,7 @@ public class ExecuteScript extends AbstractCommand {
             }
         } catch (StackOverflowError error) {
             com.setFirstArgument(com.getFirstArgument() + "Bad recursion: " + numberOfProceses + " proc.");
+            log.info("Bad recursion: " + numberOfProceses + " proc.");
         }
         send(null);
     }
@@ -78,4 +91,11 @@ public class ExecuteScript extends AbstractCommand {
     public void send(ArrayList<Command> commands) {
         Main.sender.send(com);
     }
+
+    @Override
+    protected void setArgs(String str, Scanner scanner) {
+        com.setFirstArgument(str);
+    }
+
+
 }

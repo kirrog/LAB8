@@ -12,6 +12,10 @@ import static Starter.Main.TicketsHashTable;
 /** Print sorted collection*/
 public class PrintDescending extends AbstractCommand {
 
+    public PrintDescending(){
+        name = "print_descending";
+    }
+
     @Override
     public void execute(String string, Scanner scan, ExeClass eCla) {
 //        Enumeration enumeration = TicketsHashTable.elements();
@@ -70,5 +74,10 @@ public class PrintDescending extends AbstractCommand {
                 });
         this.sort(commands);
         send(commands);
+    }
+
+    @Override
+    protected void setArgs(String str, Scanner scanner) {
+        return;
     }
 }

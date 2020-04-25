@@ -14,6 +14,10 @@ import static Starter.Main.TicketsHashTable;
 /** Remove all elements in collection with higher key*/
 public class RemoveGreaterKey extends AbstractCommand {
 
+    public RemoveGreaterKey(){
+        name = "remove_greater_key";
+    }
+
     @Override
     public void execute(String string, Scanner scan, ExeClass eCla) {
         Enumeration enums = TicketsHashTable.keys();
@@ -44,5 +48,10 @@ public class RemoveGreaterKey extends AbstractCommand {
     @Override
     public void send(ArrayList<Command> commands) {
         Main.sender.send(com);
+    }
+
+    @Override
+    protected void setArgs(String str, Scanner scanner) {
+        com.setFirstArgument(str);
     }
 }

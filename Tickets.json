@@ -1,5 +1,5 @@
 {
-	"NumberOfTickets": 4,
+	"NumberOfTickets": 5,
 	"DateOfCreation": "04/21/2020 - 18:33:47 +0300",
 	"Tickets": [
 		{
@@ -21,6 +21,30 @@
 				"capacity": 120,
 				"type": "PUB",
 				"address": "null"
+			}
+		},
+		{
+			"key": "krass",
+			"id": 24038717,
+			"name": "name",
+			"coordinates": {
+				"x": 123,
+				"y": 123.0
+			},
+			"creationDate": "04/25/2020 - 22:35:39 +0300",
+			"price": 120,
+			"comment": "Hey",
+			"refundable": true,
+			"type": "VIP",
+			"venue": {
+				"id": 24039717,
+				"name": "name",
+				"capacity": 123,
+				"type": "MALL",
+				"address": {
+					"zipCode": "comment124567",
+					"town": "null"
+				}
 			}
 		},
 		{

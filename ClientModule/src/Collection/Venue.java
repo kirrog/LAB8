@@ -54,7 +54,20 @@ public class Venue implements Serializable {
     @Override
     public boolean equals(Object obj) {
         Venue ven = (Venue) obj;
+        boolean a = this.getAddress() == null;
+        boolean b = ven.getAddress() == null;
+        if(a){
+            if(b){
+                return (this.getId() == ven.getId()) & (this.getType().equals(ven.getType())) & (this.getName().equals(ven.getName())) & (this.getCapacity().equals(ven.getCapacity()));
+            }else {
+                return false;
+            }
+        }else {
+            if(b){
+                return false;
+            }
+            return (this.getId() == ven.getId()) & (this.getAddress().equals(ven.getAddress())) & (this.getType().equals(ven.getType())) & (this.getName().equals(ven.getName())) & (this.getCapacity().equals(ven.getCapacity()));
+        }
 
-        return (this.getId() == ven.getId()) & (this.getAddress().equals(ven.getAddress())) & (this.getType().equals(ven.getType())) & (this.getName().equals(ven.getName())) & (this.getCapacity().equals(ven.getCapacity()));
     }
 }

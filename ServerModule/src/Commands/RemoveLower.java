@@ -4,6 +4,7 @@ package Commands;
 import Collection.Ticket;
 import Starter.Main;
 import Web.Command;
+import WriteInOut.TicketReader;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -16,6 +17,9 @@ import static Starter.Main.TicketsHashTable;
 /** This class remove all elements which lower then element*/
 public class RemoveLower extends AbstractCommand {
 
+    public RemoveLower(){
+        name = "remove_lower";
+    }
 
     @Override
     public void execute(String string, Scanner scan, ExeClass eCla) {
@@ -57,5 +61,10 @@ public class RemoveLower extends AbstractCommand {
     @Override
     public void send(ArrayList<Command> commands) {
         Main.sender.send(com);
+    }
+
+    @Override
+    protected void setArgs(String str, Scanner scanner) {
+        com.setThirdArgument(new TicketReader(scanner,true).readTicket());
     }
 }

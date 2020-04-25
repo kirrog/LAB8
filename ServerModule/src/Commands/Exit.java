@@ -8,6 +8,10 @@ import java.util.Scanner;
 /** This class ends program without save*/
 public class Exit extends AbstractCommand {
 
+    public Exit(){
+        name = "exit";
+    }
+
     @Override
     public void execute(String string, Scanner scan, ExeClass eCla) {
         System.out.println("Something goes wrong!!!");
@@ -18,4 +22,8 @@ public class Exit extends AbstractCommand {
         ServerUI.setHaveClient(false);
     }
 
+    @Override
+    protected void setArgs(String str, Scanner scanner) {
+        return;
+    }
 }

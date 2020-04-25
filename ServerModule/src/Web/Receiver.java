@@ -7,6 +7,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
 
 public class Receiver {
+    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(Receiver.class);
 
     private byte bytes[] = new byte[32*1024];
 
@@ -26,10 +27,10 @@ public class Receiver {
             datach.read(bbf);
             ois = new ObjectInputStream(bais);
             Command com = (Command) ois.readObject();
-            System.out.println("Command Received");
+            log.info("Received");
             return com;
         } catch (ClassNotFoundException e) {
-            System.out.println("Bad command");
+            log.info("Bad command", e);
             return null;
         }
     }

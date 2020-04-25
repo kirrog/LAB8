@@ -4,6 +4,7 @@ package Commands;
 import Collection.Ticket;
 import Starter.Main;
 import Web.Command;
+import WriteInOut.TicketReader;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -16,6 +17,9 @@ import static Starter.Main.TicketsHashTable;
  */
 public class ReplaceIfLower extends AbstractCommand {
 
+    public ReplaceIfLower(){
+        name = "replace_if_lower";
+    }
 
     @Override
     public void execute(String string, Scanner scan, ExeClass eCla) {
@@ -48,5 +52,11 @@ public class ReplaceIfLower extends AbstractCommand {
     @Override
     public void send(ArrayList<Command> commands) {
         Main.sender.send(com);
+    }
+
+    @Override
+    protected void setArgs(String str, Scanner scanner) {
+        com.setFirstArgument(str);
+        com.setThirdArgument(new TicketReader(scanner,true).readTicket());
     }
 }

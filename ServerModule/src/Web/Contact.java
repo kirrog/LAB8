@@ -8,6 +8,8 @@ import java.nio.channels.DatagramChannel;
 
 public class Contact {
 
+    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(Contact.class);
+
     private static int PORT = 4445;
 
     private SocketAddress addr;
@@ -23,7 +25,6 @@ public class Contact {
         PORT = port;
         addr = new InetSocketAddress(PORT);
         datach = DatagramChannel.open();
-
     }
 
     public boolean receiveConnection() {
@@ -33,19 +34,19 @@ public class Contact {
             ByteBuffer f = ByteBuffer.wrap(b);
             f.clear();
             int mesLength = 0;
-            System.out.println("Wait for connection");
+            log.info("Wait for connection");
             datach.socket().setSoTimeout(65535);
             sockAddr = datach.receive(f);
 
-            System.out.println("Connecting to " + sockAddr);
+            log.info("Connecting to " + sockAddr);
             datach.connect(sockAddr);
             f.flip();
             datach.write(f);
-            System.out.println("Complete!");
+            log.info("Complete!");
             datach.socket().setSoTimeout(1000);
             return true;
         } catch (IOException | NullPointerException e) {
-            e.printStackTrace();
+            log.info("Connection", e);
             return false;
         }
 

@@ -4,6 +4,7 @@ import java.io.*;
 import java.nio.ByteBuffer;
 
 public class Sender {
+    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(Sender.class);
 
     private Contact contact;
 
@@ -22,9 +23,10 @@ public class Sender {
             bytes = bais.toByteArray();
             ByteBuffer bbf = ByteBuffer.wrap(bytes);
             contact.getDatach().write(bbf);
+            log.info("Send");
             return true;
         } catch (IOException e) {
-            System.out.println("Problem with serialization!");
+            log.info("Serialization, send", e);
             return false;
         }
 

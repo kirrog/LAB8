@@ -17,6 +17,8 @@ import static Starter.Main.TicketsHashTable;
  */
 public class InFileParser {
 
+    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(InFileParser.class);
+
     String a = "\t";
     private File output;
     private int numberOfTickets =0;
@@ -28,7 +30,7 @@ public class InFileParser {
     public void saveInFile() {
         numberOfTickets =TicketsHashTable.size();
         try (FileOutputStream outputStream = new FileOutputStream(output)) {
-            System.out.println("File successfully opened to write in!");
+            log.info("File successfully opened to write in!");
             try (BufferedOutputStream bos = new BufferedOutputStream(outputStream)) {
                 LinkedList<String> stringLinkedList = new LinkedList<String>();
                 String str = ("{\n");
@@ -80,11 +82,11 @@ public class InFileParser {
                 bos.write(buffer, 0, buffer.length);
 
             } catch (IOException ex) {
-                System.out.println(ex.getMessage());
+                log.info("While parsing",ex);
             }
 
         } catch (IOException ex) {
-            System.out.println("Can't open file to write!");
+            log.info("File", ex);
         }
 
     }

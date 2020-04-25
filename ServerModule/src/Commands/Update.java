@@ -4,6 +4,7 @@ package Commands;
 import Collection.Ticket;
 import Starter.Main;
 import Web.Command;
+import WriteInOut.TicketReader;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -18,6 +19,9 @@ import static Starter.Main.TicketsHashTable;
  */
 public class Update extends AbstractCommand {
 
+    public Update(){
+        name = "update";
+    }
 
     @Override
     public void execute(String string, Scanner scan, ExeClass eCla) {
@@ -70,15 +74,18 @@ public class Update extends AbstractCommand {
         for (; enums.hasMoreElements(); ) {
             stringLinkedList.add((String) enums.nextElement());
         }
-
-        String str = stringLinkedList.stream().filter(t -> TicketsHashTable.get(t).getId() == Id).findFirst().get();
-        if ((!str.isEmpty()) & (!str.equals("Optional.empty"))) {
-            Ticket tick = (TicketsHashTable.get(str));
-            Ticket ticker = (Ticket) com.getThirdArgument();
-            TicketsHashTable.put(str, ticker);
-            com.setFirstArgument("Updated!");
-        } else {
+        if(stringLinkedList.stream().noneMatch(t -> TicketsHashTable.get(t).getId() == Id)){
             com.setFirstArgument("Didn't find object with this id: " + Id);
+        }else {
+            String str = stringLinkedList.stream().filter(t -> TicketsHashTable.get(t).getId() == Id).findFirst().get();
+            if ((!str.isEmpty()) & (!str.equals("Optional.empty"))) {
+                Ticket tick = (TicketsHashTable.get(str));
+                Ticket ticker = (Ticket) com.getThirdArgument();
+                TicketsHashTable.put(str, ticker);
+                com.setFirstArgument("Updated!");
+            } else {
+                com.setFirstArgument("Didn't find object with this id: " + Id);
+            }
         }
         send(null);
     }
@@ -86,5 +93,12 @@ public class Update extends AbstractCommand {
     @Override
     public void send(ArrayList<Command> commands) {
         Main.sender.send(com);
+    }
+
+    @Override
+    protected void setArgs(String str, Scanner scanner) {
+        int i = Integer.parseInt(str);
+        com.setSecondArgument(i);
+        com.setThirdArgument(new TicketReader(scanner,true).readTicket());
     }
 }

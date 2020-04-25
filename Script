@@ -39,6 +39,5 @@ comment124567
 
 print_descending
 print_field_descending_type id
-save
-clear
 show
+exit

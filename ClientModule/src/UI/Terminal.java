@@ -2,6 +2,8 @@ package UI;
 
 import Web.Command;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 import static Starter.ClientMain.sender;
@@ -55,5 +57,7 @@ public class Terminal {
             }
         }
     }
+
+
 
 }

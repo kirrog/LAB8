@@ -13,6 +13,9 @@ import static Starter.Main.TicketsHashTable;
 /** Remove element on collection by key*/
 public class RemoveKey extends AbstractCommand {
 
+    public RemoveKey(){
+        name = "remove_key";
+    }
 
     @Override
     public void execute(String string, Scanner scan, ExeClass eCla) {
@@ -39,5 +42,10 @@ public class RemoveKey extends AbstractCommand {
     @Override
     public void send(ArrayList<Command> commands) {
         Main.sender.send(com);
+    }
+
+    @Override
+    protected void setArgs(String str, Scanner scanner) {
+        com.setFirstArgument(str);
     }
 }

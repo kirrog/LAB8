@@ -14,6 +14,10 @@ import static Starter.Main.TicketsHashTable;
 /** This class show all content in HashTable*/
 public class Show extends AbstractCommand {
 
+    public Show(){
+        name = "show";
+    }
+
     @Override
     public void execute(String string, Scanner scan, ExeClass eCla) {
         Enumeration enums = TicketsHashTable.keys();
@@ -47,4 +51,8 @@ public class Show extends AbstractCommand {
         send(commands);
     }
 
+    @Override
+    protected void setArgs(String str, Scanner scanner) {
+        return;
+    }
 }

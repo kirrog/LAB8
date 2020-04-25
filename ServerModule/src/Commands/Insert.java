@@ -4,6 +4,7 @@ package Commands;
 import Collection.Ticket;
 import Starter.Main;
 import Web.Command;
+import WriteInOut.TicketReader;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -14,6 +15,9 @@ import static Starter.Main.TicketsHashTable;
 /** This class insert element by key*/
 public class Insert extends AbstractCommand {
 
+    public Insert(){
+        name = "insert";
+    }
 
     @Override
     public void execute(String string, Scanner scan, ExeClass eCla) {
@@ -46,6 +50,12 @@ public class Insert extends AbstractCommand {
     public void send(ArrayList<Command> commands) {
         com.setFirstArgument("Ticket inserted with key: " + com.getFirstArgument());
         Main.sender.send(com);
+    }
+
+    @Override
+    protected void setArgs(String str, Scanner scanner) {
+        com.setFirstArgument(str);
+        com.setThirdArgument(new TicketReader(scanner,true).readTicket());
     }
 
 }

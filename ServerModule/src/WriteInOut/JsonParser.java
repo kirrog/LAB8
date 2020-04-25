@@ -1,8 +1,10 @@
 package WriteInOut;
 
-import org.json.simple.parser.*;
-import org.json.simple.*;
 import Collection.*;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -21,6 +23,8 @@ import static Starter.Main.setHashCreationDate;
  * This class parse json file!
  */
 public class JsonParser {
+
+    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(JsonParser.class);
 
     private File jsonFile;
 
@@ -59,12 +63,12 @@ public class JsonParser {
                     Ticket ticket = getTicket(jObject);
                     TicketsHashTable.put(key, ticket);
                 }
-                System.out.println("Reading from file: success");
+                log.info("Reading from file: success");
             } catch (ParseException | IOException e) {
-                System.out.println("Reading from file: mistake in");
+                log.info("Reading from file: mistake in", e);
             }
         } catch (FileNotFoundException e) {
-            System.out.println("Reading from file: file not found");
+            log.info("Reading from file: file not found", e);
         }
 
     }
@@ -158,9 +162,9 @@ public class JsonParser {
 
         Long z = (Long) jsonObject.get("z");
         String name;
-        if(jsonObject.get("name").equals("null")){
+        if (jsonObject.get("name").equals("null")) {
             name = null;
-        }else {
+        } else {
             name = (String) jsonObject.get("name");
         }
 

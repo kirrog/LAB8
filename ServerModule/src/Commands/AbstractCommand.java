@@ -4,11 +4,18 @@ import Collection.Ticket;
 import Starter.Main;
 import Web.Command;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
+import java.util.Scanner;
 
 public abstract class AbstractCommand implements Execute,ServerExecutable {
+
+    protected String name;
+    public String getName() {
+        return name;
+    }
 
     public static Hashtable<String, ServerExecutable > replies = new Hashtable<String, ServerExecutable>();
 
@@ -72,5 +79,20 @@ public abstract class AbstractCommand implements Execute,ServerExecutable {
         commands.clear();
         commands.addAll(Arrays.asList(cos).subList(0, cs));
     }
+
+    @Override
+    public void talk (String str, Scanner scanner){
+        try {
+            com = Main.receiver.receive();
+            com.setNameOfCommand(getName());
+            Main.sender.send(com);
+            setArgs(str,scanner);
+            exe();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected abstract void setArgs(String str, Scanner scanner);
 
 }

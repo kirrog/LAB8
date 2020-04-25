@@ -51,4 +51,9 @@ public class Save extends AbstractCommand {
     public void exe() {
         System.out.println("Try to call save!!!");
     }
+
+    @Override
+    protected void setArgs(String str, Scanner scanner) {
+        return;
+    }
 }

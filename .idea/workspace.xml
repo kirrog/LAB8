@@ -33,31 +33,34 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="jdk.selected.JAVA_MODULE" value="1.8.0_161" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/ServerModule/json.jar!/" />
-    <property name="project.structure.last.edited" value="Project" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/ClientModule/src/Collection" />
+    <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="preferences.toDoOptions" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\MyProjects\Java\LAB5\ClientModule\src" />
-      <recent name="C:\MyProjects\Java\LAB5\src\ru\ifmo\se\ClientModule" />
-      <recent name="C:\MyProjects\Java\Test" />
-    </key>
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="" />
-      <recent name="ClientModule" />
-      <recent name="ServerModule" />
-      <recent name="Module.Server" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\MyProjects\Java\LAB5\ServerModule" />
       <recent name="C:\MyProjects\Java\LAB5\ClientModule\src" />
       <recent name="C:\MyProjects\Java\LAB5\ServerModule\src" />
       <recent name="C:\MyProjects\Java\LAB5\ClientModule" />
       <recent name="C:\MyProjects\Java\LAB5" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="Collection" />
+      <recent name="" />
+      <recent name="ClientModule" />
+      <recent name="ServerModule" />
+      <recent name="Module.Server" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\MyProjects\Java\LAB6\ClientModule\src\Collection" />
+      <recent name="C:\MyProjects\Java\LAB6\ClientModule\src" />
+      <recent name="C:\MyProjects\Java\LAB5\ClientModule\src" />
+      <recent name="C:\MyProjects\Java\LAB5\src\ru\ifmo\se\ClientModule" />
+      <recent name="C:\MyProjects\Java\Test" />
     </key>
   </component>
   <component name="RunManager" selected="Application.ClientMain (1)">
@@ -161,10 +164,10 @@
     </ignored-roots>
   </component>
   <component name="WindowStateProjectService">
-    <state x="275" y="22" key="#Project_Structure" timestamp="1587120694505">
+    <state x="275" y="22" key="#Project_Structure" timestamp="1587754428537">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="275" y="22" key="#Project_Structure/0.0.1366.728@0.0.1366.728" timestamp="1587120694505" />
+    <state x="275" y="22" key="#Project_Structure/0.0.1366.728@0.0.1366.728" timestamp="1587754428537" />
     <state x="413" y="119" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog" timestamp="1584088914525">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -177,46 +180,46 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="453" y="167" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1366.728@0.0.1366.728" timestamp="1585300854583" />
-    <state x="488" y="48" key="#com.intellij.ide.util.MemberChooser" timestamp="1587481588578">
+    <state x="488" y="48" key="#com.intellij.ide.util.MemberChooser" timestamp="1587826643020">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="488" y="48" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1587481588578" />
-    <state x="412" y="148" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1583163572934">
+    <state x="488" y="48" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1587826643020" />
+    <state x="412" y="148" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1587754521677">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="412" y="148" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1366.728@0.0.1366.728" timestamp="1583163572934" />
-    <state x="421" y="289" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1587063210794">
+    <state x="412" y="148" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1366.728@0.0.1366.728" timestamp="1587754521677" />
+    <state x="421" y="289" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1587797058656">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="421" y="289" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.0.1366.728@0.0.1366.728" timestamp="1587063210794" />
-    <state x="479" y="223" width="408" height="288" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1587387170829">
+    <state x="421" y="289" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.0.1366.728@0.0.1366.728" timestamp="1587797058656" />
+    <state x="479" y="223" width="408" height="288" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1587755834276">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="479" y="223" width="408" height="288" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1366.728@0.0.1366.728" timestamp="1587387170829" />
+    <state x="479" y="223" width="408" height="288" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1366.728@0.0.1366.728" timestamp="1587755834276" />
     <state x="441" y="235" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1" timestamp="1587120908645">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="441" y="235" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1366.728@0.0.1366.728" timestamp="1587120908645" />
-    <state x="505" y="134" key="FileChooserDialogImpl" timestamp="1587120777674">
+    <state x="505" y="134" key="FileChooserDialogImpl" timestamp="1587750815458">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="505" y="134" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1587120777674" />
-    <state width="1345" height="284" key="GridCell.Tab.0.bottom" timestamp="1587484849580">
+    <state x="505" y="134" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1587750815458" />
+    <state width="1345" height="452" key="GridCell.Tab.0.bottom" timestamp="1587843422409">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="284" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1587484849580" />
-    <state width="1345" height="284" key="GridCell.Tab.0.center" timestamp="1587484849579">
+    <state width="1345" height="452" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1587843422409" />
+    <state width="1345" height="452" key="GridCell.Tab.0.center" timestamp="1587843422409">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="284" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1587484849579" />
-    <state width="1345" height="284" key="GridCell.Tab.0.left" timestamp="1587484849579">
+    <state width="1345" height="452" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1587843422409" />
+    <state width="1345" height="452" key="GridCell.Tab.0.left" timestamp="1587843422409">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="284" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1587484849579" />
-    <state width="1345" height="284" key="GridCell.Tab.0.right" timestamp="1587484849579">
+    <state width="1345" height="452" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1587843422409" />
+    <state width="1345" height="452" key="GridCell.Tab.0.right" timestamp="1587843422409">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="284" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1587484849579" />
+    <state width="1345" height="452" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1587843422409" />
     <state width="1345" height="361" key="GridCell.Tab.1.bottom" timestamp="1583351406882">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -233,26 +236,26 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state width="1345" height="361" key="GridCell.Tab.1.right/0.0.1366.728@0.0.1366.728" timestamp="1583351406882" />
-    <state x="184" y="0" key="SettingsEditor" timestamp="1587120888157">
+    <state x="184" y="0" key="SettingsEditor" timestamp="1587754534334">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="184" y="0" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1587120888157" />
-    <state x="379" y="188" key="com.intellij.ide.util.TipDialog" timestamp="1587038712962">
+    <state x="184" y="0" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1587754534334" />
+    <state x="379" y="188" key="com.intellij.ide.util.TipDialog" timestamp="1587832651426">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="379" y="188" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1587038712962" />
+    <state x="379" y="188" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1587832651426" />
     <state x="413" y="130" key="extract.method.dialog" timestamp="1583321489121">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="413" y="130" key="extract.method.dialog/0.0.1366.728@0.0.1366.728" timestamp="1583321489121" />
-    <state x="359" y="0" key="new project wizard" timestamp="1587063179420">
+    <state x="359" y="0" key="new project wizard" timestamp="1587754421672">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="359" y="0" key="new project wizard/0.0.1366.728@0.0.1366.728" timestamp="1587063179420" />
-    <state x="339" y="162" key="run.anything.popup" timestamp="1583328943246">
+    <state x="359" y="0" key="new project wizard/0.0.1366.728@0.0.1366.728" timestamp="1587754421672" />
+    <state x="339" y="162" key="run.anything.popup" timestamp="1587488513302">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="339" y="162" key="run.anything.popup/0.0.1366.728@0.0.1366.728" timestamp="1583328943246" />
+    <state x="339" y="162" key="run.anything.popup/0.0.1366.728@0.0.1366.728" timestamp="1587488513302" />
     <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1587307240068">
       <screen x="0" y="0" width="1366" height="728" />
     </state>

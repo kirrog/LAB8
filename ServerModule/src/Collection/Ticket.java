@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.time.ZonedDateTime;
 
 
-/** This class contains ticket*/
+/**
+ * This class contains ticket
+ */
 public class Ticket implements Comparable<Ticket>, Serializable {
     private int id;
     private String name;
@@ -81,81 +83,166 @@ public class Ticket implements Comparable<Ticket>, Serializable {
         return name.compareTo(o.getName());
     }
 
-    public int compByField(int i, Ticket o){
-        switch (i){
+    public int compByField(int i, Ticket o) {
+        switch (i) {
             case 0:
-                if (this.getId() < o.getId()){
+                if (this.getId() < o.getId()) {
                     return -1;
-                }else {
+                } else {
                     return 1;
                 }
             case 1:
                 return this.getName().compareTo(o.getName());
             case 2:
-                if (this.getCoordinates().getX() < o.getCoordinates().getX()){
+                if (this.getCoordinates().getX() < o.getCoordinates().getX()) {
                     return -1;
-                }else {
+                } else {
                     return 1;
                 }
             case 3:
-                if (this.getCoordinates().getY() < o.getCoordinates().getY()){
+                if (this.getCoordinates().getY() < o.getCoordinates().getY()) {
                     return -1;
-                }else {
+                } else {
                     return 1;
                 }
             case 4:
                 return this.getCreationDate().compareTo(o.getCreationDate());
             case 5:
-                if (this.getPrice() < o.getPrice()){
+                if (this.getPrice() < o.getPrice()) {
                     return -1;
-                }else {
+                } else {
                     return 1;
                 }
             case 6:
-                if (!this.isRefundable() & o.isRefundable()){
+                if (!this.isRefundable() & o.isRefundable()) {
                     return -1;
-                }else {
+                } else {
                     return 1;
                 }
             case 7:
                 return this.getType().compareTo(o.getType());
             case 8:
-                if (this.getVenue().getId() < o.getVenue().getId()){
+                if (this.getVenue().getId() < o.getVenue().getId()) {
                     return -1;
-                }else {
+                } else {
                     return 1;
                 }
             case 9:
                 return this.getVenue().getName().compareTo(o.getVenue().getName());
             case 10:
-                if (this.getVenue().getCapacity() < o.getVenue().getCapacity()){
+                if (this.getVenue().getCapacity() < o.getVenue().getCapacity()) {
                     return -1;
-                }else {
+                } else {
                     return 1;
                 }
-            case 11:
-                return this.getVenue().getAddress().getZipCode().compareTo(o.getVenue().getAddress().getZipCode());
-            case 12:
-                if (this.getVenue().getAddress().getTown().getX() < o.getVenue().getAddress().getTown().getX()){
+            case 11: {
+                boolean a = this.getVenue().getAddress() == null;
+                boolean b = o.getVenue().getAddress() == null;
+                if (a & b) {
+                    return 0;
+                } else if ((!a) & (!b)) {
+                    return this.getVenue().getAddress().getZipCode().compareTo(o.getVenue().getAddress().getZipCode());
+                } else if (a) {
                     return -1;
-                }else {
+                } else {
                     return 1;
                 }
-            case 13:
-                if (this.getVenue().getAddress().getTown().getY() < o.getVenue().getAddress().getTown().getY()){
+            }
+            case 12: {
+                boolean a = this.getVenue().getAddress() == null;
+                boolean b = o.getVenue().getAddress() == null;
+                if (a & b) {
+                    return 0;
+                } else if ((!a) & (!b)) {
+                    a = this.getVenue().getAddress().getTown() == null;
+                    b = o.getVenue().getAddress().getTown() == null;
+                    if (a & b) {
+                        return 0;
+                    } else if ((!a) & (!b)) {
+                        return this.getVenue().getAddress().getTown().getX().compareTo(o.getVenue().getAddress().getTown().getX());
+                    } else if (a) {
+                        return -1;
+                    } else {
+                        return 1;
+                    }
+                } else if (a) {
                     return -1;
-                }else {
+                } else {
                     return 1;
                 }
-            case 14:
-                if (this.getVenue().getAddress().getTown().getZ() < o.getVenue().getAddress().getTown().getZ()){
+
+            }
+            case 13: {
+                boolean a = this.getVenue().getAddress() == null;
+                boolean b = o.getVenue().getAddress() == null;
+                if (a & b) {
+                    return 0;
+                } else if ((!a) & (!b)) {
+                    a = this.getVenue().getAddress().getTown() == null;
+                    b = o.getVenue().getAddress().getTown() == null;
+                    if (a & b) {
+                        return 0;
+                    } else if ((!a) & (!b)) {
+                        return this.getVenue().getAddress().getTown().getY().compareTo(o.getVenue().getAddress().getTown().getY());
+                    } else if (a) {
+                        return -1;
+                    } else {
+                        return 1;
+                    }
+                } else if (a) {
                     return -1;
-                }else {
+                } else {
                     return 1;
                 }
-            case 15:
-                return this.getVenue().getAddress().getTown().getName().compareTo(o.getVenue().getAddress().getTown().getName());
-            default: return 0;
+            }
+            case 14: {
+                boolean a = this.getVenue().getAddress() == null;
+                boolean b = o.getVenue().getAddress() == null;
+                if (a & b) {
+                    return 0;
+                } else if ((!a) & (!b)) {
+                    a = this.getVenue().getAddress().getTown() == null;
+                    b = o.getVenue().getAddress().getTown() == null;
+                    if (a & b) {
+                        return 0;
+                    } else if ((!a) & (!b)) {
+                        return this.getVenue().getAddress().getTown().getZ().compareTo(o.getVenue().getAddress().getTown().getZ());
+                    } else if (a) {
+                        return -1;
+                    } else {
+                        return 1;
+                    }
+                } else if (a) {
+                    return -1;
+                } else {
+                    return 1;
+                }
+            }
+            case 15: {
+                boolean a = this.getVenue().getAddress() == null;
+                boolean b = o.getVenue().getAddress() == null;
+                if (a & b) {
+                    return 0;
+                } else if ((!a) & (!b)) {
+                    a = this.getVenue().getAddress().getTown() == null;
+                    b = o.getVenue().getAddress().getTown() == null;
+                    if (a & b) {
+                        return 0;
+                    } else if ((!a) & (!b)) {
+                        return this.getVenue().getAddress().getTown().getName().compareTo(o.getVenue().getAddress().getTown().getName());
+                    } else if (a) {
+                        return -1;
+                    } else {
+                        return 1;
+                    }
+                } else if (a) {
+                    return -1;
+                } else {
+                    return 1;
+                }
+            }
+            default:
+                return 0;
 
         }
     }
@@ -181,15 +268,15 @@ public class Ticket implements Comparable<Ticket>, Serializable {
         System.out.print("Capacity: " + ven.getCapacity() + " ");
         System.out.print("Type: " + ven.getType() + " ");
         System.out.print("Address:{" + " ");
-        if(ven.getAddress() == null){
+        if (ven.getAddress() == null) {
             System.out.println("null }");
-        }else {
+        } else {
             Address addr = ven.getAddress();
             System.out.print("ZipCode: " + addr.getZipCode() + " ");
             System.out.print("Town:{" + " ");
-            if(addr.getTown() == null){
+            if (addr.getTown() == null) {
                 System.out.println("null }");
-            }else {
+            } else {
                 Location loc = addr.getTown();
                 System.out.print("X: " + loc.getX() + " ");
                 System.out.print("Y: " + loc.getY() + " ");

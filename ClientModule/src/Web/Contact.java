@@ -23,7 +23,7 @@ public class Contact {
     public Contact(int port, String host) throws SocketException {
         PORT = port;
         HOST = host;
-        sockAddr = new InetSocketAddress(HOST, PORT);
+        sockAddr = new InetSocketAddress(host, port);
         dataSock = new DatagramSocket();
     }
 

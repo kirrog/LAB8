@@ -111,6 +111,9 @@ public class PrintFieldDescending extends AbstractCommand {
     public boolean receive() {
         try {
             Command com = receiver.receive();
+            if(com.getFirstArgument() != null){
+                System.out.println(com.getFirstArgument());
+            }
             int cs = (int) com.getSecondArgument();
             ArrayList<Command> ac = new ArrayList<>();
             for (int i = 0; i < cs; i++) {
