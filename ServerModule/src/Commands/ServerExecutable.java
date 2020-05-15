@@ -1,6 +1,6 @@
 package Commands;
 
-import Web.Command;
+import WebRes.Command;
 
 import java.util.ArrayList;
 import java.util.Scanner;

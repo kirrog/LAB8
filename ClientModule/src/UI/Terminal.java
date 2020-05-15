@@ -1,14 +1,14 @@
 package UI;
 
-import Web.Command;
+import WebRes.Command;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 import static Starter.ClientMain.sender;
 
 public class Terminal {
+
+    public static boolean logined = false;
 
     Scanner inner = new Scanner(System.in);
 

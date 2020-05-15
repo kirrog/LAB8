@@ -1,17 +1,14 @@
 package Commands;
 
 
+import Collection.Ticket;
 import Collection.Venue;
-import Starter.Main;
-import Web.Command;
+import DataBase.ThreadResurses;
+import WebRes.Command;
 import WriteInOut.TicketReader;
 
 import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.LinkedList;
 import java.util.Scanner;
-
-import static Starter.Main.TicketsHashTable;
 
 
 /** This class print all elements with this venue*/
@@ -21,51 +18,38 @@ public class FilterByVenue extends AbstractCommand {
         name = "filter_by_venue";
     }
 
+    public FilterByVenue(ThreadResurses threadResurses){
+        name = "filter_by_venue";
+        tr = threadResurses;
+    }
+
     @Override
     public void execute(String string, Scanner scan, ExeClass eCla) {
         System.out.println("Enter venue");
         Venue ven = eCla.getVenue();
-        Enumeration enums = TicketsHashTable.keys();
-
-        LinkedList<String> stringLinkedList = new LinkedList<>();
-        for (; enums.hasMoreElements(); ) {
-            stringLinkedList.add((String) enums.nextElement());
-        }
-
-        stringLinkedList.stream()
-                .filter(key -> TicketsHashTable.get(key).getVenue().equals(ven))
-                .forEach(key -> TicketsHashTable.get(key).writeTicket());
-
-//        while (enums.hasMoreElements()){
-//            String key = (String) enums.nextElement();
-//            if(ven.equals(TicketsHashTable.get(key).getVenue())){
-//                TicketsHashTable.get(key).writeTicket();
-//            }
-//        }
+        tr.getStreamT()
+                .filter(ticket -> ticket.getVenue().equals(ven))
+                .forEach(Ticket::writeTicket);
     }
 
     @Override
     public void exe() {
 
         Venue ven = (Venue) com.getThirdArgument();
-        Enumeration enums = TicketsHashTable.keys();
-        ArrayList<String> stringLinkedList = new ArrayList<>();
         ArrayList<Command> commands = new ArrayList<>();
-        for (; enums.hasMoreElements(); ) {
-            stringLinkedList.add((String) enums.nextElement());
-        }
-        if(stringLinkedList.stream().noneMatch(key -> TicketsHashTable.get(key).getVenue().equals(ven))){
+
+        if(tr.getStreamT().noneMatch(ticket -> ticket.getVenue().equals(ven))){
             com.setFirstArgument(com.getFirstArgument() + "None with this venue");
             com.setSecondArgument(0);
-            Main.sender.send(com);
+            tr.sender.send(com);
         }else {
-            stringLinkedList.stream()
-                    .filter(key -> TicketsHashTable.get(key).getVenue().equals(ven))
-                    .forEach(key->{
+            tr.getStreamT()
+                    .filter(ticket -> ticket.getVenue().equals(ven))
+                    .forEach(ticket->{
                         Command c = new Command();
                         c.setNameOfCommand("filter_by_venue");
-                        c.setFirstArgument(key);
-                        c.setThirdArgument(TicketsHashTable.get(key));
+                        c.setFirstArgument(ticket.getKey());
+                        c.setThirdArgument(ticket);
                         commands.add(c);
                     });
             this.sort(commands);

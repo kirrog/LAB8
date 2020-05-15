@@ -2,14 +2,12 @@ package Commands;
 
 
 import Collection.Ticket;
-import Starter.Main;
-import Web.Command;
+import DataBase.ThreadResurses;
+import WebRes.Command;
 
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.Scanner;
-
-import static Starter.Main.TicketsHashTable;
+import java.util.stream.Stream;
 
 
 /**
@@ -21,10 +19,15 @@ public class PrintFieldDescending extends AbstractCommand {
         name = "print_field_descending_type";
     }
 
+    public PrintFieldDescending(ThreadResurses threadResurses){
+        name = "print_field_descending_type";
+        tr = threadResurses;
+    }
+
     @Override
     public void execute(String string, Scanner scan, ExeClass eCla) {
 
-        if (TicketsHashTable.size() == 0) {
+        if (tr.ticketsList.size() == 0) {
             System.out.println("Empty table");
             return;
         }
@@ -48,7 +51,7 @@ public class PrintFieldDescending extends AbstractCommand {
         System.out.println("venue.address.town.z");
         System.out.println("venue.address.town.name");
 
-        ArrayList<String> tickets = new ArrayList<String>();
+        Stream<Ticket> tickets = new ArrayList<Ticket>().stream();
         switch (string) {
             case "id":
                 tickets = writeField(0);
@@ -108,65 +111,27 @@ public class PrintFieldDescending extends AbstractCommand {
                 System.out.println("There is not field with this name!");
                 break;
         }
-//        for (int j = 0; j < tickets.length; j++) {
-//            tickets[j].writeTicket();
-//        }
-        tickets.stream().forEachOrdered(key -> TicketsHashTable.get(key).writeTicket());
+        tickets.forEachOrdered(t -> t.writeTicket());
     }
 
-    private ArrayList<String > writeField(int field) {
-
-        Enumeration enumeration = TicketsHashTable.keys();
-        Ticket[] TickArray = new Ticket[TicketsHashTable.size()];
-        String[] keys = new String[TicketsHashTable.size()];
-        int i = 0;
-        while (enumeration.hasMoreElements()) {
-            keys[i] = (String) enumeration.nextElement();
-            TickArray[i] = TicketsHashTable.get(keys[i]);
-            i++;
-        }
-
-        Ticket tickOne;
-        Ticket tickTwo;
-
-        for (int j = 0; j < TickArray.length - 1; j++) {
-            tickOne = TickArray[j];
-            for (int k = j + 1; k < TickArray.length; k++) {
-                tickTwo = TickArray[k];
-                if (tickOne.compByField(field, tickTwo) < 0) {
-                    Ticket t = TickArray[j];
-                    String s = keys[j];
-                    TickArray[j] = TickArray[k];
-                    keys[j] = keys[k];
-                    TickArray[k] = t;
-                    keys[k] = s;
-                }
-            }
-        }
-
-        ArrayList<String > ticketArrayList = new ArrayList<String>();
-
-        for (int j = 0; j < i; j++) {
-            ticketArrayList.add(keys[j]);
-        }
-        return ticketArrayList;
+    private Stream<Ticket> writeField(int field) {
+        return tr.getStreamT().sorted((t1, t2)->t1.compByField(field,t2));
     }
-
-
 
     @Override
     public void exe() {
         ArrayList<Command> commands = new ArrayList<>();
         if ((int)com.getSecondArgument() == -1){
             com.setSecondArgument(0);
-            Main.sender.send(com);
+            tr.sender.send(com);
         }
-        writeField((int)com.getSecondArgument()).stream()
-                .forEachOrdered(key->{
+
+        writeField((int)com.getSecondArgument())
+                .forEachOrdered(t->{
                     Command c = new Command();
                     c.setNameOfCommand("print_field_descending_type");
-                    c.setFirstArgument(key);
-                    c.setThirdArgument(TicketsHashTable.get(key));
+                    c.setFirstArgument(t.getKey());
+                    c.setThirdArgument(t);
                     commands.add(c);
                 });
         for (int i = 0; i < commands.size(); i++) {

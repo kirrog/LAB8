@@ -1,6 +1,9 @@
 package Commands;
 
-import Collection.*;
+import Collection.Ticket;
+import Collection.Venue;
+import DataBase.ThreadResurses;
+import DataBase.TicketOwner;
 import WriteInOut.Terminal;
 import WriteInOut.TicketReader;
 
@@ -16,25 +19,11 @@ public class ExeClass {
 
     private static HashMap<String, Execute> hashMap = new HashMap<String, Execute>();
 
-    static {
-        hashMap.put("help", new Help());
-        hashMap.put("clear", new Clear());
-        hashMap.put("execute_script", new ExecuteScript());
-        hashMap.put("filter_by_venue", new FilterByVenue());
-        hashMap.put("info", new Info());
-        hashMap.put("insert", new Insert());
-        hashMap.put("print_descending", new PrintDescending());
-        hashMap.put("print_field_descending_type", new PrintFieldDescending());
-        hashMap.put("remove_greater_key", new RemoveGreaterKey());
-        hashMap.put("remove_key", new RemoveKey());
-        hashMap.put("remove_lower", new RemoveLower());
-        hashMap.put("replace_if_lower", new ReplaceIfLower());
-        hashMap.put("save", new Save());
-        hashMap.put("show", new Show());
-        hashMap.put("update", new Update());
-    }
+    private ThreadResurses thres;
 
     private Scanner inner;
+
+    public boolean logined = false;
 
     private boolean isFile = false;
 
@@ -44,11 +33,34 @@ public class ExeClass {
 
     private String string = "";
 
-    public ExeClass() {
-        inner = new Scanner(System.in);
+    {
+        hashMap.put("help", new Help(thres));
+        hashMap.put("clear", new Clear(thres));
+        hashMap.put("execute_script", new ExecuteScript(thres));
+        hashMap.put("filter_by_venue", new FilterByVenue(thres));
+        hashMap.put("info", new Info(thres));
+        hashMap.put("insert", new Insert(thres));
+        hashMap.put("print_descending", new PrintDescending(thres));
+        hashMap.put("print_field_descending_type", new PrintFieldDescending(thres));
+        hashMap.put("remove_greater_key", new RemoveGreaterKey(thres));
+        hashMap.put("remove_key", new RemoveKey(thres));
+        hashMap.put("remove_lower", new RemoveLower(thres));
+        hashMap.put("replace_if_lower", new ReplaceIfLower(thres));
+        hashMap.put("show", new Show(thres));
+        hashMap.put("update", new Update(thres));
+        hashMap.put("login", new Login(thres));
+        hashMap.put("register", new Register(thres));
+        hashMap.put("change_register", new ChangeRegister(thres));
     }
 
-    public ExeClass(String str) {
+    public ExeClass(ThreadResurses tr) {
+        thres = tr;
+        inner = new Scanner(System.in);
+        hashMap.forEach((string, execute)-> execute.setTr(tr));
+    }
+
+    public ExeClass(String str, ThreadResurses tr) {
+        thres = tr;
         try {
             inner = new Scanner(new File(str));
             isFile = true;
@@ -57,6 +69,7 @@ public class ExeClass {
             System.out.println("Problem with reading script: " + str);
             Terminal.writeFileStatus(new File(str));
         }
+        hashMap.forEach((string, execute)-> execute.setTr(tr));
     }
 
     public void start() {
@@ -148,6 +161,10 @@ public class ExeClass {
     }
 
     boolean isNotRight = true;
+
+    public TicketOwner getTicketOwner() {
+        return new TicketReader(inner,isFile).getTicketOwner();
+    }
 
     public Ticket getTicket() {
         return new TicketReader(inner,isFile).getTicket();

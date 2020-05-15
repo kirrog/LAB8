@@ -2,25 +2,25 @@ package Commands;
 
 
 import Collection.Ticket;
-import Starter.Main;
-import Web.Command;
+import DataBase.ThreadResurses;
+import WebRes.Command;
 import WriteInOut.TicketReader;
 
 import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.LinkedList;
 import java.util.Scanner;
-
-import static Starter.Main.TicketsHashTable;
-
 
 /**
  * This class compare in element and if bigger change it at key
  */
 public class Update extends AbstractCommand {
 
-    public Update(){
+    public Update() {
         name = "update";
+    }
+
+    public Update(ThreadResurses threadResurses) {
+        name = "update";
+        tr = threadResurses;
     }
 
     @Override
@@ -29,36 +29,25 @@ public class Update extends AbstractCommand {
         try {
             Id = Integer.parseInt(string);
             if (Id > 0) {
-
-                LinkedList<String> stringLinkedList = new LinkedList<>();
-
-                Enumeration enums = TicketsHashTable.keys();
-
-                for (; enums.hasMoreElements(); ) {
-                    stringLinkedList.add((String) enums.nextElement());
+                Ticket tick = null;
+                if (tr.getStreamT().anyMatch(t -> t.getId() == Id)) {
+                    tick = tr.getStreamT().filter(t -> t.getId() == Id).findFirst().get();
                 }
-
-                String str = stringLinkedList.stream().filter(t -> TicketsHashTable.get(t).getId() == Id).findFirst().get();
-                if ((!str.isEmpty()) & (!str.equals("Optional.empty"))) {
-                    System.out.println(str);
-                    Ticket tick = (TicketsHashTable.get(str));
-                    if (tick.getId() == Id) {
-                        Ticket ticker = eCla.getTicket();
-
-                        if (ticker == null) {
-                            System.out.println("Null Ticket entered");
-                        } else {
-                            TicketsHashTable.put(str, ticker);
-                        }
+                if (!(tick == null)) {
+                    System.out.println(tick.getKey());
+                    Ticket ticker = eCla.getTicket();
+                    if (ticker == null) {
+                        System.out.println("Null Ticket entered");
+                    } else {
+                        tr.updateT(ticker, tick.getKey());
                     }
                 } else {
                     System.out.println("Didn't find object with this id: " + Id);
                 }
-
             } else {
                 System.out.println("Id must be more then 0!");
             }
-        } catch (java.lang.NumberFormatException e) {
+        } catch (java.lang.NumberFormatException | NullPointerException e) {
             System.out.println("Wrong type of variable");
         }
     }
@@ -67,38 +56,27 @@ public class Update extends AbstractCommand {
     @Override
     public void exe() {
         int Id = (int) com.getSecondArgument();
-        ArrayList<String> stringLinkedList = new ArrayList<>();
-
-        Enumeration enums = TicketsHashTable.keys();
-
-        for (; enums.hasMoreElements(); ) {
-            stringLinkedList.add((String) enums.nextElement());
-        }
-        if(stringLinkedList.stream().noneMatch(t -> TicketsHashTable.get(t).getId() == Id)){
+        if (tr.getStreamT().noneMatch(t -> t.getId() == Id)) {
             com.setFirstArgument("Didn't find object with this id: " + Id);
-        }else {
-            String str = stringLinkedList.stream().filter(t -> TicketsHashTable.get(t).getId() == Id).findFirst().get();
-            if ((!str.isEmpty()) & (!str.equals("Optional.empty"))) {
-                Ticket tick = (TicketsHashTable.get(str));
-                Ticket ticker = (Ticket) com.getThirdArgument();
-                TicketsHashTable.put(str, ticker);
-                com.setFirstArgument("Updated!");
-            } else {
-                com.setFirstArgument("Didn't find object with this id: " + Id);
-            }
+        } else {
+            Ticket ticket = tr.getStreamT().filter(t -> t.getId() == Id).findFirst().get();
+            Ticket ticker = (Ticket) com.getThirdArgument();
+            tr.updateT(ticker, ticket.getKey());
+            com.setFirstArgument("Updated!");
+
         }
         send(null);
     }
 
     @Override
     public void send(ArrayList<Command> commands) {
-        Main.sender.send(com);
+        tr.sender.send(com);
     }
 
     @Override
     protected void setArgs(String str, Scanner scanner) {
         int i = Integer.parseInt(str);
         com.setSecondArgument(i);
-        com.setThirdArgument(new TicketReader(scanner,true).readTicket());
+        com.setThirdArgument(new TicketReader(scanner, true).readTicket());
     }
 }

@@ -1,14 +1,11 @@
 package Commands;
 
 
-import Web.Command;
+import DataBase.ThreadResurses;
+import WebRes.Command;
 
 import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.LinkedList;
 import java.util.Scanner;
-
-import static Starter.Main.TicketsHashTable;
 
 
 /** This class show all content in HashTable*/
@@ -18,33 +15,28 @@ public class Show extends AbstractCommand {
         name = "show";
     }
 
+    public Show(ThreadResurses threadResurses){
+        name = "show";
+        tr = threadResurses;
+    }
+
     @Override
     public void execute(String string, Scanner scan, ExeClass eCla) {
-        Enumeration enums = TicketsHashTable.keys();
-        LinkedList<String> stringLinkedList = new LinkedList<>();
-        for (; enums.hasMoreElements(); ) {
-            stringLinkedList.add((String) enums.nextElement());
-        }
-        stringLinkedList.stream().forEach(ticket -> {
-            System.out.println("Key: " + ticket);
-            TicketsHashTable.get(ticket).writeTicket();
+        tr.getStreamT().forEach(ticket -> {
+            System.out.println("Key: " + ticket.getKey());
+            ticket.writeTicket();
         });
     }
 
     @Override
     public void exe() {
-        Enumeration enums = TicketsHashTable.keys();
-        ArrayList<String> stringLinkedList = new ArrayList<>();
-        ArrayList<Command> commands = new ArrayList<>();
-        for (; enums.hasMoreElements(); ) {
-            stringLinkedList.add((String) enums.nextElement());
-        }
-        stringLinkedList.stream()
-                .forEach(key->{
+        ArrayList<Command> commands = new ArrayList<Command>();
+        tr.getStreamT()
+                .forEach(ticket->{
                     Command c = new Command();
                     c.setNameOfCommand("show");
-                    c.setFirstArgument(key);
-                    c.setThirdArgument(TicketsHashTable.get(key));
+                    c.setFirstArgument(ticket.getKey());
+                    c.setThirdArgument(ticket);
                     commands.add(c);
                 });
         this.sort(commands);

@@ -2,14 +2,12 @@ package Commands;
 
 
 import Collection.Ticket;
-import Starter.Main;
-import Web.Command;
+import DataBase.ThreadResurses;
+import WebRes.Command;
 import WriteInOut.TicketReader;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-
-import static Starter.Main.TicketsHashTable;
 
 
 /**
@@ -21,12 +19,19 @@ public class ReplaceIfLower extends AbstractCommand {
         name = "replace_if_lower";
     }
 
+    public ReplaceIfLower(ThreadResurses threadResurses){
+        name = "replace_if_lower";
+        tr = threadResurses;
+    }
+
     @Override
     public void execute(String string, Scanner scan, ExeClass eCla) {
-        if (TicketsHashTable.containsKey(string)) {
+        if (tr.ticketsList.containsKey(string)) {
             Ticket tick = eCla.getTicket();
-            if (TicketsHashTable.get(string).compareTo(tick) < 0) {
-                TicketsHashTable.put(string, tick);
+            if (tr.ticketsList.get(string).compareTo(tick) < 0) {
+                tr.putT(string, tick);
+            } else {
+                com.setFirstArgument("It's higher!");
             }
         } else {
             System.out.println("In HashTable isn't exist value with this key");
@@ -36,10 +41,10 @@ public class ReplaceIfLower extends AbstractCommand {
     @Override
     public void exe() {
         String string = com.getFirstArgument();
-        if (TicketsHashTable.containsKey(string)) {
+        if (tr.ticketsList.containsKey(string)) {
             Ticket tick = (Ticket) com.getThirdArgument();
-            if (TicketsHashTable.get(string).compareTo(tick) < 0) {
-                TicketsHashTable.put(string, tick);
+            if (tr.ticketsList.get(string).compareTo(tick) < 0) {
+                tr.putT(string, tick);
             } else {
                 com.setFirstArgument("It's higher!");
             }
@@ -51,7 +56,7 @@ public class ReplaceIfLower extends AbstractCommand {
 
     @Override
     public void send(ArrayList<Command> commands) {
-        Main.sender.send(com);
+        tr.sender.send(com);
     }
 
     @Override

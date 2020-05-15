@@ -1,6 +1,7 @@
 package Commands;
 
-import WriteInOut.ServerUI;
+import DataBase.ThreadResurses;
+import ServerThreads.ProcessThread;
 
 import java.util.Scanner;
 
@@ -12,6 +13,11 @@ public class Exit extends AbstractCommand {
         name = "exit";
     }
 
+    public Exit(ThreadResurses threadResurses){
+        name = "exit";
+        tr = threadResurses;
+    }
+
     @Override
     public void execute(String string, Scanner scan, ExeClass eCla) {
         System.out.println("Something goes wrong!!!");
@@ -19,7 +25,7 @@ public class Exit extends AbstractCommand {
 
     @Override
     public void exe() {
-        ServerUI.setHaveClient(false);
+        ((ProcessThread)Thread.currentThread()).sUI.setHaveClient(false);
     }
 
     @Override

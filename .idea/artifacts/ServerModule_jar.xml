@@ -3,8 +3,6 @@
     <output-path>$PROJECT_DIR$/out/artifacts/ServerModule_jar</output-path>
     <root id="archive" name="ServerModule.jar">
       <element id="module-output" name="ServerModule" />
-      <element id="module-output" name="ClientModule" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/ServerModule/json.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/../Test/logback-classic-1.2.3.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/../Test/logback-core-1.2.3.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/../Test/slf4j-api-1.7.9.jar" path-in-jar="/" />

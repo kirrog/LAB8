@@ -2,14 +2,12 @@ package Commands;
 
 
 import Collection.Ticket;
-import Starter.Main;
-import Web.Command;
+import DataBase.ThreadResurses;
+import WebRes.Command;
 import WriteInOut.TicketReader;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-
-import static Starter.Main.TicketsHashTable;
 
 
 /** This class insert element by key*/
@@ -17,6 +15,11 @@ public class Insert extends AbstractCommand {
 
     public Insert(){
         name = "insert";
+    }
+
+    public Insert(ThreadResurses threadResurses){
+        name = "insert";
+        tr = threadResurses;
     }
 
     @Override
@@ -27,12 +30,12 @@ public class Insert extends AbstractCommand {
             return;
         }
         Ticket tick = eCla.getTicket();
-
+        tick.setKey(key);
         try{
             if(tick == null){
                 System.out.println("Bad ticket");
             }else {
-                TicketsHashTable.put(key,tick);
+                tr.putT(key,tick);
             }
         }catch (NullPointerException e){
             System.out.println("Wrong ticket");
@@ -42,20 +45,22 @@ public class Insert extends AbstractCommand {
 
     @Override
     public void exe() {
-        TicketsHashTable.put(com.getFirstArgument(),(Ticket) com.getThirdArgument());
+        tr.putT(com.getFirstArgument(),(Ticket) com.getThirdArgument());
         send(null);
     }
 
     @Override
     public void send(ArrayList<Command> commands) {
         com.setFirstArgument("Ticket inserted with key: " + com.getFirstArgument());
-        Main.sender.send(com);
+        tr.sender.send(com);
     }
 
     @Override
     protected void setArgs(String str, Scanner scanner) {
         com.setFirstArgument(str);
-        com.setThirdArgument(new TicketReader(scanner,true).readTicket());
+        Ticket t = new TicketReader(scanner,true).readTicket();
+        t.setKey(str);
+        com.setThirdArgument(t);
     }
 
 }

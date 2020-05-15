@@ -1,13 +1,6 @@
 package WriteInOut;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Scanner;
 
 /**
  * This class provides commands, which work with file, dor user
@@ -42,108 +35,108 @@ public class Terminal {
         this.args = argss;
     }
 
-    public void start() {
-        Scanner scan = new Scanner(System.in);
-        boolean[] ps = initializeBoolArray();
-        RWfiles[0] = new File("Tickets.json");
-        RWfiles[1] = new File(readLogs());
-        RWfiles[2] = null;
+//    public void start() {
+//        Scanner scan = new Scanner(System.in);
+//        boolean[] ps = initializeBoolArray();
+//        RWfiles[0] = new File("Tickets.json");
+//        RWfiles[1] = new File(readLogs());
+//        RWfiles[2] = null;
+//
+//        ps = checkFilesStatuses(args);
+//
+//        while (true) {
+//            boolean[] cs = showCommands(ps);
+//            System.out.print("Enter only one digit. Choose your command:\n>");
+//            String com = scan.nextLine();
+//
+//            switch (com.charAt(0)) {
+//                case '1':
+//                    if (cs[0]) {
+//                        try {
+//                            if(RWfiles[2].createNewFile()){
+//                                ps = writeFileStatus(RWfiles[2]);
+//                            }else {
+//                                System.out.println("Can't create file!");
+//                            }
+//                        } catch (IOException | NullPointerException e) {
+//                            System.out.println("Can't create file!");
+//                        }
+//                    } else {
+//                        System.out.println("You can't use this command!");
+//                    }
+//                    break;
+//                case '2':
+//                    System.out.print("Enter file name:\n>");
+//                    String string = scan.nextLine();
+//                    RWfiles[2] = new File(string);
+//                    ps = writeFileStatus(RWfiles[2]);
+//                    break;
+//                case '3':
+//                    if (cs[2]) {
+//                        programState = writeFileStatus(RWfiles[2]);
+//                        if (RWfiles[2].canRead()) {
+//                            JsonParser jPars = new JsonParser(RWfiles[2]);
+//                            jPars.parse();
+//                        }
+//                        return;
+//                    } else {
+//                        System.out.println("You can't use this command!");
+//                    }
+//                    break;
+//                case '4':
+//                    if (cs[3]) {
+//                        RWfiles[2] = RWfiles[0];
+//                        programState = writeFileStatus(RWfiles[2]);
+//                        if (RWfiles[2].canRead()) {
+//                            JsonParser jPars = new JsonParser(RWfiles[1]);
+//                            jPars.parse();
+//                        }
+//                        return;
+//                    } else {
+//                        System.out.println("You can't use this command!");
+//                    }
+//                    break;
+//                case '5':
+//                    if (cs[4]) {
+//                        RWfiles[2] = RWfiles[1];
+//                        programState = writeFileStatus(RWfiles[2]);
+//                        if (RWfiles[2].canRead()) {
+//                            JsonParser jPars = new JsonParser(RWfiles[1]);
+//                            jPars.parse();
+//                        }
+//                        return;
+//                    } else {
+//                        System.out.println("You can't use this command!");
+//                    }
+//                    break;
+//                case '6':
+//                    programState[13] = true;
+//                    return;
+//                default:
+//                    System.out.println("Wrong command!");
+//                    break;
+//            }
+//        }
+//    }
 
-        ps = checkFilesStatuses(args);
-
-        while (true) {
-            boolean[] cs = showCommands(ps);
-            System.out.print("Enter only one digit. Choose your command:\n>");
-            String com = scan.nextLine();
-
-            switch (com.charAt(0)) {
-                case '1':
-                    if (cs[0]) {
-                        try {
-                            if(RWfiles[2].createNewFile()){
-                                ps = writeFileStatus(RWfiles[2]);
-                            }else {
-                                System.out.println("Can't create file!");
-                            }
-                        } catch (IOException | NullPointerException e) {
-                            System.out.println("Can't create file!");
-                        }
-                    } else {
-                        System.out.println("You can't use this command!");
-                    }
-                    break;
-                case '2':
-                    System.out.print("Enter file name:\n>");
-                    String string = scan.nextLine();
-                    RWfiles[2] = new File(string);
-                    ps = writeFileStatus(RWfiles[2]);
-                    break;
-                case '3':
-                    if (cs[2]) {
-                        programState = writeFileStatus(RWfiles[2]);
-                        if (RWfiles[2].canRead()) {
-                            JsonParser jPars = new JsonParser(RWfiles[2]);
-                            jPars.parse();
-                        }
-                        return;
-                    } else {
-                        System.out.println("You can't use this command!");
-                    }
-                    break;
-                case '4':
-                    if (cs[3]) {
-                        RWfiles[2] = RWfiles[0];
-                        programState = writeFileStatus(RWfiles[2]);
-                        if (RWfiles[2].canRead()) {
-                            JsonParser jPars = new JsonParser(RWfiles[1]);
-                            jPars.parse();
-                        }
-                        return;
-                    } else {
-                        System.out.println("You can't use this command!");
-                    }
-                    break;
-                case '5':
-                    if (cs[4]) {
-                        RWfiles[2] = RWfiles[1];
-                        programState = writeFileStatus(RWfiles[2]);
-                        if (RWfiles[2].canRead()) {
-                            JsonParser jPars = new JsonParser(RWfiles[1]);
-                            jPars.parse();
-                        }
-                        return;
-                    } else {
-                        System.out.println("You can't use this command!");
-                    }
-                    break;
-                case '6':
-                    programState[13] = true;
-                    return;
-                default:
-                    System.out.println("Wrong command!");
-                    break;
-            }
-        }
-    }
-
-    private static String readLogs() {
-        Scanner scanner = null;
-        try {
-            scanner = new Scanner(new File("logs.json"));
-            String string = scanner.nextLine();
-            string += scanner.nextLine();
-            string += scanner.nextLine();
-            try {
-                JSONObject jsonObject = (JSONObject) new JSONParser().parse(string);
-                return (String) jsonObject.get("FileName");
-            } catch (ParseException e) {
-                System.out.println("Trouble with logs " + string);
-            }
-        } catch (FileNotFoundException e) {
-            System.out.println("Troubles with src/ru/ifmo/se/Parser/logs.json");
-        }
-        return "Tickets.json";
-    }
+//    private static String readLogs() {
+//        Scanner scanner = null;
+//        try {
+//            scanner = new Scanner(new File("logs.json"));
+//            String string = scanner.nextLine();
+//            string += scanner.nextLine();
+//            string += scanner.nextLine();
+//            try {
+//                JSONObject jsonObject = (JSONObject) new JSONParser().parse(string);
+//                return (String) jsonObject.get("FileName");
+//            } catch (ParseException e) {
+//                System.out.println("Trouble with logs " + string);
+//            }
+//        } catch (FileNotFoundException e) {
+//            System.out.println("Troubles with src/ru/ifmo/se/Parser/logs.json");
+//        }
+//        return "Tickets.json";
+//    }
 
     public static boolean[] writeFileStatus(File jStr) {
         RWfiles[2] = jStr;
@@ -251,55 +244,55 @@ public class Terminal {
         return strings;
     }
 
-    private static boolean[] showCommands(boolean[] ps) {
-
-        boolean[] cs = new boolean[5];
-        for (boolean s : cs) {
-            s = false;
-        }
-
-        if (ps[0] & ps[2] & !ps[5]) {
-            cs[0] = true;
-            System.out.println("1 - Create new file");
-        }
-
-        System.out.println("2 - Choose another file");
-        cs[1] = true;
-
-        if (ps[5] & (ps[7] | ps[6])) {
-            System.out.println("3 - Save as main file and start working");
-//            if (ps[9]){
-//                if(ps[10]){
-//                    System.out.println(" with default file");
-//                }else if(ps[11]){
-//                    System.out.println(" with last session file");
-//                }else{
-//                    System.out.println("");
-//                }
+//    private static boolean[] showCommands(boolean[] ps) {
+//
+//        boolean[] cs = new boolean[5];
+//        for (boolean s : cs) {
+//            s = false;
+//        }
+//
+//        if (ps[0] & ps[2] & !ps[5]) {
+//            cs[0] = true;
+//            System.out.println("1 - Create new file");
+//        }
+//
+//        System.out.println("2 - Choose another file");
+//        cs[1] = true;
+//
+//        if (ps[5] & (ps[7] | ps[6])) {
+//            System.out.println("3 - Save as main file and start working");
+////            if (ps[9]){
+////                if(ps[10]){
+////                    System.out.println(" with default file");
+////                }else if(ps[11]){
+////                    System.out.println(" with last session file");
+////                }else{
+////                    System.out.println("");
+////                }
+////            }
+//            if (!ps[6]) {
+//                System.out.println("\tWe can't get collection from it, only write in!");
 //            }
-            if (!ps[6]) {
-                System.out.println("\tWe can't get collection from it, only write in!");
-            }
-            if (!ps[7]) {
-                System.out.println("\tWe wouldn't save whe collection!");
-            }
-            cs[2] = true;
-        }
-
-        if (ps[10] & (!(RWfiles[2].getAbsolutePath().equals(RWfiles[0].getAbsolutePath())))) {
-            System.out.println("4 - Start working with default file (Tickets.json)");
-            cs[3] = true;
-        }
-
-        if (ps[11] & (!(RWfiles[1].getAbsolutePath().equals(RWfiles[0].getAbsolutePath()))) & (!(RWfiles[2].equals(RWfiles[1])))) {
-            System.out.println("5 - Start working with last session file (" + RWfiles[1].getAbsolutePath() + ")");
-            cs[4] = true;
-        }
-
-        System.out.println("6 - Continue without collection");
-
-        return cs;
-    }
+//            if (!ps[7]) {
+//                System.out.println("\tWe wouldn't save whe collection!");
+//            }
+//            cs[2] = true;
+//        }
+//
+//        if (ps[10] & (!(RWfiles[2].getAbsolutePath().equals(RWfiles[0].getAbsolutePath())))) {
+//            System.out.println("4 - Start working with default file (Tickets.json)");
+//            cs[3] = true;
+//        }
+//
+//        if (ps[11] & (!(RWfiles[1].getAbsolutePath().equals(RWfiles[0].getAbsolutePath()))) & (!(RWfiles[2].equals(RWfiles[1])))) {
+//            System.out.println("5 - Start working with last session file (" + RWfiles[1].getAbsolutePath() + ")");
+//            cs[4] = true;
+//        }
+//
+//        System.out.println("6 - Continue without collection");
+//
+//        return cs;
+//    }
 
     private static boolean[] initializeBoolArray() {
         boolean[] array = new boolean[16];
@@ -311,55 +304,55 @@ public class Terminal {
         return array;
     }
 
-    private static boolean[] checkFilesStatuses(String[] args) {
+//    private static boolean[] checkFilesStatuses(String[] args) {
+//
+//        boolean[] ps;
+//
+//        if (RWfiles[1].isFile()) {
+//            System.out.println("Last session file found");
+//            programState[11] = true;
+//        } else {
+//            System.out.println("Last session file isn't found");
+//        }
+//        if (RWfiles[0].isFile()) {
+//            System.out.println("Default file found");
+//            programState[10] = true;
+//        } else {
+//            System.out.println("Default file isn't found");
+//        }
+//        if (args.length > 0) {
+//            RWfiles[2] = new File(args[args.length - 1]);
+//            if (RWfiles[2].isFile()) {
+//                System.out.print("Argument file found: ");
+//                System.out.println(RWfiles[2].getAbsolutePath());
+//                System.out.println("Argument file status: ");
+//                programState[12] = true;
+//                ps = writeFileStatus(RWfiles[2]);
+//            } else {
+//                System.out.println("Argument file didn't found");
+//                ps = choosingFile();
+//                ps[9] = true;
+//            }
+//        } else {
+//            System.out.println("You didn't write any argument");
+//            ps = choosingFile();
+//            ps[9] = true;
+//        }
+//        return ps;
+//    }
 
-        boolean[] ps;
-
-        if (RWfiles[1].isFile()) {
-            System.out.println("Last session file found");
-            programState[11] = true;
-        } else {
-            System.out.println("Last session file isn't found");
-        }
-        if (RWfiles[0].isFile()) {
-            System.out.println("Default file found");
-            programState[10] = true;
-        } else {
-            System.out.println("Default file isn't found");
-        }
-        if (args.length > 0) {
-            RWfiles[2] = new File(args[args.length - 1]);
-            if (RWfiles[2].isFile()) {
-                System.out.print("Argument file found: ");
-                System.out.println(RWfiles[2].getAbsolutePath());
-                System.out.println("Argument file status: ");
-                programState[12] = true;
-                ps = writeFileStatus(RWfiles[2]);
-            } else {
-                System.out.println("Argument file didn't found");
-                ps = choosingFile();
-                ps[9] = true;
-            }
-        } else {
-            System.out.println("You didn't write any argument");
-            ps = choosingFile();
-            ps[9] = true;
-        }
-        return ps;
-    }
-
-    private static boolean[] choosingFile() {
-        boolean[] ps = initializeBoolArray();
-        if (programState[10]) {
-            System.out.println("Default file status: ");
-            ps = writeFileStatus(RWfiles[0]);
-            RWfiles[2] = RWfiles[0];
-        } else if (programState[11]) {
-            System.out.println("Last session file status: ");
-            ps = writeFileStatus(RWfiles[1]);
-            RWfiles[2] = RWfiles[1];
-        }
-        return ps;
-    }
+//    private static boolean[] choosingFile() {
+//        boolean[] ps = initializeBoolArray();
+//        if (programState[10]) {
+//            System.out.println("Default file status: ");
+//            ps = writeFileStatus(RWfiles[0]);
+//            RWfiles[2] = RWfiles[0];
+//        } else if (programState[11]) {
+//            System.out.println("Last session file status: ");
+//            ps = writeFileStatus(RWfiles[1]);
+//            RWfiles[2] = RWfiles[1];
+//        }
+//        return ps;
+//    }
 
 }

@@ -2,11 +2,11 @@ package Commands;
 
 
 import Collection.Ticket;
-import Web.Command;
+import DataBase.ThreadResurses;
+import WebRes.Command;
 
 import java.util.*;
 
-import static Starter.Main.TicketsHashTable;
 
 
 /** Print sorted collection*/
@@ -16,6 +16,11 @@ public class PrintDescending extends AbstractCommand {
         name = "print_descending";
     }
 
+    public PrintDescending(ThreadResurses threadResurses){
+        name = "print_descending";
+        tr = threadResurses;
+    }
+
     @Override
     public void execute(String string, Scanner scan, ExeClass eCla) {
 //        Enumeration enumeration = TicketsHashTable.elements();
@@ -23,13 +28,8 @@ public class PrintDescending extends AbstractCommand {
 //        Ticket [] TickArray = new Ticket[TicketsHashTable.size()];
 //        int i = 0;
 
-        Enumeration enums = TicketsHashTable.keys();
-        LinkedList<String> stringLinkedList = new LinkedList<>();
-        for (; enums.hasMoreElements(); ) {
-            stringLinkedList.add((String) enums.nextElement());
-        }
 
-        stringLinkedList.stream().map(key -> TicketsHashTable.get(key)).sorted(Ticket::compareTo).forEachOrdered(Ticket::writeTicket);
+        tr.getStreamT().sorted(Comparator.naturalOrder()).forEachOrdered(Ticket::writeTicket);
 
 //        while (enumeration.hasMoreElements()) {
 //            TickArray[i] = (Ticket) enumeration.nextElement();
@@ -58,18 +58,13 @@ public class PrintDescending extends AbstractCommand {
 
     @Override
     public void exe() {
-        Enumeration enums = TicketsHashTable.keys();
-        ArrayList<String> stringLinkedList = new ArrayList<>();
         ArrayList<Command> commands = new ArrayList<>();
-        for (; enums.hasMoreElements(); ) {
-            stringLinkedList.add((String) enums.nextElement());
-        }
-        stringLinkedList.stream()
-                .forEach(key->{
+        tr.getStreamT()
+                .forEach(ticket->{
                     Command c = new Command();
                     c.setNameOfCommand("print_descending");
-                    c.setFirstArgument(key);
-                    c.setThirdArgument(TicketsHashTable.get(key));
+                    c.setFirstArgument(ticket.getKey());
+                    c.setThirdArgument(ticket);
                     commands.add(c);
                 });
         this.sort(commands);

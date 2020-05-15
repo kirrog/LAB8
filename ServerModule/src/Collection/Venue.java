@@ -8,7 +8,7 @@ import java.io.Serializable;
  */
 public class Venue implements Serializable {
 
-    private long id;
+    private long id = -1;
     private String name;
     private Integer capacity;
     private VenueType type;
@@ -34,8 +34,9 @@ public class Venue implements Serializable {
         return address;
     }
 
+    public void setId(long id){this.id = id;}
+
     public Venue(String name, Integer capacity, VenueType type, Address address) {
-        this.id = IdGenerator.toGenerate();
         this.name = name;
         this.capacity = capacity;
         this.type = type;
@@ -54,20 +55,7 @@ public class Venue implements Serializable {
     @Override
     public boolean equals(Object obj) {
         Venue ven = (Venue) obj;
-        boolean a = this.getAddress() == null;
-        boolean b = ven.getAddress() == null;
-        if(a){
-            if(b){
-                return (this.getId() == ven.getId()) & (this.getType().equals(ven.getType())) & (this.getName().equals(ven.getName())) & (this.getCapacity().equals(ven.getCapacity()));
-            }else {
-                return false;
-            }
-        }else {
-            if(b){
-                return false;
-            }
-            return (this.getId() == ven.getId()) & (this.getAddress().equals(ven.getAddress())) & (this.getType().equals(ven.getType())) & (this.getName().equals(ven.getName())) & (this.getCapacity().equals(ven.getCapacity()));
-        }
 
+        return (this.getId() == ven.getId()) & (this.getAddress().equals(ven.getAddress())) & (this.getType().equals(ven.getType())) & (this.getName().equals(ven.getName())) & (this.getCapacity().equals(ven.getCapacity()));
     }
 }

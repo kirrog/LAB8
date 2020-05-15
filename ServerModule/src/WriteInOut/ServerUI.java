@@ -1,29 +1,60 @@
 package WriteInOut;
 
-import Commands.AbstractCommand;
-import Commands.Save;
-import Starter.Main;
-import Web.Command;
+import Commands.*;
+import DataBase.ThreadResurses;
+import DataBase.TicketOwner;
+import WebRes.Command;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Hashtable;
 import java.util.Scanner;
 
 public class ServerUI {
     private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ServerUI.class);
+    public Hashtable<String, ServerExecutable> replies = new Hashtable<String, ServerExecutable>();
 
-    public static Command getCom() {
+    private ThreadResurses thres;
+
+    public Command getCom() {
         return com;
     }
 
-    public static Command com;
+    public Command com;
 
-    private static boolean haveClient = false;
+    private boolean haveClient = false;
 
-    public static void start(){
+    public boolean logined = false;
+
+    public ServerUI (){
+
+    }
+
+    public ServerUI (ThreadResurses tr) {
+        thres = tr;
+        replies.put("clear", new Clear(tr));
+        replies.put("execute_script", new ExecuteScript(tr));
+        replies.put("exit", new Exit(tr));
+        replies.put("filter_by_venue", new FilterByVenue(tr));
+        replies.put("help",new Help(tr));
+        replies.put("info", new Info(tr));
+        replies.put("insert",new Insert(tr));
+        replies.put("print_descending", new PrintDescending(tr));
+        replies.put("print_field_descending", new PrintFieldDescending(tr));
+        replies.put("remove_greater_key", new RemoveGreaterKey(tr));
+        replies.put("remove_key", new RemoveKey(tr));
+        replies.put("remove_lower", new RemoveLower(tr));
+        replies.put("replace_if_lower", new ReplaceIfLower(tr));
+        replies.put("show", new Show(tr));
+        replies.put("update",new Update(tr));
+        replies.put("register",new Register(tr));
+        replies.put("change_register",new ChangeRegister(tr));
+        replies.put("login",new Login(tr));
+    }
+
+    public void start(){
         com = new Command();
-
         Scanner scan = new Scanner(System.in);
         while (isHaveClient()){
             try {
@@ -31,30 +62,26 @@ public class ServerUI {
                     String str = scan.nextLine();
                     if(str.equals("exit")){
                         com.setFirstArgument("Server end receiving");
-                        com.setNameOfCommand(Main.receiver.receive().getNameOfCommand());
-                        Main.sender.send(com);
+                        com.setNameOfCommand(thres.receiver.receive().getNameOfCommand());
+                        thres.sender.send(com);
                         log.info("Server end receiving");
                         return;
-                    }else if(str.equals("save")){
-                        new Save().execute(null,null,null);
-                        log.info("Collection saved");
-                        com = Main.receiver.receive();
-                        String string = com.getFirstArgument();
-                        com.setFirstArgument("Collection saved");
-                        Main.sender.send(com);
-                        com.setFirstArgument(string);
-                        AbstractCommand.replies.get(com.getNameOfCommand()).answer(com);
                     }else {
                         System.out.println("Wrong command");
                     }
                 } else {
-                    com = Main.receiver.receive();
+                    com = thres.receiver.receive();
+                    if(!checkTowner((TicketOwner) com.getFourthArgument())){
+                        com.setFirstArgument("You have not account!");
+                        thres.sender.send(com);
+                        continue;
+                    }
                     System.out.println(com.toString());
                     if(com.getNameOfCommand() == null){
                         com.setNameOfCommand("exit");
                     }
-                    Main.sender.send(com);
-                    AbstractCommand.replies.get(com.getNameOfCommand()).answer(com);
+                    thres.sender.send(com);
+                    replies.get(com.getNameOfCommand()).answer(com);
                 }
             } catch (IOException e) {
                 log.info("", e);
@@ -92,13 +119,13 @@ public class ServerUI {
 
                     if (command.equals("exit") | !scan.hasNextLine()) {
                         notExit = false;
-                        Main.receiver.receive();
+                        thres.receiver.receive();
                         Command command1 = new Command();
                         command1.setNameOfCommand("exit");
-                        Main.sender.send(command1);
+                        thres.sender.send(command1);
                     } else {
-                        if (AbstractCommand.replies.containsKey(command)) {
-                            AbstractCommand.replies.get(command).talk(arguments, scan);
+                        if (replies.containsKey(command)) {
+                            replies.get(command).talk(arguments, scan);
                         } else {
                             com.setFirstArgument(com.getFirstArgument()+"This is not command in file!");
                             log.info("This is not command in file!");
@@ -119,11 +146,20 @@ public class ServerUI {
 
     }
 
-    public static boolean isHaveClient() {
+    public boolean isHaveClient() {
         return haveClient;
     }
 
-    public static void setHaveClient(boolean haveClient) {
-        ServerUI.haveClient = haveClient;
+    public void setHaveClient(boolean haveClient) {
+        this.haveClient = haveClient;
+    }
+
+    public boolean checkTowner(TicketOwner ticketOwner){
+        if(thres.owners.containsKey(ticketOwner.getId())){
+            thres.ticketOwner = ticketOwner;
+            return true;
+        }else {
+            return false;
+        }
     }
 }

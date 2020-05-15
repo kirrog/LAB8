@@ -1,10 +1,10 @@
 package Starter;
 
 import UI.Terminal;
-import Web.Command;
-import Web.Contact;
-import Web.Receiver;
-import Web.Sender;
+import WebRes.Command;
+import WebRes.Contact;
+import WebRes.Receiver;
+import WebRes.Sender;
 
 import java.io.IOException;
 import java.net.SocketException;

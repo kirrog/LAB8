@@ -1,13 +1,11 @@
 package Commands;
 
 
-import Starter.Main;
-import Web.Command;
+import DataBase.ThreadResurses;
+import WebRes.Command;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-
-import static Starter.Main.TicketsHashTable;
 
 
 /** Remove element on collection by key*/
@@ -17,10 +15,15 @@ public class RemoveKey extends AbstractCommand {
         name = "remove_key";
     }
 
+    public RemoveKey(ThreadResurses threadResurses){
+        name = "remove_key";
+        tr = threadResurses;
+    }
+
     @Override
     public void execute(String string, Scanner scan, ExeClass eCla) {
-        if(TicketsHashTable.containsKey(string)){
-            TicketsHashTable.remove(string);
+        if(tr.ticketsList.containsKey(string)){
+            tr.removeT(tr.ticketsList.get(string),string);
         }else {
             System.out.println("Can't find element with this key!");
         }
@@ -30,8 +33,8 @@ public class RemoveKey extends AbstractCommand {
     @Override
     public void exe() {
         String string = com.getFirstArgument();
-        if(TicketsHashTable.containsKey(string)){
-            TicketsHashTable.remove(string);
+        if(tr.ticketsList.containsKey(string)){
+            tr.removeT(tr.ticketsList.get(string),string);
             com.setFirstArgument("Deleted!");
         }else {
             com.setFirstArgument("Can't find element with this key!");
@@ -41,7 +44,7 @@ public class RemoveKey extends AbstractCommand {
 
     @Override
     public void send(ArrayList<Command> commands) {
-        Main.sender.send(com);
+        tr.sender.send(com);
     }
 
     @Override

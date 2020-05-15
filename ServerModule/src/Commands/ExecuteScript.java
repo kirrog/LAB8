@@ -1,8 +1,8 @@
 package Commands;
 
 
-import Starter.Main;
-import Web.Command;
+import DataBase.ThreadResurses;
+import WebRes.Command;
 import WriteInOut.ServerUI;
 
 import java.io.File;
@@ -22,12 +22,17 @@ public class ExecuteScript extends AbstractCommand {
         name = "execute_script";
     }
 
+    public ExecuteScript(ThreadResurses threadResurses){
+        name = "execute_script";
+        tr = threadResurses;
+    }
+
     @Override
     public void execute(String string, Scanner scan, ExeClass eCla) {
         try {
             File file = new File(string);
             if (file.exists() & file.isFile() & file.canRead() & file.canExecute()) {
-                ExeClass exeClass = new ExeClass(string);
+                ExeClass exeClass = new ExeClass(string,tr);
                 numberOfProceses++;
                 exeClass.start();
                 numberOfProceses--;
@@ -54,21 +59,20 @@ public class ExecuteScript extends AbstractCommand {
             File file = new File(str);
             if (file.exists() & file.isFile() & file.canRead() & file.canExecute()) {
 
-                ServerUI serverUI = new ServerUI();
+                ServerUI serverUI = new ServerUI(tr);
 
                 numberOfProceses++;
                 try {
                     serverUI.startFromScript(str, com);
                 } catch (NullPointerException e) {
                     if (numberOfProceses > 1) {
+                        numberOfProceses--;
                         throw new NullPointerException();
                     }else {
-                        System.out.println("Script killed, because of miss message");
+                        System.out.println("Script killed, because of miss message: " + numberOfProceses);
                     }
                 }
-
                 numberOfProceses--;
-
             } else {
                 if (!file.exists()) {
                     com.setFirstArgument(com.getFirstArgument() + "This doesn't exists");
@@ -89,7 +93,7 @@ public class ExecuteScript extends AbstractCommand {
 
     @Override
     public void send(ArrayList<Command> commands) {
-        Main.sender.send(com);
+        tr.sender.send(com);
     }
 
     @Override

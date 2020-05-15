@@ -1,13 +1,12 @@
 package Commands;
 
 import Collection.Ticket;
-import Starter.Main;
-import Web.Command;
+import DataBase.ThreadResurses;
+import WebRes.Command;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Hashtable;
 import java.util.Scanner;
 
 public abstract class AbstractCommand implements Execute,ServerExecutable {
@@ -17,25 +16,31 @@ public abstract class AbstractCommand implements Execute,ServerExecutable {
         return name;
     }
 
-    public static Hashtable<String, ServerExecutable > replies = new Hashtable<String, ServerExecutable>();
+    ThreadResurses tr;
 
-    static {
-        replies.put("clear", new Clear());
-        replies.put("execute_script", new ExecuteScript());
-        replies.put("exit", new Exit());
-        replies.put("filter_by_venue", new FilterByVenue());
-        replies.put("help",new Help());
-        replies.put("info", new Info());
-        replies.put("insert",new Insert());
-        replies.put("print_descending", new PrintDescending());
-        replies.put("print_field_descending", new PrintFieldDescending());
-        replies.put("remove_greater_key", new RemoveGreaterKey());
-        replies.put("remove_key", new RemoveKey());
-        replies.put("remove_lower", new RemoveLower());
-        replies.put("replace_if_lower", new ReplaceIfLower());
-        replies.put("show", new Show());
-        replies.put("update",new Update());
+    public void setTr(ThreadResurses thrres){
+        tr = thrres;
     }
+
+//    public static Hashtable<String, ServerExecutable > replies = new Hashtable<String, ServerExecutable>();
+//
+//    static {
+//        replies.put("clear", new Clear());
+//        replies.put("execute_script", new ExecuteScript());
+//        replies.put("exit", new Exit());
+//        replies.put("filter_by_venue", new FilterByVenue());
+//        replies.put("help",new Help());
+//        replies.put("info", new Info());
+//        replies.put("insert",new Insert());
+//        replies.put("print_descending", new PrintDescending());
+//        replies.put("print_field_descending", new PrintFieldDescending());
+//        replies.put("remove_greater_key", new RemoveGreaterKey());
+//        replies.put("remove_key", new RemoveKey());
+//        replies.put("remove_lower", new RemoveLower());
+//        replies.put("replace_if_lower", new ReplaceIfLower());
+//        replies.put("show", new Show());
+//        replies.put("update",new Update());
+//    }
 
     Command com;
 
@@ -48,9 +53,9 @@ public abstract class AbstractCommand implements Execute,ServerExecutable {
     @Override
     public void send(ArrayList<Command> commands){
         com.setSecondArgument(commands.size());
-        Main.sender.send(com);
+        tr.sender.send(com);
         for (int i = 0; i < commands.size(); i++) {
-            Main.sender.send(commands.get(i));
+            tr.sender.send(commands.get(i));
         }
     }
 
@@ -83,9 +88,9 @@ public abstract class AbstractCommand implements Execute,ServerExecutable {
     @Override
     public void talk (String str, Scanner scanner){
         try {
-            com = Main.receiver.receive();
+            com = tr.receiver.receive();
             com.setNameOfCommand(getName());
-            Main.sender.send(com);
+            tr.sender.send(com);
             setArgs(str,scanner);
             exe();
         } catch (IOException e) {

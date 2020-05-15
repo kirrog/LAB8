@@ -1,14 +1,13 @@
 package Commands;
 
 
-import Starter.Main;
-import Web.Command;
+import DataBase.ThreadResurses;
+import WebRes.Command;
 
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
-
-import static Starter.Main.TicketsHashTable;
 
 
 /** This class print information about collection*/
@@ -18,11 +17,17 @@ public class Info  extends AbstractCommand {
         name = "info";
     }
 
+    public Info(ThreadResurses threadResurses){
+        name = "info";
+        tr = threadResurses;
+    }
+
     @Override
     public void execute(String string, Scanner scan, ExeClass eCla) {
         System.out.println("Type: HashTable <Integer, Ticket>");
-        System.out.println("Date of creation: " + Main.getHashCreationDate().format(DateTimeFormatter.ofPattern("MM/dd/yyyy - HH:mm:ss ZZ")));
-        System.out.println("Number of elements: " + TicketsHashTable.size());
+        System.out.println("Date of creation: " + getTime().format(DateTimeFormatter.ofPattern("MM/dd/yyyy - HH:mm:ss ZZ")));
+        System.out.println("Number of elements: " + tr.ticketsList.size());
+        System.out.println("Number of users: " + tr.owners.size());
         System.out.println("Template: ");
         System.out.println("\"id\": int,");
         System.out.println("\"name\": \"String\",");
@@ -56,8 +61,8 @@ public class Info  extends AbstractCommand {
     public void exe() {
         com.setFirstArgument(
                 "Type: HashTable <Integer, Ticket>"+ "\n" +
-        "Date of creation: " + Main.getHashCreationDate().format(DateTimeFormatter.ofPattern("MM/dd/yyyy - HH:mm:ss ZZ"))+ "\n" +
-        "Number of elements: " + TicketsHashTable.size()+ "\n" +
+        "Date of creation: " + getTime().format(DateTimeFormatter.ofPattern("MM/dd/yyyy - HH:mm:ss ZZ"))+ "\n" +
+        "Number of elements: " + tr.ticketsList.size()+ "\n" +
         "Template: "+ "\n" +
         "\"id\": int,"+ "\n" +
         "\"name\": \"String\","+ "\n" +
@@ -91,11 +96,15 @@ public class Info  extends AbstractCommand {
 
     @Override
     public void send(ArrayList<Command> commands) {
-        Main.sender.send(com);
+        tr.sender.send(com);
     }
 
     @Override
     protected void setArgs(String str, Scanner scanner) {
         return;
+    }
+
+    private ZonedDateTime getTime(){
+        return tr.getStreamT().sorted((ticket, ticket2) -> ticket2.getCreationDate().compareTo(ticket.getCreationDate())).findFirst().get().getCreationDate();
     }
 }

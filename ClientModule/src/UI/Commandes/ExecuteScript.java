@@ -1,7 +1,7 @@
 package UI.Commandes;
 
 import UI.AbstractCommand;
-import Web.Command;
+import WebRes.Command;
 
 import java.io.IOException;
 

@@ -1,14 +1,11 @@
 package Commands;
 
 
-import Starter.Main;
-import Web.Command;
+import DataBase.ThreadResurses;
+import WebRes.Command;
 
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.Scanner;
-
-import static Starter.Main.TicketsHashTable;
 
 
 /** Remove all elements in collection with higher key*/
@@ -18,36 +15,37 @@ public class RemoveGreaterKey extends AbstractCommand {
         name = "remove_greater_key";
     }
 
+    public RemoveGreaterKey(ThreadResurses threadResurses){
+        name = "remove_greater_key";
+        tr = threadResurses;
+    }
+
     @Override
     public void execute(String string, Scanner scan, ExeClass eCla) {
-        Enumeration enums = TicketsHashTable.keys();
-        while (enums.hasMoreElements()){
-            String keyE = (String) enums.nextElement();
-            if(string.compareTo(keyE) < 0){
-                TicketsHashTable.remove(keyE);
+        tr.getStreamT().forEach((t)-> {
+            if(t.getKey().compareTo(string) > 0){
+                tr.removeT(t, t.getKey());
             }
-        }
+        });
     }
 
     @Override
     public void exe() {
-        Enumeration enums = TicketsHashTable.keys();
-        int i = 0;
+        int i = tr.ticketsList.size();
         String string = com.getFirstArgument();
-        while (enums.hasMoreElements()){
-            String keyE = (String) enums.nextElement();
-            if(string.compareTo(keyE) < 0){
-                TicketsHashTable.remove(keyE);
-                i++;
+        tr.getStreamT().forEach((t)-> {
+            if(t.getKey().compareTo(string) > 0){
+                tr.removeT(t, t.getKey());
             }
-        }
+        });
+        i -= tr.ticketsList.size();
         com.setThirdArgument("Deleted: " + i + " Tickets");
         send(null);
     }
 
     @Override
     public void send(ArrayList<Command> commands) {
-        Main.sender.send(com);
+        tr.sender.send(com);
     }
 
     @Override

@@ -2,7 +2,7 @@ package UI;
 
 import Collection.Ticket;
 import UI.Commandes.*;
-import Web.Command;
+import WebRes.Command;
 
 import java.io.IOException;
 import java.util.ArrayList;

@@ -1,6 +1,8 @@
 package UI;
 
 import Collection.*;
+import DataBase.CriptoMaker;
+import DataBase.TicketOwner;
 
 import java.util.Scanner;
 
@@ -13,6 +15,119 @@ public class TicketReader {
         inner = in;
         isFile = isF;
         status = true;
+    }
+
+    public TicketOwner getTicketOwner(boolean re) {
+        long x = 0;
+        double y = 0;
+        status = true;
+        String name;
+        byte[] password;
+        String mail = null;
+
+        if(re){
+            System.out.println("You should write your name and password!");
+        }else {
+            System.out.println("You'll can't change your password or name!");
+        }
+
+        while (true) {
+            System.out.print("Ticket owner name\n>");
+            name = readName();
+            if (status) {
+                break;
+            } else {
+                status = true;
+                System.out.println("Wrong value");
+            }
+        }
+
+        while (true) {
+            System.out.print("Ticket owner password\n>");
+            password = readPassword();
+            if (status) {
+                break;
+            } else {
+                status = true;
+                System.out.println("Wrong value");
+            }
+        }
+
+        while (true) {
+            System.out.print("Ticket owner mail (may be null - write 'null')\n>");
+            name = readMail();
+            if (status) {
+                break;
+            } else {
+                status = true;
+                System.out.println("Wrong value");
+            }
+        }
+
+        return new TicketOwner(name, password, mail);
+    }
+
+    private String readMail() {
+        if (inner.hasNextLine()) {
+            try {
+                String mail = inner.nextLine();
+                if (mail.length() > 0) {
+                    if (mail.equals("null")) {
+                        return null;
+                    }
+                    return mail;
+                } else {
+                    status = false;
+                    return null;
+                }
+            } catch (NumberFormatException e) {
+                status = false;
+                return null;
+            }
+        } else {
+            status = false;
+            return null;
+        }
+    }
+
+    private byte[] readPassword() {
+        if (inner.hasNextLine()) {
+            try {
+                String name = inner.nextLine();
+                if (name.length() > 0) {
+                    return CriptoMaker.cripting(name);
+                } else {
+                    status = false;
+                    return null;
+                }
+            } catch (NumberFormatException e) {
+                status = false;
+                return null;
+            }
+        } else {
+            status = false;
+            return null;
+        }
+    }
+
+    private String readName() {
+        if (inner.hasNextLine()) {
+            try {
+                String name = inner.nextLine();
+                if (name.length() > 0) {
+                    return name;
+                } else {
+                    status = false;
+                    return null;
+                }
+            } catch (NumberFormatException e) {
+                status = false;
+                return null;
+            }
+        } else {
+            status = false;
+            return null;
+        }
     }
 
     public Ticket getTicket() {
@@ -131,7 +246,7 @@ public class TicketReader {
 
     public Venue getVenue() {
 
-        if(isFile){
+        if (isFile) {
             return readVenue();
         }
 
@@ -196,7 +311,7 @@ public class TicketReader {
                     }
                 }
                 return new Address(zipCode, getLocation());
-            }else {
+            } else {
                 System.out.println("Wrong value");
                 System.out.print("Write \"\" or \"Address:\"\n>");
             }
