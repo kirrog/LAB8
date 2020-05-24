@@ -11,10 +11,6 @@ import java.util.Scanner;
 /** Remove element on collection by key*/
 public class RemoveKey extends AbstractCommand {
 
-    public RemoveKey(){
-        name = "remove_key";
-    }
-
     public RemoveKey(ThreadResurses threadResurses){
         name = "remove_key";
         tr = threadResurses;

@@ -21,12 +21,13 @@ public class Receiver {
             ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
             ObjectInputStream ois = new ObjectInputStream(bais);
             Command com = (Command) ois.readObject();
-            System.out.println("Received");
+            System.out.println(com + " - Received");
+            bais.close();
+            ois.close();
             return com;
         } catch (ClassNotFoundException e) {
             System.out.println("Bad command received");
             return null;
         }
     }
-
 }

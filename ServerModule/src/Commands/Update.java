@@ -14,10 +14,6 @@ import java.util.Scanner;
  */
 public class Update extends AbstractCommand {
 
-    public Update() {
-        name = "update";
-    }
-
     public Update(ThreadResurses threadResurses) {
         name = "update";
         tr = threadResurses;
@@ -61,10 +57,11 @@ public class Update extends AbstractCommand {
         } else {
             Ticket ticket = tr.getStreamT().filter(t -> t.getId() == Id).findFirst().get();
             Ticket ticker = (Ticket) com.getThirdArgument();
+            ticker.setId(Id);
             tr.updateT(ticker, ticket.getKey());
             com.setFirstArgument("Updated!");
-
         }
+        com.setThirdArgument(null);
         send(null);
     }
 

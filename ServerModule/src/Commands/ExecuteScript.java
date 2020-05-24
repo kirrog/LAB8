@@ -18,10 +18,6 @@ public class ExecuteScript extends AbstractCommand {
 
     public static int numberOfProceses = 0;
 
-    public ExecuteScript() {
-        name = "execute_script";
-    }
-
     public ExecuteScript(ThreadResurses threadResurses){
         name = "execute_script";
         tr = threadResurses;

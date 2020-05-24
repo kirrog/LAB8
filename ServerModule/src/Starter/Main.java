@@ -1,6 +1,7 @@
 package Starter;
 
 import Commands.ExeClass;
+import DataBase.BasesTableCreater;
 import DataBase.DataBaseManagerTickets;
 import DataBase.ThreadResurses;
 import ServerThreads.ServerManager;
@@ -12,7 +13,7 @@ import java.util.Scanner;
  * Main class with minimum code
  *
  * @author Kirill Rohachev
- * @version 1.1
+ * @version 3.2
  */
 public class Main {
 //    /**
@@ -77,14 +78,14 @@ public class Main {
         string = scan.nextLine();
         //-----------------------------------------------------------------
         if (string.contains("Client")){
-            DataBaseManagerTickets dbmt = new DataBaseManagerTickets(user, password, url);
+            DataBaseManagerTickets dbmt = BasesTableCreater.getDataBase(user, password, url);
             while (ServerManager.work){
                 ServerManager.makeThreads(dbmt);
             }
         //-----------------------------------------------------------------
         }else if(string.contains("User")){
-            DataBaseManagerTickets dbmt = new DataBaseManagerTickets(user, password, url);
-            ThreadResurses tr = new ThreadResurses(dbmt, null);
+            DataBaseManagerTickets dbmt = BasesTableCreater.getDataBase(user, password, url);
+            ThreadResurses tr = new ThreadResurses(dbmt);
             ExeClass eCla = new ExeClass(tr);
             eCla.start();
         }else if (string.equals("exit")){

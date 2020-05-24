@@ -20,33 +20,28 @@ public class Contact {
     private SocketAddress sockAddr;
     private DatagramSocket dataSock;
 
-    public Contact(int port, String host) throws SocketException {
-        PORT = port;
-        HOST = host;
-        sockAddr = new InetSocketAddress(host, port);
+    public Contact() throws SocketException {
+        sockAddr = new InetSocketAddress(HOST, PORT);
         dataSock = new DatagramSocket();
     }
 
     public boolean setContact(){
-        byte [] bytes = new byte[]{1,2,3};
+        byte [] bytes = new byte[2];
         Command com = new Command();
         DatagramPacket dp = new DatagramPacket(bytes,bytes.length,sockAddr);
         try {
             dataSock.send(dp);
-            for(byte b: bytes){
-                b = 0;
-            }
             DatagramPacket dpr = new DatagramPacket(bytes,bytes.length);
-            dataSock.setSoTimeout(1000);
-            try{
-                dataSock.receive(dpr);
-                dataSock.connect(sockAddr);
-                return true;
-            }catch (SocketTimeoutException e){
-                return false;
-            }
+            dataSock.setSoTimeout(10000);
+            dataSock.receive(dpr);
+            sockAddr = dpr.getSocketAddress();
+            dataSock.connect(sockAddr);
+            dp.setSocketAddress(sockAddr);
+            dataSock.send(dp);
+            dataSock.receive(dpr);
+            return true;
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Server not reachable");
             return false;
         }
 

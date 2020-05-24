@@ -15,10 +15,6 @@ import java.util.Scanner;
  */
 public class ReplaceIfLower extends AbstractCommand {
 
-    public ReplaceIfLower(){
-        name = "replace_if_lower";
-    }
-
     public ReplaceIfLower(ThreadResurses threadResurses){
         name = "replace_if_lower";
         tr = threadResurses;
@@ -44,6 +40,7 @@ public class ReplaceIfLower extends AbstractCommand {
         if (tr.ticketsList.containsKey(string)) {
             Ticket tick = (Ticket) com.getThirdArgument();
             if (tr.ticketsList.get(string).compareTo(tick) < 0) {
+                tick.setId((int)tr.ticketsList.get(string).getId());
                 tr.putT(string, tick);
             } else {
                 com.setFirstArgument("It's higher!");
@@ -51,6 +48,7 @@ public class ReplaceIfLower extends AbstractCommand {
         } else {
             com.setFirstArgument("In HashTable isn't exist value with this key");
         }
+        com.setThirdArgument(null);
         send(null);
     }
 

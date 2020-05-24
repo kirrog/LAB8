@@ -11,10 +11,6 @@ import java.util.Scanner;
 /** This class show all content in HashTable*/
 public class Show extends AbstractCommand {
 
-    public Show(){
-        name = "show";
-    }
-
     public Show(ThreadResurses threadResurses){
         name = "show";
         tr = threadResurses;
@@ -31,20 +27,20 @@ public class Show extends AbstractCommand {
     @Override
     public void exe() {
         ArrayList<Command> commands = new ArrayList<Command>();
-        tr.getStreamT()
-                .forEach(ticket->{
-                    Command c = new Command();
-                    c.setNameOfCommand("show");
-                    c.setFirstArgument(ticket.getKey());
-                    c.setThirdArgument(ticket);
-                    commands.add(c);
-                });
-        this.sort(commands);
+        if(tr.ticketsList.size() > 0){
+            tr.getStreamT()
+                    .forEach(ticket->{
+                        Command c = new Command();
+                        c.setNameOfCommand("show");
+                        c.setFirstArgument(ticket.getKey());
+                        c.setThirdArgument(ticket);
+                        commands.add(c);
+                    });
+            this.sort(commands);
+        }
         send(commands);
     }
 
     @Override
-    protected void setArgs(String str, Scanner scanner) {
-        return;
-    }
+    protected void setArgs(String str, Scanner scanner) {}
 }

@@ -4,9 +4,10 @@ import DataBase.ThreadResurses;
 import WriteInOut.ServerUI;
 
 public class ProcessThread extends Thread {
+    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ProcessThread.class);
 
     ThreadResurses threadResurses;
-    public ServerUI sUI = new ServerUI();
+    public ServerUI sUI;
 
     ProcessThread(ThreadResurses tr){
         threadResurses = tr;
@@ -14,8 +15,8 @@ public class ProcessThread extends Thread {
 
     @Override
     public void run() {
-        ServerUI serverUI = new ServerUI();
-        serverUI.start();
+        sUI = new ServerUI(threadResurses);
+        sUI.start();
         threadResurses.contact.close();
     }
 }

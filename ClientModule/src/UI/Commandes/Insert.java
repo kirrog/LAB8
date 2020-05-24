@@ -24,7 +24,7 @@ public class Insert extends AbstractCommand {
     public boolean receive() {
         try {
             Command com = receiver.receive();
-            System.out.println("Inserted!");
+            System.out.println(com.getFirstArgument());
             return true;
         } catch (IOException e) {
             System.out.println("Server doesn't answer");

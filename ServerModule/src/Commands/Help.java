@@ -11,10 +11,6 @@ import java.util.Scanner;
 /** This class print all commands*/
 public class Help extends AbstractCommand {
 
-    public Help(){
-        name = "help";
-    }
-
     public Help(ThreadResurses threadResurses){
         name = "help";
         tr = threadResurses;

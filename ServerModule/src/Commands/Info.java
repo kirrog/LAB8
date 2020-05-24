@@ -13,10 +13,6 @@ import java.util.Scanner;
 /** This class print information about collection*/
 public class Info  extends AbstractCommand {
 
-    public Info(){
-        name = "info";
-    }
-
     public Info(ThreadResurses threadResurses){
         name = "info";
         tr = threadResurses;
@@ -100,11 +96,13 @@ public class Info  extends AbstractCommand {
     }
 
     @Override
-    protected void setArgs(String str, Scanner scanner) {
-        return;
-    }
+    protected void setArgs(String str, Scanner scanner) {}
 
     private ZonedDateTime getTime(){
-        return tr.getStreamT().sorted((ticket, ticket2) -> ticket2.getCreationDate().compareTo(ticket.getCreationDate())).findFirst().get().getCreationDate();
+        if(tr.ticketsList.size() > 0){
+            return tr.getStreamT().min((ticket, ticket2) -> ticket2.getCreationDate().compareTo(ticket.getCreationDate())).get().getCreationDate();
+        }else {
+            return ZonedDateTime.now();
+        }
     }
 }

@@ -15,10 +15,6 @@ import java.util.Scanner;
  */
 public class RemoveLower extends AbstractCommand {
 
-    public RemoveLower() {
-        name = "remove_lower";
-    }
-
     public RemoveLower(ThreadResurses threadResurses) {
         name = "remove_lower";
         tr = threadResurses;
@@ -27,7 +23,10 @@ public class RemoveLower extends AbstractCommand {
     @Override
     public void execute(String string, Scanner scan, ExeClass eCla) {
         Ticket tick = eCla.getTicket();
+        int i = tr.ticketsList.size();
         tr.getStreamT().filter(ticket -> ticket.compareTo(tick) < 0).forEach(ticket -> tr.removeT(ticket, ticket.getKey()));
+        i -= tr.ticketsList.size();
+        System.out.println("Deleted " + i + " Tickets");
     }
 
     @Override
@@ -37,6 +36,7 @@ public class RemoveLower extends AbstractCommand {
         tr.getStreamT().filter(ticket -> ticket.compareTo(tick) < 0).forEach(ticket -> tr.removeT(ticket, ticket.getKey()));
         i -= tr.ticketsList.size();
         com.setFirstArgument("Deleted " + i + " Tickets");
+        com.setThirdArgument(null);
         send(null);
     }
 

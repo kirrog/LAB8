@@ -162,8 +162,8 @@ public class ExeClass {
 
     boolean isNotRight = true;
 
-    public TicketOwner getTicketOwner() {
-        return new TicketReader(inner,isFile).getTicketOwner();
+    public TicketOwner getTicketOwner(boolean reReg, boolean login) {
+        return new TicketReader(inner,isFile).getTicketOwner(reReg, login);
     }
 
     public Ticket getTicket() {

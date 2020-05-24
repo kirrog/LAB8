@@ -6,14 +6,16 @@ import ServerThreads.ProcessThread;
 import java.util.Scanner;
 
 
-/** This class ends program without save*/
+/**
+ * This class ends program without save
+ */
 public class Exit extends AbstractCommand {
 
-    public Exit(){
+    public Exit() {
         name = "exit";
     }
 
-    public Exit(ThreadResurses threadResurses){
+    public Exit(ThreadResurses threadResurses) {
         name = "exit";
         tr = threadResurses;
     }
@@ -25,11 +27,9 @@ public class Exit extends AbstractCommand {
 
     @Override
     public void exe() {
-        ((ProcessThread)Thread.currentThread()).sUI.setHaveClient(false);
+        ((ProcessThread) Thread.currentThread()).sUI.setHaveClient(false);
     }
 
     @Override
-    protected void setArgs(String str, Scanner scanner) {
-        return;
-    }
+    protected void setArgs(String str, Scanner scanner) {}
 }

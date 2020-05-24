@@ -13,10 +13,6 @@ import java.util.Scanner;
 /** This class insert element by key*/
 public class Insert extends AbstractCommand {
 
-    public Insert(){
-        name = "insert";
-    }
-
     public Insert(ThreadResurses threadResurses){
         name = "insert";
         tr = threadResurses;
@@ -32,11 +28,7 @@ public class Insert extends AbstractCommand {
         Ticket tick = eCla.getTicket();
         tick.setKey(key);
         try{
-            if(tick == null){
-                System.out.println("Bad ticket");
-            }else {
-                tr.putT(key,tick);
-            }
+            tr.putT(key,tick);
         }catch (NullPointerException e){
             System.out.println("Wrong ticket");
         }
@@ -45,13 +37,16 @@ public class Insert extends AbstractCommand {
 
     @Override
     public void exe() {
-        tr.putT(com.getFirstArgument(),(Ticket) com.getThirdArgument());
+        if(tr.putT(com.getFirstArgument(),(Ticket) com.getThirdArgument())){
+            com.setFirstArgument("Ticket inserted with key: " + com.getFirstArgument());
+        }else {
+            com.setFirstArgument("Something wrong with inserting!");
+        }
         send(null);
     }
 
     @Override
     public void send(ArrayList<Command> commands) {
-        com.setFirstArgument("Ticket inserted with key: " + com.getFirstArgument());
         tr.sender.send(com);
     }
 

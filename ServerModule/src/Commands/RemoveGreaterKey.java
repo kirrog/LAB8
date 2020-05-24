@@ -11,10 +11,6 @@ import java.util.Scanner;
 /** Remove all elements in collection with higher key*/
 public class RemoveGreaterKey extends AbstractCommand {
 
-    public RemoveGreaterKey(){
-        name = "remove_greater_key";
-    }
-
     public RemoveGreaterKey(ThreadResurses threadResurses){
         name = "remove_greater_key";
         tr = threadResurses;
@@ -39,7 +35,7 @@ public class RemoveGreaterKey extends AbstractCommand {
             }
         });
         i -= tr.ticketsList.size();
-        com.setThirdArgument("Deleted: " + i + " Tickets");
+        com.setFirstArgument("Deleted: " + i + " Tickets");
         send(null);
     }
 

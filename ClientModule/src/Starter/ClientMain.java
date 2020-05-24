@@ -18,24 +18,24 @@ public class ClientMain {
     public static void main(String[] args) {
         contact = null;
         try {
-            contact = new Contact(4445, "Localhost");
+            contact = new Contact();
             System.out.println("Contact with server: " + contact.setContact());
         } catch (SocketException e) {
             e.printStackTrace();
         }
         receiver = new Receiver(contact);
         sender = new Sender(contact);
+        //check();
         startWorking();
     }
 
     public static boolean check(){
-
-        sender.send(new Command());
-        Command command = null;
+        Command command = new Command();
+        command.setNameOfCommand("Test");
+        sender.send(command);
         try {
             command = receiver.receive();
         } catch (IOException e) {
-
             e.printStackTrace();
             return false;
         }

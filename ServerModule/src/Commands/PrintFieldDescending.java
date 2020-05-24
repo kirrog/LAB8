@@ -15,10 +15,6 @@ import java.util.stream.Stream;
  */
 public class PrintFieldDescending extends AbstractCommand {
 
-    public PrintFieldDescending(){
-        name = "print_field_descending_type";
-    }
-
     public PrintFieldDescending(ThreadResurses threadResurses){
         name = "print_field_descending_type";
         tr = threadResurses;
@@ -31,7 +27,6 @@ public class PrintFieldDescending extends AbstractCommand {
             System.out.println("Empty table");
             return;
         }
-
         System.out.println("id");
         System.out.println("name");
         System.out.println("coordinates.x");
@@ -111,7 +106,7 @@ public class PrintFieldDescending extends AbstractCommand {
                 System.out.println("There is not field with this name!");
                 break;
         }
-        tickets.forEachOrdered(t -> t.writeTicket());
+        tickets.forEachOrdered(Ticket::writeTicket);
     }
 
     private Stream<Ticket> writeField(int field) {
@@ -121,19 +116,16 @@ public class PrintFieldDescending extends AbstractCommand {
     @Override
     public void exe() {
         ArrayList<Command> commands = new ArrayList<>();
-        if ((int)com.getSecondArgument() == -1){
-            com.setSecondArgument(0);
-            tr.sender.send(com);
+        if(tr.ticketsList.size() > 0){
+            writeField((int)com.getSecondArgument())
+                    .forEachOrdered(t->{
+                        Command c = new Command();
+                        c.setNameOfCommand("print_field_descending_type");
+                        c.setFirstArgument(t.getKey());
+                        c.setThirdArgument(t);
+                        commands.add(c);
+                    });
         }
-
-        writeField((int)com.getSecondArgument())
-                .forEachOrdered(t->{
-                    Command c = new Command();
-                    c.setNameOfCommand("print_field_descending_type");
-                    c.setFirstArgument(t.getKey());
-                    c.setThirdArgument(t);
-                    commands.add(c);
-                });
         for (int i = 0; i < commands.size(); i++) {
             commands.get(i).setSecondArgument(i);
         }

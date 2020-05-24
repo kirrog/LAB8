@@ -9,6 +9,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class DataBaseManagerTickets {
 
+    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(DataBaseManagerTickets.class);
+
     public TicketsList getTickList() {
         return tickList;
     }
@@ -30,16 +32,16 @@ public class DataBaseManagerTickets {
         connection = c;
     }
 
-    public DataBaseManagerTickets(String u, String p, String ur) {
-        user = u;
-        password = p;
-        url = ur;
-        try {
-            connection = DriverManager.getConnection(url, user, password);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+//    public DataBaseManagerTickets(String u, String p, String ur) {
+//        user = u;
+//        password = p;
+//        url = ur;
+//        try {
+//            connection = DriverManager.getConnection(url, user, password);
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     private int sendTown(Location town, boolean insert) throws SQLException {
         if (town == null) {
@@ -67,8 +69,12 @@ public class DataBaseManagerTickets {
         if (resultSet.next()) {
             int i = resultSet.getInt("id");
             town.setId(i);
+            resultSet.close();
+            st.close();
             return i;
         }
+        resultSet.close();
+        st.close();
         throw new SQLException();
     }
 
@@ -94,8 +100,12 @@ public class DataBaseManagerTickets {
         if (resultSet.next()) {
             i = resultSet.getInt("id");
             addr.setId(i);
+            resultSet.close();
+            st.close();
             return i;
         }
+        resultSet.close();
+        st.close();
         throw new SQLException();
     }
 
@@ -123,8 +133,12 @@ public class DataBaseManagerTickets {
         if (resultSet.next()) {
             i = resultSet.getInt("id");
             ven.setId(i);
+            resultSet.close();
+            st.close();
             return i;
         }
+        resultSet.close();
+        st.close();
         throw new SQLException();
     }
 
@@ -150,20 +164,16 @@ public class DataBaseManagerTickets {
         if (resultSet.next()) {
             int i = resultSet.getInt("id");
             coord.setId(i);
+            resultSet.close();
+            st.close();
             return i;
         }
+        resultSet.close();
+        st.close();
         throw new SQLException();
     }
 
     public int sendTicket(Ticket tick, String key, boolean insert) {
-        Savepoint save;
-        try {
-            connection.setAutoCommit(false);
-            save = connection.setSavepoint();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return -1;
-        }
         String sql;
         if (insert) {
             sql = "INSERT INTO tickets (id, " +
@@ -192,10 +202,10 @@ public class DataBaseManagerTickets {
                     "key = (?) WHERE id = (?) RETURNING id;";
         }
         try (PreparedStatement st = connection.prepareStatement(sql)) {
-
+            connection.setAutoCommit(false);
+            Savepoint save = connection.setSavepoint();
             st.setString(1, tick.getName());
             int i = sendCoordinates(tick.getCoordinates(), insert);
-
             st.setInt(2, i);
             st.setString(3, tick.getCreationDate().format(DateTimeFormatter.ofPattern("MM/dd/yyyy - HH:mm:ss ZZ")));
             st.setLong(4, tick.getPrice());
@@ -206,29 +216,23 @@ public class DataBaseManagerTickets {
             st.setInt(8, i);
             st.setInt(9, tick.getTowner().getId());
             st.setString(10, key);
-
             if (!insert) {
                 st.setInt(11, (int) tick.getId());
             }
-
             ResultSet resultSet = st.executeQuery();
             if (resultSet.next()) {
                 i = resultSet.getInt("id");
                 tick.setId(i);
                 connection.commit();
-                connection.releaseSavepoint(save);
+                connection.setAutoCommit(true);
                 resultSet.close();
                 return i;
             }
+            connection.rollback();
+            connection.setAutoCommit(true);
             resultSet.close();
         } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        try {
-            connection.rollback();
-            connection.releaseSavepoint(save);
-        } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Send ticket", e);
         }
         return -1;
     }
@@ -241,23 +245,22 @@ public class DataBaseManagerTickets {
             sql = "UPDATE users SET name = (?), password = (?), mail = (?) WHERE id = (?) RETURNING id;";
         }
         try (PreparedStatement st = connection.prepareStatement(sql)) {
-
             st.setString(1, towner.getName());
             st.setBytes(2, towner.getPassword());
             st.setString(3, towner.getMail());
-
             if (!insert) {
                 st.setInt(4, towner.getId());
             }
-
             ResultSet resultSet = st.executeQuery();
             if (resultSet.next()) {
                 int i = resultSet.getInt("id");
                 towner.setId(i);
+                resultSet.close();
                 return i;
             }
+            resultSet.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Send ticket owner ", e);
         }
         return -1;
     }
@@ -273,10 +276,12 @@ public class DataBaseManagerTickets {
                 Float y = resultSet.getFloat("y");
                 Long z = resultSet.getLong("z");
                 String name = resultSet.getString("name");
+                resultSet.close();
                 return new Location(id, x, y, z, name);
             }
+            resultSet.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Receive town ", e);
         }
         return null;
     }
@@ -296,10 +301,12 @@ public class DataBaseManagerTickets {
                 } else {
                     town = receiveTown(loc);
                 }
+                resultSet.close();
                 return new Address(id, zipcode, town);
             }
+            resultSet.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Receive address ", e);
         }
         return null;
     }
@@ -307,9 +314,7 @@ public class DataBaseManagerTickets {
     private Venue receiveVenue(int id) {
         try (PreparedStatement st = connection.prepareStatement("SELECT * FROM venues WHERE id = (?);")) {
             st.setInt(1, id);
-
             ResultSet resultSet = st.executeQuery();
-
             if (resultSet.next()) {
                 id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
@@ -322,10 +327,12 @@ public class DataBaseManagerTickets {
                 } else {
                     address = receiveAddress(addr);
                 }
+                resultSet.close();
                 return new Venue(id, name, capacity, type, address);
             }
+            resultSet.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Receive venue ", e);
         }
         return null;
     }
@@ -333,16 +340,14 @@ public class DataBaseManagerTickets {
     private Coordinates receiveCoordinates(int id) {
         try (PreparedStatement st = connection.prepareStatement("SELECT * FROM coordinates WHERE id = (?);")) {
             st.setInt(1, id);
-
             ResultSet resultSet = st.executeQuery();
-
             if (resultSet.next()) {
-
                 long x = resultSet.getLong("x");
                 double y = resultSet.getDouble("y");
-
+                resultSet.close();
                 return new Coordinates(id, x, y);
             }
+            resultSet.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -352,9 +357,7 @@ public class DataBaseManagerTickets {
     public Ticket receiveTicket(int id) {
         try (PreparedStatement st = connection.prepareStatement("SELECT * FROM tickets WHERE id = (?);")) {
             st.setInt(1, id);
-
             ResultSet resultSet = st.executeQuery();
-
             if (resultSet.next()) {
                 id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
@@ -375,10 +378,12 @@ public class DataBaseManagerTickets {
                 }
                 Ticket t = new Ticket(id, name, coordinates, creationDate, price, comment, refundable, type, venue, owners.get(ticketOwner.getId()));
                 t.setKey(key);
+                resultSet.close();
                 return t;
             }
+            resultSet.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Receive ticket ", e);
         }
         return null;
     }
@@ -386,19 +391,17 @@ public class DataBaseManagerTickets {
     public TicketOwner receiveTOwner(int id) {
         try (PreparedStatement st = connection.prepareStatement("SELECT * FROM users WHERE id = (?);")) {
             st.setInt(1, id);
-
             ResultSet resultSet = st.executeQuery();
-
             if (resultSet.next()) {
-
                 String name = resultSet.getString("name");
                 byte[] password = resultSet.getBytes("password");
                 String mail = resultSet.getString("mail");
-
+                resultSet.close();
                 return new TicketOwner(id, name, password, mail);
             }
+            resultSet.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Receive ticket owner ", e);
         }
         System.out.println("Doesn't get TOwner");
         return null;
@@ -409,15 +412,14 @@ public class DataBaseManagerTickets {
             return true;
         }
         PreparedStatement st = connection.prepareStatement("DELETE FROM locations WHERE id = (?) RETURNING id;");
-
         st.setInt(1, (int) town.getId());
-
         ResultSet resultSet = st.executeQuery();
-
         if (resultSet.next()) {
-            return (town.getId() == resultSet.getInt("id"));
+            boolean b = (town.getId() == resultSet.getInt("id"));
+            resultSet.close();
+            return b;
         }
-
+        resultSet.close();
         throw new SQLException();
     }
 
@@ -427,16 +429,15 @@ public class DataBaseManagerTickets {
         }
         boolean work = false;
         PreparedStatement st = connection.prepareStatement("DELETE FROM address WHERE id = (?) RETURNING id;");
-
         st.setInt(1, (int) addr.getId());
-
         ResultSet resultSet = st.executeQuery();
-
         if (resultSet.next()) {
             work = (addr.getId() == resultSet.getInt("id"));
             work = work & deleteTown(addr.getTown());
+            resultSet.close();
             return work;
         }
+        resultSet.close();
         throw new SQLException();
     }
 
@@ -451,8 +452,10 @@ public class DataBaseManagerTickets {
         if (resultSet.next()) {
             work = (ven.getId() == resultSet.getInt("id"));
             work = work & deleteAddress(ven.getAddress());
+            resultSet.close();
             return work;
         }
+        resultSet.close();
         throw new SQLException();
     }
 
@@ -464,8 +467,11 @@ public class DataBaseManagerTickets {
         st.setInt(1, (int) coord.getId());
         ResultSet resultSet = st.executeQuery();
         if (resultSet.next()) {
-            return (coord.getId() == resultSet.getInt("id"));
+            boolean b = (coord.getId() == resultSet.getInt("id"));
+            resultSet.close();
+            return b;
         }
+        resultSet.close();
         throw new SQLException();
     }
 
@@ -474,38 +480,26 @@ public class DataBaseManagerTickets {
             System.out.println("Can't delete null");
             return false;
         }
-        Savepoint save;
-        try {
-            connection.setAutoCommit(false);
-            save = connection.setSavepoint();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
         boolean work = false;
         try (PreparedStatement st = connection.prepareStatement("DELETE FROM tickets WHERE id = (?) RETURNING id;")) {
+            connection.setAutoCommit(false);
+            Savepoint save = connection.setSavepoint();
             st.setInt(1, (int) tick.getId());
             ResultSet resultSet = st.executeQuery();
             if (resultSet.next()) {
                 work = (tick.getId() == resultSet.getInt("id"));
                 work = work & deleteCoordinates(tick.getCoordinates()) && deleteVenue(tick.getVenue());
-                if(work){
+                if (work) {
                     connection.commit();
-                }else {
+                } else {
                     connection.rollback();
                 }
-                connection.releaseSavepoint(save);
                 resultSet.close();
                 return work;
             }
+            resultSet.close();
         } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        try {
-            connection.rollback();
-            connection.releaseSavepoint(save);
-        } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Delete ticket ", e);
         }
         return false;
     }
@@ -513,19 +507,20 @@ public class DataBaseManagerTickets {
     public boolean deleteTOwner(TicketOwner towner) {
         try (PreparedStatement st = connection.prepareStatement("DELETE FROM users WHERE id = (?) RETURNING id;")) {
             st.setInt(1, towner.getId());
-
             ResultSet resultSet = st.executeQuery();
-
             if (resultSet.next()) {
-                return (towner.getId() == resultSet.getInt("id"));
+                boolean b = (towner.getId() == resultSet.getInt("id"));
+                resultSet.close();
+                return b;
             }
+            resultSet.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Delete ticket owner ", e);
         }
         return false;
     }
 
-    public boolean fillTable(TicketsList ticketsList, BaseOwners baseOwners) {
+    boolean fillTable(TicketsList ticketsList, BaseOwners baseOwners) {
         tickList = ticketsList;
         if (fillOwnersTable(baseOwners)) {
             try (PreparedStatement st = connection.prepareStatement("SELECT * FROM tickets;")) {
@@ -546,6 +541,7 @@ public class DataBaseManagerTickets {
                     t.setKey(key);
                     ticketsList.put(key, t);
                 }
+                resultSet.close();
                 return true;
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -567,6 +563,8 @@ public class DataBaseManagerTickets {
                     baseOwners.put(id, new TicketOwner(id, name, password, mail));
                 }
             }
+            resultSet.close();
+
             return true;
         } catch (SQLException e) {
             e.printStackTrace();

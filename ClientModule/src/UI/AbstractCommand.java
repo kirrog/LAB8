@@ -16,7 +16,7 @@ public abstract class AbstractCommand implements MesSendable {
 
     protected Command command = new Command();
 
-    private static Hashtable<String, AbstractCommand> replies = new Hashtable<String, AbstractCommand>();
+    public static Hashtable<String, AbstractCommand> replies = new Hashtable<String, AbstractCommand>();
 
     static {
         replies.put("clear", new Clear());
@@ -34,6 +34,9 @@ public abstract class AbstractCommand implements MesSendable {
         replies.put("show", new Show());
         replies.put("update", new Update());
         replies.put("exit", new Exit());
+        replies.put("register",new Register());
+        replies.put("change_register",new ChangeRegister());
+        replies.put("login",new Login());
     }
 
     @Override

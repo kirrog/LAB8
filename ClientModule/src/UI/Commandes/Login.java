@@ -15,7 +15,7 @@ public class Login extends AbstractCommand {
     @Override
     public void check(String command, String arg) {
         this.command.setFirstArgument(arg);
-        this.command.setFourthArgument(new TicketReader(new Scanner(System.in),false).getTicketOwner(false));
+        this.command.setFourthArgument(new TicketReader(new Scanner(System.in),false).getTicketOwner(false,true));
         super.check(command,arg);
     }
 

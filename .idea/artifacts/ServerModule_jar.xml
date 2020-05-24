@@ -3,9 +3,8 @@
     <output-path>$PROJECT_DIR$/out/artifacts/ServerModule_jar</output-path>
     <root id="archive" name="ServerModule.jar">
       <element id="module-output" name="ServerModule" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/../Test/logback-classic-1.2.3.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/../Test/logback-core-1.2.3.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/../Test/slf4j-api-1.7.9.jar" path-in-jar="/" />
+      <element id="library" level="project" name="postgresql-42.2.11" />
+      <element id="library" level="project" name="logback-classic-1.2.3" />
     </root>
   </artifact>
 </component>

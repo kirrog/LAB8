@@ -49,9 +49,7 @@ public class Terminal {
                 sender.send(com);
                 notExit = false;
             } else {
-                if (CommandMaker.chooseMethod(enCom,arguments)) {
-                    System.out.println("Start!");
-                } else {
+                if (!CommandMaker.chooseMethod(enCom,arguments)) {
                     System.out.println("Can't find this command!");
                 }
             }

@@ -1,11 +1,24 @@
 package DataBase;
 
+import java.io.PrintWriter;
 import java.sql.*;
 
 public class BasesTableCreater {
+
+    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(BasesTableCreater.class);
+
     private static String user = "programiifromskolkovo";
     private static String password = "programiifromskolkovo";
     private static String url = "jdbc:postgresql://localhost:5432/Tickets";
+
+    //INSERT INTO public.locations(
+    //	id, x, y, z, name)
+    //	VALUES (0, 0, 0, 0, null);
+
+    //INSERT INTO public.address(
+    //	id, zipcode, town)
+    //	VALUES (0, null, 0);
+
     private static String commands = "CREATE TABLE IF NOT EXISTS locations\n" +
             "(\n" +
             "    id SERIAL PRIMARY KEY,\n" +
@@ -68,18 +81,19 @@ public class BasesTableCreater {
             url = ur;
         }
         Connection connection;
+        DriverManager.setLogWriter(new PrintWriter(System.out));
         try {
             connection = DriverManager.getConnection(url, user, password);
+            log.info("Get base connection");
             DataBaseManagerTickets dbmt = new DataBaseManagerTickets(connection);
-            PreparedStatement st = connection.prepareStatement(commands);
-            ResultSet rs = st.executeQuery();
-            while (rs.next()){
-                System.out.println(rs.toString());
-            }
+            Statement st = connection.createStatement();
+            st.execute(commands);
             dbmt.fillTable(new TicketsList(), new BaseOwners());
+            log.info("Server tables filled: T - " + dbmt.getTickList().size() + " O - " + dbmt.getOwners().size());
+            st.close();
             return dbmt;
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.info("Date base exception", e);
         }
         return null;
     }

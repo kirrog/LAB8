@@ -51,7 +51,7 @@ public class Command implements Serializable {
 
     @Override
     public String toString() {
-        String str = getNameOfCommand() + getFirstArgument() + getSecondArgument() + getThirdArgument();
+        String str = getNameOfCommand() + " " + getFirstArgument() + " " + getSecondArgument() + " " + getThirdArgument() + " " + getFourthArgument() ;
         return str;
     }
 }

@@ -12,10 +12,6 @@ public class Register extends AbstractCommand{
 
     private TicketOwner tow;
 
-    public Register() {
-        name = "register";
-    }
-
     public Register(ThreadResurses threadResurses) {
         name = "register";
         tr = threadResurses;
@@ -24,25 +20,40 @@ public class Register extends AbstractCommand{
     @Override
     public void exe() {
         tow = (TicketOwner) com.getFourthArgument();
-        tr.putO(tow);
+        System.out.println(tow.getName());
+        if(tr.getStreamO().anyMatch(ticketOwner -> ticketOwner.getName().equals(tow.getName()))){
+            com.setFirstArgument("Where are acc with this name!");
+        }else {
+            if(tr.putO(tow)){
+                com.setFirstArgument("You've registered with name '" + tow.getName() + "'");
+            }else {
+                com.setFirstArgument("Problem with base!");
+            }
+        }
+        send(null);
     }
 
     @Override
     public void send(ArrayList<Command> commands) {
-        com.setFirstArgument("You've regestered with name '" + tow.getName() + "'");
         tr.sender.send(com);
     }
 
     @Override
     protected void setArgs(String str, Scanner scanner) {
-        TicketOwner t = new TicketReader(scanner,true).getTicketOwner();
+        TicketOwner t = new TicketReader(scanner,true).getTicketOwner(true,true);
         com.setSecondArgument(t.getId());
         com.setFourthArgument(t);
     }
 
     @Override
     public void execute(String string, Scanner scan, ExeClass eCla) {
-        TicketOwner t = eCla.getTicketOwner();
-        tr.putO(t);
+        TicketOwner t = eCla.getTicketOwner(true,true);
+        if(tr.getStreamO().anyMatch(ticketOwner -> ticketOwner.getName().equals(tow.getName()))){
+            System.out.println("Where are acc with this name!");
+        }else {
+            tr.putO(t);
+            System.out.println("You've registered with name '" + t.getName() + "'");
+        }
+
     }
 }

@@ -26,7 +26,7 @@ public class TicketOwner implements Serializable {
 
     public void setId(int id){this.id = id;}
 
-    private int id;
+    private int id = 0;
     private String name;
     private byte[] password;
     private String mail;
@@ -42,5 +42,10 @@ public class TicketOwner implements Serializable {
         name = n;
         password = p;
         mail = m;
+    }
+
+    @Override
+    public String toString() {
+        return (id + " " + name + " " + password.toString() + " " + mail);
     }
 }

@@ -10,13 +10,6 @@ import java.util.Scanner;
 
 public class ChangeRegister extends AbstractCommand{
 
-    TicketOwner tow;
-    boolean registred;
-
-    public ChangeRegister() {
-        name = "change_register";
-    }
-
     public ChangeRegister(ThreadResurses threadResurses) {
         name = "change_register";
         tr = threadResurses;
@@ -24,29 +17,29 @@ public class ChangeRegister extends AbstractCommand{
 
     @Override
     public void exe() {
-        tow = (TicketOwner) com.getFourthArgument();
-        int id = tr.ticketOwner.getId();
-        tow.setId(id);
-        if(tr.updateO(tow)){
-            com.setFirstArgument("Changed");
+        TicketOwner tow = (TicketOwner) com.getFourthArgument();
+        TicketOwner towF = tr.ticketOwner;
+        int Id = towF.getId();
+        String mail = towF.getMail();
+        towF.setMail(tow.getMail());
+        if(tr.updateO(towF)){
+            com.setFirstArgument("You've changed your mail '" + towF.getName() + "'");
         }else{
-            com.setFirstArgument("Mistake");
+            com.setFirstArgument("Something wrong with your login! " + com.getFirstArgument());
+            towF.setId(Id);
+            towF.setMail(mail);
         }
+        send(null);
     }
 
     @Override
     public void send(ArrayList<Command> commands) {
-        if(registred){
-            com.setFirstArgument("You've re regestered with name '" + tow.getName() + "'");
-        }else {
-            com.setFirstArgument("Something wrong with your login! " + com.getFirstArgument());
-        }
         tr.sender.send(com);
     }
 
     @Override
     protected void setArgs(String str, Scanner scanner) {
-        TicketOwner t = new TicketReader(scanner,true).getTicketOwner();
+        TicketOwner t = new TicketReader(scanner,true).getTicketOwner(true,false);
         if(t == null){
             com.setFirstArgument("Wrong Ticket owner in file!");
             return;
@@ -56,7 +49,7 @@ public class ChangeRegister extends AbstractCommand{
 
     @Override
     public void execute(String string, Scanner scan, ExeClass eCla) {
-        tow = (TicketOwner) eCla.getTicketOwner();
+        TicketOwner tow = eCla.getTicketOwner(true,false);
         int id = tr.ticketOwner.getId();
         tow.setId(id);
         if(tr.updateO(tow)){

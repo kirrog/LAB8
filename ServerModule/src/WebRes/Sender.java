@@ -1,10 +1,12 @@
 package WebRes;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
 
-public class Sender implements Runnable {
+public class Sender extends Thread {
     private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(Sender.class);
 
     private Contact contact;
@@ -16,68 +18,60 @@ public class Sender implements Runnable {
     }
 
     private byte bytes[] = new byte[32 * 1024];
-    private ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    private ObjectOutputStream oos;
-    private ByteBuffer bbf = ByteBuffer.wrap(bytes);
-    boolean haveMes = false;
-    boolean stop = true;
+    private boolean haveMes = false;
+    private boolean sended = true;
+    private boolean work = true;
     Command com;
 
-    {
-        try {
-            oos = new ObjectOutputStream(baos);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public synchronized boolean send(Command command) {
+    public boolean send(Command command) {
         com = command;
         haveMes = true;
-        notify();
+        sended = false;
+        wakeSender();
+        while (!sended) {
+            try {
+                sleep(100);
+            } catch (InterruptedException e) {
+                log.info("",e);
+            }
+        }
+        haveMes = false;
         return true;
     }
 
-    synchronized void close() {
-        while (haveMes){
-            try {
-                wait(10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        stop = false;
+    private synchronized void wakeSender(){
         notify();
-        try {
-            oos.close();
-            baos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    }
+
+    synchronized void close() {
+        log.info("Closed");
     }
 
     private synchronized void waitThread(){
         try {
             wait();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.info("",e);
         }
     }
 
     @Override
     public void run() {
-        while (stop){
-            if(haveMes == false){
-                waitThread();
-            }else {
-                try {
-                    haveMes = false;
+        while (work){
+            if(haveMes){
+                try (ByteArrayOutputStream baos = new ByteArrayOutputStream(); ObjectOutputStream oos = new ObjectOutputStream(baos)){
                     oos.writeObject(com);
+                    bytes = baos.toByteArray();
+                    ByteBuffer bbf = ByteBuffer.wrap(bytes);
                     datach.write(bbf);
-                    log.info("Send");
+                    sended = true;
+                    haveMes = false;
+                    log.info("Send\n" + com);
                 } catch (IOException e) {
                     log.info("Serialization, send", e);
                 }
+            }else {
+                waitThread();
             }
         }
     }

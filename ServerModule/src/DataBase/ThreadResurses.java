@@ -4,12 +4,14 @@ import Collection.Ticket;
 import WebRes.Contact;
 import WebRes.Receiver;
 import WebRes.Sender;
+import WriteInOut.ServerUI;
 
 import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.stream.Stream;
 
 public class ThreadResurses {
+    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ThreadResurses.class);
     public TicketOwner ticketOwner;
     public TicketsList ticketsList;
     public BaseOwners owners;
@@ -17,6 +19,7 @@ public class ThreadResurses {
     public Contact contact;
     public Receiver receiver;
     public Sender sender;
+    public ServerUI serverUI;
 
     public ThreadResurses(DataBaseManagerTickets d, Contact con){
         dbmt = d;
@@ -25,6 +28,12 @@ public class ThreadResurses {
         contact = con;
         receiver = con.getReceiver();
         sender = con.getSender();
+    }
+
+    public ThreadResurses(DataBaseManagerTickets d){
+        dbmt = d;
+        ticketsList = dbmt.getTickList();
+        owners = dbmt.getOwners();
     }
 
     public boolean clearT(){
@@ -65,6 +74,8 @@ public class ThreadResurses {
     public boolean putT( String key, Ticket t){
         boolean is = false;
         dbmt.rLock.lock();
+        t.setKey(key);
+        t.setTowner(ticketOwner);
         if(dbmt.sendTicket(t, key, true) > 0){
             ticketsList.put(key, t);
             is = true;
@@ -76,6 +87,7 @@ public class ThreadResurses {
     public boolean removeT(Ticket t, String key){
         boolean is = false;
         dbmt.rLock.lock();
+        t.setKey(key);
         if(dbmt.deleteTicket(t)){
             ticketsList.remove(key);
             is = true;
@@ -86,6 +98,8 @@ public class ThreadResurses {
 
     public boolean updateT(Ticket t, String key){
         boolean is = false;
+        t.setTowner(ticketOwner);
+        t.setKey(key);
         dbmt.rLock.lock();
         if(dbmt.sendTicket(t, key, false) > 0){
             ticketsList.replace(key, t);

@@ -27,7 +27,7 @@ public class ChangeRegister extends AbstractCommand {
             num = getId();
         }
         this.command.setSecondArgument(num);
-        this.command.setFourthArgument(new TicketReader(new Scanner(System.in),false).getTicketOwner(true));
+        this.command.setFourthArgument(new TicketReader(new Scanner(System.in),false).getTicketOwner(true,false));
         super.check(command, arg);
     }
 

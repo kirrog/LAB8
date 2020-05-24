@@ -20,50 +20,56 @@ public class Receiver extends Thread {
     boolean received = false;
     boolean stop = true;
 
-    {
-        try {
-            ois = new ObjectInputStream(bais);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     Receiver(Contact cont){
         contact = cont;
         datach = contact.getDatach();
     }
 
-    public synchronized Command receive() throws IOException {
+    public Command receive(){
+        while (!received){
+            try {
+                sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        Command c = com;
         received = false;
-        notify();
-        return com;
+        wakeReceiver();
+        return c;
     }
 
-    private synchronized Command receiveCommand() throws IOException {
-        contact.rLock.lock();
+    private synchronized void wakeReceiver(){
+        notify();
+    }
+
+    private Command receiveCommand() throws IOException {
         try {
             read(bbf);
+            ois = new ObjectInputStream(bais);
             Command com = (Command) ois.readObject();
+            ois.close();
             log.info("Received");
-            contact.rLock.unlock();
-            bbf.clear();
+            log.info(com.toString());
+            if(com.getNameOfCommand().equals("exit")){
+                stop = false;
+            }
             return com;
         } catch (ClassNotFoundException e) {
             log.info("Bad command", e);
-            contact.rLock.unlock();
             return null;
         }
     }
 
-    private synchronized void read(ByteBuffer b){
-        int i = 0;
+    private void read(ByteBuffer b){
+        b.clear();
+        bais.reset();
         while (stop){
             try {
-                b.clear();
-                i = b.position();
+                int i = b.position();
                 datach.read(b);
                 if(b.position() == i){
-                    wait(100);
+                    sleep(100);
                     continue;
                 }
                 break;
@@ -73,24 +79,25 @@ public class Receiver extends Thread {
         }
     }
 
-    synchronized void close(){
+    void close(){
         stop = false;
         try {
-            Thread.currentThread().join();
+            this.join();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.info("Break waiting end receiving", e);
         }
         try {
-            ois.close();
             bais.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.info("Closing receiver", e);
         }
     }
 
     private synchronized void waitThread(){
         try {
-            wait();
+            while (received){
+                wait(1000);
+            }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -99,17 +106,16 @@ public class Receiver extends Thread {
     @Override
     public void run() {
         while (stop){
-            if(received == false){
+            if(received){
+                waitThread();
+            }else {
                 try {
                     com = receiveCommand();
                     received = true;
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    log.info("Receiving exception", e);
                 }
-            }else {
-                waitThread();
             }
         }
-
     }
 }

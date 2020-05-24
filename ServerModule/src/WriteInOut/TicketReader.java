@@ -16,16 +16,27 @@ public class TicketReader {
         isFile = isF;
         status = true;
     }
-
-    public TicketOwner getTicketOwner() {
-        long x = 0;
-        double y = 0;
+    // First argument for enter mail, second for name and password
+    public TicketOwner getTicketOwner(boolean reReg, boolean login) {
         status = true;
-        String name;
-        byte[] password;
+        String name = null;
+        byte[] password = null;
         String mail = null;
 
-        while (true) {
+        if(!login & !reReg) return null;
+
+        if (login & reReg) {
+            System.out.println("Attention! You'll can't change your password or name!");
+        } else {
+            if (login) {
+                System.out.println("Write your name and password");
+            }
+            if (reReg) {
+                System.out.println("Write your new mail");
+            }
+        }
+
+        while (login) {
             System.out.print("Ticket owner name\n>");
             name = readName();
             if (status) {
@@ -36,7 +47,7 @@ public class TicketReader {
             }
         }
 
-        while (true) {
+        while (login) {
             System.out.print("Ticket owner password\n>");
             password = readPassword();
             if (status) {
@@ -47,9 +58,9 @@ public class TicketReader {
             }
         }
 
-        while (true) {
+        while (reReg) {
             System.out.print("Ticket owner mail (may be null - write 'null')\n>");
-            name = readMail();
+            mail = readMail();
             if (status) {
                 break;
             } else {

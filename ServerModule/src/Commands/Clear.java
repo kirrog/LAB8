@@ -10,9 +10,6 @@ import java.util.Scanner;
 /** This class clear all collection*/
 public class Clear extends AbstractCommand {
 
-    public Clear(){
-        name = "clear";
-    }
     public Clear(ThreadResurses threadResurses){
         name = "clear";
         tr = threadResurses;
@@ -24,6 +21,11 @@ public class Clear extends AbstractCommand {
     public void execute(String string, Scanner scan, ExeClass eCla) {
         tr.clearT();
         System.out.println("Cleared");
+    }
+
+    @Override
+    protected void setArgs(String str, Scanner scanner) {
+        com.setFirstArgument("");
     }
 
     @Override
@@ -39,8 +41,5 @@ public class Clear extends AbstractCommand {
         tr.sender.send(com);
     }
 
-    @Override
-    protected void setArgs(String str, Scanner scanner) {
-        return;
-    }
+
 }
