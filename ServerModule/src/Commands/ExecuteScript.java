@@ -65,7 +65,8 @@ public class ExecuteScript extends AbstractCommand {
                         numberOfProceses--;
                         throw new NullPointerException();
                     }else {
-                        System.out.println("Script killed, because of miss message: " + numberOfProceses);
+                        log.info("Script killed, because of miss message: " + numberOfProceses);
+
                     }
                 }
                 numberOfProceses--;

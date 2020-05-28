@@ -35,7 +35,8 @@ public class Update extends AbstractCommand {
                     if (ticker == null) {
                         System.out.println("Null Ticket entered");
                     } else {
-                        tr.updateT(ticker, tick.getKey());
+                        ticker.setTowner(tr.ticketOwner);
+                        tr.updateT(ticker, tick);
                     }
                 } else {
                     System.out.println("Didn't find object with this id: " + Id);
@@ -56,10 +57,14 @@ public class Update extends AbstractCommand {
             com.setFirstArgument("Didn't find object with this id: " + Id);
         } else {
             Ticket ticket = tr.getStreamT().filter(t -> t.getId() == Id).findFirst().get();
-            Ticket ticker = (Ticket) com.getThirdArgument();
-            ticker.setId(Id);
-            tr.updateT(ticker, ticket.getKey());
-            com.setFirstArgument("Updated!");
+            if(ticket.getTowner().equals(tr.ticketOwner)){
+                Ticket ticker = (Ticket) com.getThirdArgument();
+                ticker.setId(Id);
+                tr.updateT(ticker, ticket);
+                com.setFirstArgument("Updated!");
+            }else {
+                com.setFirstArgument("You aren't owner of ticket, owner is: " + ticket.getTowner().getName());
+            }
         }
         com.setThirdArgument(null);
         send(null);

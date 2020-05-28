@@ -21,7 +21,7 @@ public class ThreadResurses {
     public Sender sender;
     public ServerUI serverUI;
 
-    public ThreadResurses(DataBaseManagerTickets d, Contact con){
+    public ThreadResurses(DataBaseManagerTickets d, Contact con) {
         dbmt = d;
         ticketsList = dbmt.getTickList();
         owners = dbmt.getOwners();
@@ -30,13 +30,13 @@ public class ThreadResurses {
         sender = con.getSender();
     }
 
-    public ThreadResurses(DataBaseManagerTickets d){
+    public ThreadResurses(DataBaseManagerTickets d) {
         dbmt = d;
         ticketsList = dbmt.getTickList();
         owners = dbmt.getOwners();
     }
 
-    public boolean clearT(){
+    public boolean clearT() {
         dbmt.rLock.lock();
         getStreamT().filter(ticket -> ticket.getTowner().getId() == ticketOwner.getId()).forEach(ticket -> ticketsList.remove(ticket.getKey()));
         dbmt.rLock.unlock();
@@ -49,7 +49,7 @@ public class ThreadResurses {
 //        return false;
 //    }
 
-    public Stream<Ticket> getStreamT(){
+    public Stream<Ticket> getStreamT() {
         dbmt.rLock.lock();
         Enumeration enums = ticketsList.keys();
         LinkedList<Ticket> stringLinkedList = new LinkedList<>();
@@ -60,7 +60,7 @@ public class ThreadResurses {
         return stringLinkedList.stream();
     }
 
-    public Stream<TicketOwner> getStreamO(){
+    public Stream<TicketOwner> getStreamO() {
         dbmt.rLock.lock();
         Enumeration enums = owners.keys();
         LinkedList<TicketOwner> stringLinkedList = new LinkedList<>();
@@ -71,12 +71,12 @@ public class ThreadResurses {
         return stringLinkedList.stream();
     }
 
-    public boolean putT( String key, Ticket t){
+    public boolean putT(String key, Ticket t) {
         boolean is = false;
         dbmt.rLock.lock();
         t.setKey(key);
         t.setTowner(ticketOwner);
-        if(dbmt.sendTicket(t, key, true) > 0){
+        if (dbmt.sendTicket(t, key) > 0) {
             ticketsList.put(key, t);
             is = true;
         }
@@ -84,11 +84,11 @@ public class ThreadResurses {
         return is;
     }
 
-    public boolean removeT(Ticket t, String key){
+    public boolean removeT(Ticket t, String key) {
         boolean is = false;
         dbmt.rLock.lock();
         t.setKey(key);
-        if(dbmt.deleteTicket(t)){
+        if (dbmt.deleteTicket(t)) {
             ticketsList.remove(key);
             is = true;
         }
@@ -96,23 +96,23 @@ public class ThreadResurses {
         return is;
     }
 
-    public boolean updateT(Ticket t, String key){
+    public boolean updateT(Ticket t, Ticket prev) {
         boolean is = false;
         t.setTowner(ticketOwner);
-        t.setKey(key);
+        t.setKey(prev.getKey());
         dbmt.rLock.lock();
-        if(dbmt.sendTicket(t, key, false) > 0){
-            ticketsList.replace(key, t);
+        if (dbmt.updateTicket(t,prev, prev.getKey()) > 0) {
+            ticketsList.replace(prev.getKey(), t);
             is = true;
         }
         dbmt.rLock.unlock();
         return is;
     }
 
-    public boolean putO(TicketOwner t){
+    public boolean putO(TicketOwner t) {
         boolean is = false;
         dbmt.rLock.lock();
-        if(dbmt.sendTOwner(t, true) > 0){
+        if (dbmt.sendTOwner(t, true) > 0) {
             owners.put(t.getId(), t);
             is = true;
         }
@@ -120,10 +120,10 @@ public class ThreadResurses {
         return is;
     }
 
-    public boolean removeO(TicketOwner t){
+    public boolean removeO(TicketOwner t) {
         boolean is = false;
         dbmt.rLock.lock();
-        if(dbmt.deleteTOwner(t)){
+        if (dbmt.deleteTOwner(t)) {
             owners.remove(t.getId());
             is = true;
         }
@@ -131,10 +131,10 @@ public class ThreadResurses {
         return is;
     }
 
-    public boolean updateO(TicketOwner t){
+    public boolean updateO(TicketOwner t) {
         boolean is = false;
         dbmt.rLock.lock();
-        if(dbmt.sendTOwner(t, false) > 0){
+        if (dbmt.sendTOwner(t, false) > 0) {
             owners.replace(t.getId(), t);
             is = true;
         }

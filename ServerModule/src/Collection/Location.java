@@ -1,6 +1,7 @@
 package Collection;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 
 /**
@@ -54,4 +55,16 @@ public class Location implements Serializable {
         this.name = name;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        Location loc = (Location) obj;
+        if(loc == null){
+            return false;
+        }
+        boolean result = (Objects.equals(this.name, loc.name));
+        result = result & (Objects.equals(this.x, loc.x));
+        result = result & (Objects.equals(this.y, loc.y));
+        result = result & (Objects.equals(this.z, loc.z));
+        return result;
+    }
 }

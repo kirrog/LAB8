@@ -104,7 +104,7 @@ public class PrintFieldDescending extends AbstractCommand {
                 break;
             default:
                 System.out.println("There is not field with this name!");
-                break;
+                return;
         }
         tickets.forEachOrdered(Ticket::writeTicket);
     }

@@ -25,7 +25,8 @@ public class ReplaceIfLower extends AbstractCommand {
         if (tr.ticketsList.containsKey(string)) {
             Ticket tick = eCla.getTicket();
             if (tr.ticketsList.get(string).compareTo(tick) < 0) {
-                tr.putT(string, tick);
+                Ticket ticket = tr.ticketsList.get(string);
+                tr.updateT(tick, ticket);
             } else {
                 com.setFirstArgument("It's higher!");
             }
@@ -40,8 +41,9 @@ public class ReplaceIfLower extends AbstractCommand {
         if (tr.ticketsList.containsKey(string)) {
             Ticket tick = (Ticket) com.getThirdArgument();
             if (tr.ticketsList.get(string).compareTo(tick) < 0) {
-                tick.setId((int)tr.ticketsList.get(string).getId());
-                tr.putT(string, tick);
+                Ticket ticket = tr.ticketsList.get(string);
+                tick.setId((int)ticket.getId());
+                tr.updateT(tick, ticket);
             } else {
                 com.setFirstArgument("It's higher!");
             }

@@ -15,21 +15,7 @@ MALL
 Address:
 comment124567
 
-update 244020029
-name
-123
-123
-120
-Hey
-true
-VIP
-name
-123
-MALL
-Address:
-comment124567
-
-remove_key guh
+remove_key fifth
 filter_by_venue
 name
 123

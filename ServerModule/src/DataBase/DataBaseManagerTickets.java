@@ -121,6 +121,7 @@ public class DataBaseManagerTickets {
         st.setString(1, ven.getName());
         st.setInt(2, ven.getCapacity());
         st.setString(3, ven.getType().toString());
+
         int i = sendAddress(ven.getAddress(), insert);
 
         st.setInt(4, i);
@@ -173,56 +174,88 @@ public class DataBaseManagerTickets {
         throw new SQLException();
     }
 
-    public int sendTicket(Ticket tick, String key, boolean insert) {
-        String sql;
-        if (insert) {
-            sql = "INSERT INTO tickets (id, " +
-                    "name, " +
-                    "coordinates, " +
-                    "creationdate, " +
-                    "price, " +
-                    "comment, " +
-                    "refundable, " +
-                    "type, " +
-                    "venue, " +
-                    "userofticket, " +
-                    "key) VALUES (DEFAULT, " +
-                    "(?), (?), (?), (?), (?), (?), (?), (?), (?), (?)) RETURNING id;";
-        } else {
-            sql = "UPDATE tickets SET " +
-                    "name = (?), " +
-                    "coordinates = (?), " +
-                    "creationdate = (?), " +
-                    "price = (?), " +
-                    "comment = (?), " +
-                    "refundable = (?), " +
-                    "type = (?), " +
-                    "venue = (?), " +
-                    "userofticket = (?), " +
-                    "key = (?) WHERE id = (?) RETURNING id;";
-        }
+    public int sendTicket(Ticket tick, String key) {
+        String sql = "INSERT INTO tickets (id, " +
+                "name, " +
+                "coordinates, " +
+                "creationdate, " +
+                "price, " +
+                "comment, " +
+                "refundable, " +
+                "type, " +
+                "venue, " +
+                "userofticket, " +
+                "key) VALUES (DEFAULT, " +
+                "(?), (?), (?), (?), (?), (?), (?), (?), (?), (?)) RETURNING id;";
+
         try (PreparedStatement st = connection.prepareStatement(sql)) {
             connection.setAutoCommit(false);
             Savepoint save = connection.setSavepoint();
             st.setString(1, tick.getName());
-            int i = sendCoordinates(tick.getCoordinates(), insert);
+            int i = sendCoordinates(tick.getCoordinates(), true);
             st.setInt(2, i);
             st.setString(3, tick.getCreationDate().format(DateTimeFormatter.ofPattern("MM/dd/yyyy - HH:mm:ss ZZ")));
             st.setLong(4, tick.getPrice());
             st.setString(5, tick.getComment());
             st.setBoolean(6, tick.isRefundable());
             st.setString(7, tick.getType().toString());
-            i = sendVenue(tick.getVenue(), insert);
+            i = sendVenue(tick.getVenue(), true);
             st.setInt(8, i);
             st.setInt(9, tick.getTowner().getId());
             st.setString(10, key);
-            if (!insert) {
-                st.setInt(11, (int) tick.getId());
-            }
             ResultSet resultSet = st.executeQuery();
             if (resultSet.next()) {
                 i = resultSet.getInt("id");
                 tick.setId(i);
+                connection.commit();
+                connection.setAutoCommit(true);
+                resultSet.close();
+                return i;
+            }
+            connection.rollback();
+            connection.setAutoCommit(true);
+            resultSet.close();
+        } catch (SQLException e) {
+            log.error("Send ticket", e);
+        }
+        return -1;
+    }
+
+    public int updateTicket(Ticket tick, Ticket prev, String key) {
+        String sql = "UPDATE tickets SET " +
+                "name = (?), " +
+                "coordinates = (?), " +
+                "creationdate = (?), " +
+                "price = (?), " +
+                "comment = (?), " +
+                "refundable = (?), " +
+                "type = (?), " +
+                "venue = (?), " +
+                "userofticket = (?), " +
+                "key = (?) WHERE id = (?) RETURNING id;";
+        Preparer preparer = new Preparer(prev, tick);
+        preparer.prepareForUpdating();
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            connection.setAutoCommit(false);
+            Savepoint save = connection.setSavepoint();
+            st.setString(1, tick.getName());
+            int i = sendCoordinates(tick.getCoordinates(), false);
+            st.setInt(2, i);
+            st.setString(3, tick.getCreationDate().format(DateTimeFormatter.ofPattern("MM/dd/yyyy - HH:mm:ss ZZ")));
+            st.setLong(4, tick.getPrice());
+            st.setString(5, tick.getComment());
+            st.setBoolean(6, tick.isRefundable());
+            st.setString(7, tick.getType().toString());
+            i = sendVenue(tick.getVenue(), false);
+            st.setInt(8, i);
+            st.setInt(9, tick.getTowner().getId());
+            st.setString(10, key);
+            st.setInt(11, (int) tick.getId());
+            ResultSet resultSet = st.executeQuery();
+            if (resultSet.next()) {
+                i = resultSet.getInt("id");
+                tick.setId(i);
+                preparer.deleteStuff();
                 connection.commit();
                 connection.setAutoCommit(true);
                 resultSet.close();
@@ -263,6 +296,69 @@ public class DataBaseManagerTickets {
             log.error("Send ticket owner ", e);
         }
         return -1;
+    }
+
+    private class Preparer {
+
+        private Ticket prev;
+        private Ticket newOne;
+        private Address addr = null;
+        private Location town = null;
+
+        private Preparer(Ticket prev, Ticket newOne) {
+            this.prev = prev;
+            this.newOne = newOne;
+        }
+
+        private void prepareForUpdating() {
+            newOne.setKey(prev.getKey());
+            newOne.setTowner(prev.getTowner());
+            newOne.getCoordinates().setId(prev.getCoordinates().getId());
+            newOne.getVenue().setId(prev.getVenue().getId());
+            if (newOne.getVenue().getAddress() == null) {
+                addr = prev.getVenue().getAddress();
+            } else {
+                if (prev.getVenue().getAddress() != null) {
+                    newOne.getVenue().getAddress().setId(prev.getVenue().getAddress().getId());
+                    if (newOne.getVenue().getAddress().getTown() != null) {
+                        if (prev.getVenue().getAddress().getTown() != null) {
+                            newOne.getVenue().getAddress().getTown().setId(prev.getVenue().getAddress().getTown().getId());
+                        } else {
+                            try {
+                                sendTown(newOne.getVenue().getAddress().getTown(), true);
+                            } catch (SQLException e) {
+                                log.error("Inserting new address while updating", e);
+                            }
+                        }
+                    } else {
+                        town = prev.getVenue().getAddress().getTown();
+                    }
+                } else {
+                    try {
+                        sendAddress(newOne.getVenue().getAddress(), true);
+                    } catch (SQLException e) {
+                        log.error("Inserting new address while updating", e);
+                    }
+                }
+            }
+        }
+
+        private void deleteStuff() {
+            if (town != null) {
+                try {
+                    deleteTown(town);
+                } catch (SQLException e) {
+                    log.error("Deleting town after update", e);
+                }
+            }
+            if (addr != null) {
+                try {
+                    deleteAddress(addr);
+                } catch (SQLException e) {
+                    log.error("Deleting address after update", e);
+                }
+            }
+        }
     }
 
     private Location receiveTown(int id) {

@@ -1,6 +1,7 @@
 package Collection;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 
 /** This class contains address*/
@@ -35,4 +36,14 @@ public class Address implements Serializable {
         this.id = i;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        Address address = (Address) obj;
+        if(address == null){
+            return false;
+        }
+        boolean result = address.getZipCode().equals(this.getZipCode());
+        result = result & Objects.equals(this.town, address.town);
+        return result;
+    }
 }

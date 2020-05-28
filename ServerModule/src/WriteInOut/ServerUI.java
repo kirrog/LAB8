@@ -66,14 +66,16 @@ public class ServerUI {
 //                    }
 //                } else {
                 com = thres.receiver.receive();
-                log.info(com.toString() + " - received");
-                if (com.getNameOfCommand().equals("Test")) {
+                if ("Test".equals(com.getNameOfCommand())) {
                     thres.sender.send(com);
                     continue;
                 }
+//                if(com.getNameOfCommand() == null){
+//                    com = thres.receiver.receive();
+//                }
                 thres.sender.send(com);
                 replies.get(com.getNameOfCommand()).answer(com);
-                //}
+//}
 //            } catch (IOException e) {
 //                log.info("", e);
             } catch (NullPointerException e) {
@@ -85,13 +87,23 @@ public class ServerUI {
     public void startFromScript(String fileName, Command com) {
         boolean notExit = true;
         int i = 0;
-
         try (Scanner scan = new Scanner(new File(fileName))) {
+//            Locale l = scan.locale();
+//            String s = null;
+//            while (scan.hasNextLine()){
+//                s = scan.nextLine();
+//            }
+//            if(!"exit".equals(s)){
+//                thres.receiver.receive();
+//                Command command1 = new Command();
+//                command1.setNameOfCommand("exit");
+//                thres.sender.send(command1);
+//            }
             while (notExit) {
                 i++;
                 if (scan.hasNextLine()) {
                     String command = scan.nextLine();
-
+                    log.info(i + " command: " + command);
                     String arguments = "";
                     if (command.contains(" ")) {
                         arguments = command.substring(command.indexOf(" ") + 1);
@@ -108,7 +120,7 @@ public class ServerUI {
                         arguments = arguments.substring(0, arguments.indexOf(" "));
                     }
 
-                    if (command.equals("exit") | !scan.hasNextLine()) {
+                    if (command.equals("exit") | !scan.hasNextLine() | !replies.containsKey(command)) {
                         notExit = false;
                         thres.receiver.receive();
                         Command command1 = new Command();

@@ -5,11 +5,12 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Receiver extends Thread {
     private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(Receiver.class);
 
-    private byte bytes[] = new byte[32*1024];
+    private byte bytes[] = new byte[32 * 1024];
 
     private Contact contact;
     private DatagramChannel datach;
@@ -19,27 +20,30 @@ public class Receiver extends Thread {
     Command com = new Command();
     boolean received = false;
     boolean stop = true;
+    private ReentrantLock rLock = new ReentrantLock();
 
-    Receiver(Contact cont){
+    Receiver(Contact cont) {
         contact = cont;
         datach = contact.getDatach();
     }
 
-    public Command receive(){
-        while (!received){
+    public Command receive() {
+        while (!received) {
             try {
                 sleep(100);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                log.error("", e);
             }
         }
+        rLock.lock();
         Command c = com;
         received = false;
         wakeReceiver();
+        rLock.unlock();
         return c;
     }
 
-    private synchronized void wakeReceiver(){
+    private synchronized void wakeReceiver() {
         notify();
     }
 
@@ -49,9 +53,8 @@ public class Receiver extends Thread {
             ois = new ObjectInputStream(bais);
             Command com = (Command) ois.readObject();
             ois.close();
-            log.info("Received");
-            log.info(com.toString());
-            if(com.getNameOfCommand().equals("exit")){
+            log.info("Received - " + com.toString());
+            if ("exit".equals(com.getNameOfCommand())) {
                 stop = false;
             }
             return com;
@@ -61,14 +64,16 @@ public class Receiver extends Thread {
         }
     }
 
-    private void read(ByteBuffer b){
+    //(com.getNameOfCommand() != null) &&
+
+    private void read(ByteBuffer b) {
         b.clear();
         bais.reset();
-        while (stop){
+        while (stop) {
             try {
                 int i = b.position();
                 datach.read(b);
-                if(b.position() == i){
+                if (b.position() == i) {
                     sleep(100);
                     continue;
                 }
@@ -79,7 +84,7 @@ public class Receiver extends Thread {
         }
     }
 
-    void close(){
+    void close() {
         stop = false;
         try {
             this.join();
@@ -93,9 +98,9 @@ public class Receiver extends Thread {
         }
     }
 
-    private synchronized void waitThread(){
+    private synchronized void waitThread() {
         try {
-            while (received){
+            while (received) {
                 wait(1000);
             }
         } catch (InterruptedException e) {
@@ -105,13 +110,15 @@ public class Receiver extends Thread {
 
     @Override
     public void run() {
-        while (stop){
-            if(received){
+        while (stop) {
+            if (received) {
                 waitThread();
-            }else {
+            } else {
                 try {
+                    rLock.lock();
                     com = receiveCommand();
                     received = true;
+                    rLock.unlock();
                 } catch (IOException e) {
                     log.info("Receiving exception", e);
                 }

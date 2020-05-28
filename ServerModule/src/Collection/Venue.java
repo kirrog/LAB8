@@ -1,6 +1,7 @@
 package Collection;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 
 /**
@@ -55,7 +56,10 @@ public class Venue implements Serializable {
     @Override
     public boolean equals(Object obj) {
         Venue ven = (Venue) obj;
-
-        return (this.getId() == ven.getId()) & (this.getAddress().equals(ven.getAddress())) & (this.getType().equals(ven.getType())) & (this.getName().equals(ven.getName())) & (this.getCapacity().equals(ven.getCapacity()));
+        boolean result = (this.getId() == ven.getId());
+        result = result & (Objects.equals(this.getAddress(), ven.getAddress()));
+        result = result & (this.getType().equals(ven.getType()));
+        result = result & (this.getName().equals(ven.getName()));
+        return result & (this.getCapacity().equals(ven.getCapacity()));
     }
 }

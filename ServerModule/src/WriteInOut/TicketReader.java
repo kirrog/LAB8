@@ -18,6 +18,9 @@ public class TicketReader {
     }
     // First argument for enter mail, second for name and password
     public TicketOwner getTicketOwner(boolean reReg, boolean login) {
+        if (isFile) {
+            return readTOwner(reReg, login);
+        }
         status = true;
         String name = null;
         byte[] password = null;
@@ -69,6 +72,22 @@ public class TicketReader {
             }
         }
 
+        return new TicketOwner(name, password, mail);
+    }
+
+    public TicketOwner readTOwner(boolean reReg, boolean login){
+        status = true;
+        String name = null;
+        byte[] password = null;
+        String mail = null;
+        if(!login & !reReg) return null;
+        if (login) {
+            name = readName();
+            password = readPassword();
+        }
+        if (reReg) {
+            mail = readMail();
+        }
         return new TicketOwner(name, password, mail);
     }
 

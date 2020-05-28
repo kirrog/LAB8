@@ -1,3 +1,4 @@
 show
+execute_script Script
 execute_script scriptik
 exit

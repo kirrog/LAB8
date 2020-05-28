@@ -78,9 +78,6 @@ public abstract class AbstractCommand implements MesSendable {
     private void printMes(Command com) {
         String string = com.getFirstArgument();
         if (string != null) {
-            if (string.contains("Collection saved")) {
-                System.out.println("Collection saved");
-            }
             if (string.contains("Server end receiving")) {
                 System.out.println("Server end receiving");
             }
@@ -118,7 +115,7 @@ public abstract class AbstractCommand implements MesSendable {
                 commands.remove(point);
             }
             for (int i = 0; i < cs; i++) {
-                System.out.println(keys[i]);
+                System.out.println("Key: '" + keys[i] + "'");
                 tickets[i].writeTicket();
             }
         } else {

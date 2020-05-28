@@ -66,7 +66,7 @@ public class Sender extends Thread {
                     datach.write(bbf);
                     sended = true;
                     haveMes = false;
-                    log.info("Send\n" + com);
+                    log.info("Send");
                 } catch (IOException e) {
                     log.info("Serialization, send", e);
                 }

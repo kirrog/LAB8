@@ -27,20 +27,28 @@ public class Insert extends AbstractCommand {
         }
         Ticket tick = eCla.getTicket();
         tick.setKey(key);
-        try{
-            tr.putT(key,tick);
-        }catch (NullPointerException e){
-            System.out.println("Wrong ticket");
+        if(tr.ticketsList.containsKey(key)){
+            System.out.println("Already exists!");
+        }else {
+            tick.setTowner(tr.ticketOwner);
+            try{
+                tr.putT(key,tick);
+            }catch (NullPointerException e){
+                System.out.println("Wrong ticket");
+            }
         }
-
     }
 
     @Override
     public void exe() {
-        if(tr.putT(com.getFirstArgument(),(Ticket) com.getThirdArgument())){
-            com.setFirstArgument("Ticket inserted with key: " + com.getFirstArgument());
+        if(tr.ticketsList.containsKey(com.getFirstArgument())){
+            com.setFirstArgument("Already exists");
         }else {
-            com.setFirstArgument("Something wrong with inserting!");
+            if(tr.putT(com.getFirstArgument(),(Ticket) com.getThirdArgument())){
+                com.setFirstArgument("Ticket inserted with key: " + com.getFirstArgument());
+            }else {
+                com.setFirstArgument("Something wrong with inserting!");
+            }
         }
         send(null);
     }
