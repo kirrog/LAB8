@@ -1,5 +1,7 @@
 package WebRes;
 
+import ServerThreads.ServerManager;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
@@ -9,6 +11,14 @@ import java.nio.channels.DatagramChannel;
 public class Contact {
 
     private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(Contact.class);
+
+    public static int getPORT() {
+        return PORT;
+    }
+
+    public static void setPORT(int PORT) {
+        Contact.PORT = PORT;
+    }
 
     private static int PORT = 4445;
 
@@ -20,6 +30,7 @@ public class Contact {
         try {
             datagramChannel = DatagramChannel.open();
             datagramChannel.bind(new InetSocketAddress(PORT));
+            datagramChannel.configureBlocking(false);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -33,7 +44,7 @@ public class Contact {
     private Receiver receiver = null;
     private Sender sender = null;
 
-    public Contact(int port) throws IOException {
+    public Contact(int port) throws Exception {
         PORT = port;
         addr = new InetSocketAddress(PORT);
         datach = DatagramChannel.open();
@@ -41,7 +52,7 @@ public class Contact {
         log.info("Contact set");
     }
 
-    private void receiveConnection() {
+    private void receiveConnection() throws Exception{
         byte b[] = new byte[2];
         try {
             ByteBuffer f = ByteBuffer.wrap(b);
@@ -49,7 +60,21 @@ public class Contact {
             int mesLength = 0;
             log.info("Wait for connection");
             //datach.socket().setSoTimeout(65535);
-            addr = datagramChannel.receive(f);
+            //SocketTimeoutException
+            boolean receive = false;
+            int position = f.position();
+            while (ServerManager.work & (!receive)){
+                addr = datagramChannel.receive(f);
+                if(position != f.position()){
+                    receive = true;
+                }
+            }
+            if(!ServerManager.work){
+                datagramChannel.close();
+                datach.close();
+                Exception e = new Exception("End making threads");
+                throw e;
+            }
             log.info("Connecting to " + addr);
             datach.bind(new InetSocketAddress(0));
             System.out.println(datach.socket().getLocalPort());
@@ -63,7 +88,7 @@ public class Contact {
             log.info("Complete!");
             //datach.socket().setSoTimeout(1000);
             datach.configureBlocking(false);
-        } catch (IOException | NullPointerException e) {
+        } catch (NullPointerException e) {
             log.info("Connection", e);
         }
     }

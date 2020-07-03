@@ -19,7 +19,12 @@ public class RemoveKey extends AbstractCommand {
     @Override
     public void execute(String string, Scanner scan, ExeClass eCla) {
         if(tr.ticketsList.containsKey(string)){
-            tr.removeT(tr.ticketsList.get(string),string);
+            if(tr.ticketsList.get(string).getTowner().equals(tr.ticketOwner)){
+                tr.removeT(tr.ticketsList.get(string),string);
+                com.setFirstArgument("Deleted!");
+            }else {
+                com.setFirstArgument("It's not your Ticket");
+            }
         }else {
             System.out.println("Can't find element with this key!");
         }
@@ -30,8 +35,12 @@ public class RemoveKey extends AbstractCommand {
     public void exe() {
         String string = com.getFirstArgument();
         if(tr.ticketsList.containsKey(string)){
-            tr.removeT(tr.ticketsList.get(string),string);
-            com.setFirstArgument("Deleted!");
+            if(tr.ticketsList.get(string).getTowner().equals(tr.ticketOwner)){
+                tr.removeT(tr.ticketsList.get(string),string);
+                com.setFirstArgument("Deleted!");
+            }else {
+                com.setFirstArgument("It's not your Ticket");
+            }
         }else {
             com.setFirstArgument("Can't find element with this key!");
         }

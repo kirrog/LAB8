@@ -51,6 +51,7 @@ public class ExeClass {
         hashMap.put("login", new Login(thres));
         hashMap.put("register", new Register(thres));
         hashMap.put("change_register", new ChangeRegister(thres));
+        hashMap.put("check_condition", new CheckCondition(thres));
     }
 
     public ExeClass(ThreadResurses tr) {

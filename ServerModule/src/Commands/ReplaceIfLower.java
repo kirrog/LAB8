@@ -26,7 +26,11 @@ public class ReplaceIfLower extends AbstractCommand {
             Ticket tick = eCla.getTicket();
             if (tr.ticketsList.get(string).compareTo(tick) < 0) {
                 Ticket ticket = tr.ticketsList.get(string);
-                tr.updateT(tick, ticket);
+                if(ticket.getTowner().equals(tr.ticketOwner)){
+                    tr.updateT(tick, ticket);
+                }            else {
+                    System.out.println("It's not your Ticket");
+                }
             } else {
                 com.setFirstArgument("It's higher!");
             }
@@ -42,8 +46,12 @@ public class ReplaceIfLower extends AbstractCommand {
             Ticket tick = (Ticket) com.getThirdArgument();
             if (tr.ticketsList.get(string).compareTo(tick) < 0) {
                 Ticket ticket = tr.ticketsList.get(string);
-                tick.setId((int)ticket.getId());
-                tr.updateT(tick, ticket);
+                if(ticket.getTowner().equals(tr.ticketOwner)){
+                    tick.setId((int)ticket.getId());
+                    tr.updateT(tick, ticket);
+                }else {
+                    com.setFirstArgument("It's not your Ticket");
+                }
             } else {
                 com.setFirstArgument("It's higher!");
             }

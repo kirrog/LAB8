@@ -1,38 +1,56 @@
 package UI.Commandes;
 
+import Collection.Ticket;
+import GUI.CommandFormer;
 import UI.AbstractCommand;
-import UI.TicketReader;
 import WebRes.Command;
 
 import java.io.IOException;
-import java.util.Scanner;
 
 import static Starter.ClientMain.receiver;
 
 public class ReplaceIfLower extends AbstractCommand {
+
+    String key;
+    Ticket ticket;
+
+    public void setArt(String key, Ticket ticket){
+        this.key = key;
+        this.ticket = ticket;
+    }
+
     @Override
     public void check(String command, String arg) {
-        this.command.setFirstArgument(arg);
-        this.command.setThirdArgument(new TicketReader(new Scanner(System.in),false).getTicket());
+        this.command.setFirstArgument(key);
+        this.command.setThirdArgument(ticket);
         super.check(command,arg);
     }
+
+    int result = 4;
 
     @Override
     public boolean receive() {
         try {
             Command com = receiver.receive();
-            if ((int) com.getSecondArgument() == 1) {
-                System.out.println("Replaced!");
-            } else if((int) com.getSecondArgument() == 2) {
-                System.out.println("It isn't lower!");
+            result = (int) com.getSecondArgument();
+            if (result == 1) {
+                CommandFormer.answer = "Replaced!";
+                return true;
+            } else if(result == 2) {
+                CommandFormer.answer ="It isn't lower!";
+                return false;
             }else {
-                System.out.println("Can't find!");
+                CommandFormer.answer ="Can't find!";
+                return false;
             }
-
-            return true;
         } catch (IOException e) {
-            System.out.println("Server doesn't answer");
+            CommandFormer.setServerStatus(0);
             return false;
         }
+    }
+
+    @Override
+    public Object getResult() {
+        return result;
     }
 }

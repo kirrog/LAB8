@@ -20,7 +20,9 @@ public class RemoveGreaterKey extends AbstractCommand {
     public void execute(String string, Scanner scan, ExeClass eCla) {
         tr.getStreamT().forEach((t)-> {
             if(t.getKey().compareTo(string) > 0){
-                tr.removeT(t, t.getKey());
+                if(t.getTowner().equals(tr.ticketOwner)){
+                    tr.removeT(t, t.getKey());
+                }
             }
         });
     }
@@ -31,7 +33,9 @@ public class RemoveGreaterKey extends AbstractCommand {
         String string = com.getFirstArgument();
         tr.getStreamT().forEach((t)-> {
             if(t.getKey().compareTo(string) > 0){
-                tr.removeT(t, t.getKey());
+                if(t.getTowner().equals(tr.ticketOwner)){
+                    tr.removeT(t, t.getKey());
+                }
             }
         });
         i -= tr.ticketsList.size();

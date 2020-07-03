@@ -1,5 +1,6 @@
 package UI.Commandes;
 
+import GUI.CommandFormer;
 import UI.AbstractCommand;
 import WebRes.Command;
 
@@ -21,11 +22,17 @@ public class Clear extends AbstractCommand {
     public boolean receive() {
         try {
             Command com = receiver.receive();
-            System.out.println("Cleared!");
+            CommandFormer.answer = com.getFirstArgument();
             return true;
         } catch (IOException e) {
-            System.out.println("Server doesn't answer");
+            CommandFormer.setServerStatus(0);
             return false;
         }
     }
+
+    @Override
+    public Object getResult(){
+        return null;
+    }
+
 }

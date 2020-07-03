@@ -1,5 +1,6 @@
 package UI.Commandes;
 
+import GUI.CommandFormer;
 import UI.AbstractCommand;
 import WebRes.Command;
 
@@ -15,30 +16,31 @@ public class PrintDescending extends AbstractCommand {
         super.check(command,arg);
     }
 
+    ArrayList<Command> ac = new ArrayList<>();
 
     @Override
     public boolean receive() {
         try {
             Command com = receiver.receive();
             int cs = (int) com.getSecondArgument();
-            ArrayList<Command> ac = new ArrayList<>();
+            ac = new ArrayList<>();
             for (int i = 0; i < cs; i++) {
                 try {
                     ac.add(receiver.receive());
                 }catch (IOException e) {
-                    System.out.println("Server doesn't answer");
+                    CommandFormer.setServerStatus(0);
                     return false;
                 }
             }
-            if (ac.size() > 0){
-                printSorted(ac, cs);
-            }else {
-                System.out.println("There aren't any Tickets");
-            }
             return true;
         } catch (IOException e) {
-            System.out.println("Server doesn't answer");
+            CommandFormer.setServerStatus(0);
             return false;
         }
+    }
+
+    @Override
+    public Object getResult() {
+        return ac;
     }
 }

@@ -86,6 +86,18 @@ public class Ticket implements Comparable<Ticket>, Serializable {
         this.towner = ticketOwner;
     }
 
+    public Ticket(String name, Coordinates coordinates, long price, String comment, boolean refundable, TicketType type, Venue venue, String key) {
+        this.name = name;
+        this.coordinates = coordinates;
+        this.creationDate = ZonedDateTime.now();
+        this.price = price;
+        this.comment = comment;
+        this.refundable = refundable;
+        this.type = type;
+        this.venue = venue;
+        this.key = key;
+    }
+
     public Ticket(int id, String name, Coordinates coordinates, ZonedDateTime creationDate, long price, String comment, boolean refundable, TicketType type, Venue venue, TicketOwner ticketOwner) {
         this.id = id;
         this.name = name;

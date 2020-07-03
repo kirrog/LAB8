@@ -1,32 +1,29 @@
 package UI.Commandes;
 
+import Collection.Ticket;
+import GUI.CommandFormer;
 import UI.AbstractCommand;
-import UI.TicketReader;
 import WebRes.Command;
 
 import java.io.IOException;
-import java.util.Scanner;
 
 import static Starter.ClientMain.receiver;
 
 public class Update extends AbstractCommand {
+
+    int id = -1;
+    Ticket ticket;
+
+    public void setArgs(int id, Ticket tick){
+        this.id = id;
+        ticket = tick;
+    }
+
     @Override
     public void check(String command, String arg) {
-        int num = 0;
-        try {
-            num = Integer.parseInt(arg);
-            if (num > 0) {
 
-            } else {
-                System.out.println("Wrong sign");
-                num = getId();
-            }
-        } catch (Exception e) {
-            System.out.println("Wrong variable");
-            num = getId();
-        }
-        this.command.setSecondArgument(num);
-        this.command.setThirdArgument(new TicketReader(new Scanner(System.in), false).getTicket());
+        this.command.setSecondArgument(id);
+        this.command.setThirdArgument(ticket);
         super.check(command, arg);
     }
 
@@ -35,16 +32,22 @@ public class Update extends AbstractCommand {
     public boolean receive() {
         try {
             Command com = receiver.receive();
-            if ((int) com.getSecondArgument() == 1) {
-                System.out.println("Updated!");
+            if ((int) com.getSecondArgument() == 0) {
+                CommandFormer.answer = "Updated!";
             } else {
-                System.out.println("Can't find!");
+                CommandFormer.answer = "Can't find!";
+                ticket = null;
             }
 
             return true;
         } catch (IOException e) {
-            System.out.println("Server doesn't answer");
+            CommandFormer.setServerStatus(0);
             return false;
         }
+    }
+
+    @Override
+    public Object getResult() {
+        return ticket;
     }
 }

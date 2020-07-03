@@ -1,6 +1,8 @@
 package Starter;
 
-import UI.Terminal;
+import GUI.JMainFrame;
+import GUI.Localization.LanguagesProvider;
+import GUI.ManipulaterElements;
 import WebRes.Command;
 import WebRes.Contact;
 import WebRes.Receiver;
@@ -47,8 +49,11 @@ public class ClientMain {
     }
 
     public static void startWorking(){
-        Terminal term = new Terminal();
-        term.startFromConsole();
+        JMainFrame mf = new JMainFrame();
+        LanguagesProvider.setJmf(mf);
+        ManipulaterElements.setJMainFrame(mf);
+//        Terminal term = new Terminal();
+//        term.startFromConsole();
     }
 
 }

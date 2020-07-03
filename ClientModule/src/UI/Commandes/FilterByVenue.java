@@ -1,22 +1,30 @@
 package UI.Commandes;
 
+import Collection.Venue;
+import GUI.CommandFormer;
 import UI.AbstractCommand;
-import UI.TicketReader;
 import WebRes.Command;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import static Starter.ClientMain.receiver;
 
 public class FilterByVenue extends AbstractCommand {
 
+    Venue venue;
+
+    public void setArg(Venue venue){
+        this.venue = venue;
+    }
+
     @Override
     public void check(String command, String arg) {
-        this.command.setThirdArgument(new TicketReader(new Scanner(System.in),false).getVenue());
+        this.command.setThirdArgument(venue);
         super.check(command,arg);
     }
+
+
 
     @Override
     public boolean receive() {
@@ -26,24 +34,26 @@ public class FilterByVenue extends AbstractCommand {
                 System.out.println(com.getFirstArgument());
             }
             int cs = (int) com.getSecondArgument();
-            ArrayList<Command> ac = new ArrayList<>();
+            ac = new ArrayList<>();
             for (int i = 0; i < cs; i++) {
                 try {
                     ac.add(receiver.receive());
                 }catch (IOException e) {
-                    System.out.println("Server doesn't answer");
+                    CommandFormer.setServerStatus(0);
                     return false;
                 }
             }
-            if (ac.size() > 0){
-                printSorted(ac, cs);
-            }else {
-                System.out.println("There aren't any Tickets with this Venue");
-            }
             return true;
         } catch (IOException e) {
-            System.out.println("Server doesn't answer");
+            CommandFormer.setServerStatus(0);
             return false;
         }
+    }
+
+    private ArrayList<Command> ac;
+
+    @Override
+    public Object getResult() {
+        return ac;
     }
 }

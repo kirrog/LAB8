@@ -1,7 +1,6 @@
 package Commands;
 
 import DataBase.ThreadResurses;
-import ServerThreads.ProcessThread;
 
 import java.util.Scanner;
 
@@ -27,7 +26,7 @@ public class Exit extends AbstractCommand {
 
     @Override
     public void exe() {
-        ((ProcessThread) Thread.currentThread()).sUI.setHaveClient(false);
+        tr.serverUI.setHaveClient(false);
     }
 
     @Override

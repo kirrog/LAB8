@@ -1,6 +1,7 @@
 package DataBase;
 
 import Collection.Ticket;
+import Commands.CheckCondition;
 
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -13,7 +14,9 @@ public class TicketsList {
     }
 
     synchronized Ticket replace(String key, Ticket t){
-        return ticketHashtable.replace(key, t);
+        Ticket tPrev = ticketHashtable.replace(key, t);
+        CheckCondition.updateTicket(ticketHashtable.get(key));
+        return tPrev;
     }
 
     synchronized Enumeration keys() {
@@ -29,14 +32,17 @@ public class TicketsList {
     }
 
     synchronized Object put(String key, Ticket value) {
-        return ticketHashtable.put(key, value);
+        ticketHashtable.put(key, value);
+        CheckCondition.addTicket(ticketHashtable.get(key));
+        return true;
     }
 
     synchronized Object remove(String key) {
+        CheckCondition.removeTicket(ticketHashtable.get(key));
         return ticketHashtable.remove(key);
     }
 
-    synchronized void clear() {
-        ticketHashtable.clear();
-    }
+//    synchronized void clear() {
+//        ticketHashtable.clear();
+//    }
 }

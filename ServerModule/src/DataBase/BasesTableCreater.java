@@ -7,18 +7,10 @@ public class BasesTableCreater {
 
     private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(BasesTableCreater.class);
 
+
     private static String user = "programiifromskolkovo";
     private static String password = "programiifromskolkovo";
     private static String url = "jdbc:postgresql://localhost:5432/Tickets";
-
-    //INSERT INTO public.locations(
-    //	id, x, y, z, name)
-    //	VALUES (0, 0, 0, 0, null);
-
-    //INSERT INTO public.address(
-    //	id, zipcode, town)
-    //	VALUES (0, null, 0);
-
     private static String commands = "CREATE TABLE IF NOT EXISTS locations\n" +
             "(\n" +
             "    id SERIAL PRIMARY KEY,\n" +
@@ -54,6 +46,7 @@ public class BasesTableCreater {
             "    id SERIAL PRIMARY KEY,\n" +
             "    name character varying COLLATE pg_catalog.\"default\" NOT NULL,\n" +
             "    mail character varying COLLATE pg_catalog.\"default\",\n" +
+            "    salt character varying COLLATE pg_catalog.\"default\",\n" +
             "    password bytea\n" +
             ");\n" +
             "CREATE TABLE IF NOT EXISTS tickets\n" +
@@ -72,7 +65,11 @@ public class BasesTableCreater {
             "    FOREIGN KEY (coordinates) REFERENCES coordinates (id),\n" +
             "    FOREIGN KEY (userofticket) REFERENCES users (id),\n" +
             "    FOREIGN KEY (venue) REFERENCES venues (id)\n" +
-            ");";
+            ");\n"
+            ;
+    private static String sqlLocation = "INSERT INTO locations(id, x, y, z, name) VALUES (0, 0, 0, 0, null);\n";
+    private static String sqlAddress = "INSERT INTO address(id, zipcode, town) VALUES (0, null, 0);";
+
 
     public static DataBaseManagerTickets getDataBase(String u, String p, String ur){
         if(!(u==null)){
@@ -88,9 +85,47 @@ public class BasesTableCreater {
             DataBaseManagerTickets dbmt = new DataBaseManagerTickets(connection);
             Statement st = connection.createStatement();
             st.execute(commands);
+            st.close();
+
+            Statement call = connection.createStatement();
+            ResultSet rs = call.executeQuery("SELECT * FROM locations");
+            int i = -1;
+            while (rs.next()){
+                i = rs.getInt("id");
+                if(i == 0){
+                    break;
+                }
+            }
+            rs.close();
+            call.close();
+            if (i != 0){
+                Statement stL = connection.createStatement();
+                stL.execute(sqlLocation);
+                stL.close();
+            }
+
+
+            call = connection.createStatement();
+            rs = call.executeQuery("SELECT * FROM address");
+            i = -1;
+            while (rs.next()){
+                i = rs.getInt("id");
+                if(i == 0){
+                    break;
+                }
+            }
+            rs.close();
+            call.close();
+            if (i != 0){
+                Statement stA = connection.createStatement();
+                stA.execute(sqlAddress);
+                stA.close();
+
+            }
+
             dbmt.fillTable(new TicketsList(), new BaseOwners());
             log.info("Server tables filled: T - " + dbmt.getTickList().size() + " O - " + dbmt.getOwners().size());
-            st.close();
+
             return dbmt;
         } catch (SQLException e) {
             log.info("Date base exception", e);

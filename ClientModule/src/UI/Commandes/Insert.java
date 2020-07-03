@@ -1,21 +1,26 @@
 package UI.Commandes;
 
+import Collection.Ticket;
+import GUI.CommandFormer;
 import UI.AbstractCommand;
-import UI.TicketReader;
 import WebRes.Command;
 
 import java.io.IOException;
-import java.util.Scanner;
 
 import static Starter.ClientMain.receiver;
 
 public class Insert extends AbstractCommand {
 
+    public void setArg(Ticket t){
+        ticket = t;
+    }
+
+    Ticket ticket;
 
     @Override
     public void check(String command, String arg) {
-        this.command.setFirstArgument(arg);
-        this.command.setThirdArgument(new TicketReader(new Scanner(System.in),false).getTicket());
+        this.command.setFirstArgument(ticket.getKey());
+        this.command.setThirdArgument(ticket);
         super.check(command,arg);
     }
 
@@ -24,11 +29,22 @@ public class Insert extends AbstractCommand {
     public boolean receive() {
         try {
             Command com = receiver.receive();
-            System.out.println(com.getFirstArgument());
-            return true;
+            CommandFormer.answer = com.getFirstArgument();
+            if((int)(com.getSecondArgument()) == 0){
+                ticket = (Ticket) com.getThirdArgument();
+                return true;
+            }else {
+                ticket = null;
+                return false;
+            }
         } catch (IOException e) {
-            System.out.println("Server doesn't answer");
+            CommandFormer.setServerStatus(0);
             return false;
         }
+    }
+
+    @Override
+    public Object getResult() {
+        return ticket;
     }
 }

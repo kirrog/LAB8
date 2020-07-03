@@ -43,11 +43,15 @@ public class Insert extends AbstractCommand {
     public void exe() {
         if(tr.ticketsList.containsKey(com.getFirstArgument())){
             com.setFirstArgument("Already exists");
+            com.setSecondArgument(-1);
         }else {
             if(tr.putT(com.getFirstArgument(),(Ticket) com.getThirdArgument())){
                 com.setFirstArgument("Ticket inserted with key: " + com.getFirstArgument());
+                com.setSecondArgument(0);
+                com.setThirdArgument(tr.ticketsList.get(com.getFirstArgument()));
             }else {
                 com.setFirstArgument("Something wrong with inserting!");
+                com.setSecondArgument(-2);
             }
         }
         send(null);

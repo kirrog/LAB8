@@ -7,7 +7,7 @@
     </content>
     <orderEntry type="jdk" jdkName="1.8.0_161" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="logback-classic-1.2.3" level="project" />
-    <orderEntry type="library" name="postgresql-42.2.11" level="project" />
+    <orderEntry type="library" exported="" name="postgresql-42.2.11" level="project" />
+    <orderEntry type="library" exported="" name="logback-classic-1.2.3" level="project" />
   </component>
 </module>

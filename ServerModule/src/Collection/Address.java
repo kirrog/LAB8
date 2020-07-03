@@ -46,4 +46,12 @@ public class Address implements Serializable {
         result = result & Objects.equals(this.town, address.town);
         return result;
     }
+
+    public int compareTo(Address sec) {
+        int i = 0;
+        i += 5*((Integer)this.getId()).compareTo(sec.getId());
+        i += 3*(this.getZipCode()).compareTo(sec.getZipCode());
+        i += (this.getTown()).compareTo(sec.getTown());
+        return i;
+    }
 }

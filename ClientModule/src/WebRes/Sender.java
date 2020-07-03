@@ -1,5 +1,7 @@
 package WebRes;
 
+import GUI.CommandFormer;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -16,6 +18,7 @@ public class Sender {
     }
 
     public boolean send(Command command){
+        CommandFormer.setWebStatus(0);
         byte b[];
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream();ObjectOutputStream oos = new ObjectOutputStream(baos);){
             oos.writeObject(command);

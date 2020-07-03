@@ -1,5 +1,6 @@
 package UI.Commandes;
 
+import GUI.CommandFormer;
 import UI.AbstractCommand;
 import WebRes.Command;
 
@@ -12,12 +13,13 @@ public class ExecuteScript extends AbstractCommand {
     @Override
     public void check(String command, String arg) {
         if(arg == null){
-            System.out.println("Bad argument");
             return;
         }
         this.command.setFirstArgument(arg);
         super.check(command,arg);
     }
+
+    String result = "";
 
     @Override
     public boolean receive() {
@@ -28,15 +30,20 @@ public class ExecuteScript extends AbstractCommand {
                     str = this.send();
                 }
             }catch (IOException | NullPointerException e){
-                System.out.println("Problem with script");
+                CommandFormer.setServerStatus(3);
                 return false;
             }
             Command com = receiver.receive();
-            System.out.println(com.getFirstArgument());
+            result += com.getFirstArgument() + "\n";
             return true;
         } catch (IOException e) {
-            System.out.println("Server doesn't answer");
+            CommandFormer.setServerStatus(0);
             return false;
         }
+    }
+
+    @Override
+    public Object getResult() {
+        return result;
     }
 }

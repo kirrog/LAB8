@@ -62,4 +62,16 @@ public class Venue implements Serializable {
         result = result & (this.getName().equals(ven.getName()));
         return result & (this.getCapacity().equals(ven.getCapacity()));
     }
+
+    //1 3 5 10 20
+
+    public int compareTo(Venue sec) {
+        int i = 0;
+        i += 20*((Long)this.getId()).compareTo(sec.getId());
+        i += 10*((String)this.getName()).compareTo(sec.getName());
+        i += 5*((Integer)this.getCapacity()).compareTo(sec.getCapacity());
+        i += 3*(this.getType()).compareTo(sec.getType());
+        i += (this.getAddress()).compareTo(sec.getAddress());
+        return i;
+    }
 }

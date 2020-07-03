@@ -9,4 +9,9 @@ public class Exit extends AbstractCommand {
         return true;
     }
 
+    @Override
+    public Object getResult() {
+        return null;
+    }
+
 }

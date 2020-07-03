@@ -1,5 +1,7 @@
 package WebRes;
 
+import GUI.CommandFormer;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -14,10 +16,13 @@ public class Receiver {
     }
 
     public Command receive() throws IOException {
+
+        CommandFormer.setWebStatus(1);
         byte bytes[] = new byte[32 * 1024];
         DatagramPacket input = new DatagramPacket(bytes, bytes.length);
         try {
             contact.getDataSock().receive(input);
+            CommandFormer.setServerStatus(1);
             ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
             ObjectInputStream ois = new ObjectInputStream(bais);
             Command com = (Command) ois.readObject();

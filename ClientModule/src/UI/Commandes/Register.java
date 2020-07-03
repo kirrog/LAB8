@@ -1,33 +1,56 @@
 package UI.Commandes;
 
+import DataBase.TicketOwner;
+import GUI.CommandFormer;
 import UI.AbstractCommand;
-import UI.TicketReader;
 import WebRes.Command;
 
 import java.io.IOException;
-import java.util.Scanner;
 
 import static Starter.ClientMain.receiver;
 
 public class Register extends AbstractCommand  {
 
+    TicketOwner ticketOwner;
+
+    public void setTOwner(TicketOwner tOwner){
+        ticketOwner = tOwner;
+    }
+
     @Override
     public void check(String command, String arg) {
-        this.command.setFirstArgument(arg);
-        this.command.setFourthArgument(new TicketReader(new Scanner(System.in),false).getTicketOwner(true, true));
+        this.command.setFourthArgument(ticketOwner);
         super.check(command,arg);
     }
+
+    int result = 1;
 
     @Override
     public boolean receive() {
         try {
             Command com = receiver.receive();
-            System.out.println("Get result of registration!");
-            System.out.println(com.getFirstArgument());
-            return true;
+            if((int)(com.getSecondArgument()) == 0){
+                result = 0;
+            }else if((int)(com.getSecondArgument()) == -1){
+                result = -1;
+            }else if((int)(com.getSecondArgument()) == -2){
+                result = -2;
+            }
+            CommandFormer.answer = com.getFirstArgument();
+            if(result == 0){
+                return true;
+            }else {
+                return false;
+            }
+
         } catch (IOException e) {
-            System.out.println("Server doesn't answer");
+            CommandFormer.setServerStatus(0);
             return false;
         }
+    }
+
+    @Override
+    public Object getResult() {
+        return result;
     }
 }

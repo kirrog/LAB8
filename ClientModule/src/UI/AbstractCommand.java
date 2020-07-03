@@ -1,13 +1,14 @@
 package UI;
 
 import Collection.Ticket;
+import GUI.CommandFormer;
+import GUI.ManipulaterElements;
 import UI.Commandes.*;
 import WebRes.Command;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.Scanner;
 
 import static Starter.ClientMain.receiver;
 import static Starter.ClientMain.sender;
@@ -34,9 +35,10 @@ public abstract class AbstractCommand implements MesSendable {
         replies.put("show", new Show());
         replies.put("update", new Update());
         replies.put("exit", new Exit());
-        replies.put("register",new Register());
-        replies.put("change_register",new ChangeRegister());
-        replies.put("login",new Login());
+        replies.put("register", new Register());
+        replies.put("change_register", new ChangeRegister());
+        replies.put("login", new Login());
+        replies.put("check_condition", new CheckCondition());
     }
 
     @Override
@@ -45,22 +47,25 @@ public abstract class AbstractCommand implements MesSendable {
         send(command);
     }
 
+    private int recurs = 3;
+    private int current = 0;
+
     @Override
     public void send(String str) {
         Command com;
         try {
             sender.send(command);
             com = receiver.receive();
-            System.out.println("Server start executing: " + str);
+            CommandFormer.setServerStatus(2);
             printMes(com);
             receive();
         } catch (IOException e) {
-            System.out.println("Server doesn't answer");
-            System.out.println("Send one more, or stop? (y/n)");
-            Scanner scan = new Scanner(System.in);
-            String string = scan.nextLine();
-            if (string.contains("y")) {
+            CommandFormer.setServerStatus(0);
+            if (current < recurs) {
+                current++;
                 this.send(str);
+            }else {
+                current = 0;
             }
         }
     }
@@ -79,9 +84,9 @@ public abstract class AbstractCommand implements MesSendable {
         String string = com.getFirstArgument();
         if (string != null) {
             if (string.contains("Server end receiving")) {
-                System.out.println("Server end receiving");
+                CommandFormer.setServerStatus(-1);
             }
-            System.out.println(com.getFirstArgument());
+            CommandFormer.answer = com.getFirstArgument();
         }
     }
 
@@ -91,12 +96,12 @@ public abstract class AbstractCommand implements MesSendable {
             int cs = commands.size();
 
             for (int i = 0; i < cs; i++) {
-                if (commands.get(i) == null){
+                if (commands.get(i) == null) {
                     commands.remove(i);
                 }
             }
 
-            System.out.println("Number of missed Tickets: " + (presize - commands.size()));
+            CommandFormer.setMissedTicketNumber(presize - commands.size());
 
             Ticket[] tickets = new Ticket[cs];
             String[] keys = new String[cs];
@@ -114,31 +119,12 @@ public abstract class AbstractCommand implements MesSendable {
                 keys[j] = commands.get(point).getFirstArgument();
                 commands.remove(point);
             }
+            ManipulaterElements.clear();
             for (int i = 0; i < cs; i++) {
-                System.out.println("Key: '" + keys[i] + "'");
-                tickets[i].writeTicket();
+                ManipulaterElements.addTicket(tickets[i]);
             }
         } else {
-            System.out.println("Doesn't receive any Tickets! \nCheck the WEB!");
-        }
-    }
-
-    protected static int getId() {
-        Scanner inn = new Scanner(System.in);
-        System.out.print("Enter Id:\n>");
-        String arg = inn.nextLine();
-        int num;
-        try {
-            num = Integer.parseInt(arg);
-            if (num > 0) {
-                return num;
-            } else {
-                System.out.println("Wrong sign");
-                return getId();
-            }
-        } catch (Exception e) {
-            System.out.println("Wrong variable");
-            return getId();
+            CommandFormer.setServerStatus(0);
         }
     }
 

@@ -11,27 +11,28 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ForkJoinTask;
+import java.util.concurrent.locks.ReentrantLock;
 
-public class ServerManager {
+public class ServerManager extends Thread {
 
     private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ServerManager.class);
-    private static StackPrinter stackP = new StackPrinter();
 
     public static boolean work = true;
     public static int numberOfExers = -1;
-
     public static ForkJoinPool fjPool = new ForkJoinPool();
     public static ExecutorService cthPoolRecSend = Executors.newCachedThreadPool();
+
     private static StackPrinter stackPrinter = new StackPrinter();
+    private static ReentrantLock rLock = new ReentrantLock();
 
 
     //Реализует подключение и запуск потоков обработки клиентов
     //Организация потоков тоже тут
 
     public static void makeThreads(DataBaseManagerTickets dbmt) {
-        check();
         try {
             Contact contact = new Contact(4445);
+            rLock.lock();
             Sender s = contact.getSender();
             s.setName("Sender_" + numberOfExers);
             s.setUncaughtExceptionHandler(stackPrinter);
@@ -45,19 +46,42 @@ public class ServerManager {
             cthPoolRecSend.submit(r);
             cthPoolRecSend.submit(s);
             fjPool.submit(ForkJoinTask.adapt(pt));
+            if (numberOfExers == -1) {
+                numberOfExers = 0;
+            }
             numberOfExers++;
+            rLock.unlock();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.info("While making threads: ", e);
+        } catch (Exception e){
+            log.info(e.getMessage());
         }
 
     }
 
-    private static void check(){
-        if(numberOfExers == 0){
-            work =false;
+    static synchronized void decrease() {
+        numberOfExers--;
+    }
+
+    private static void check() {
+        rLock.lock();
+        if (numberOfExers == 0) {
+            work = false;
         }
-        if (numberOfExers == -1){
-            numberOfExers = 0;
+        rLock.unlock();
+    }
+
+    @Override
+    public void run() {
+        work = true;
+        numberOfExers = -1;
+        while (work) {
+            check();
+            try {
+                sleep(1000);
+            } catch (InterruptedException e) {
+                log.error("Checker shutdown", e);
+            }
         }
     }
 }

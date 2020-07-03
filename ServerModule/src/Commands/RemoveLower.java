@@ -24,7 +24,13 @@ public class RemoveLower extends AbstractCommand {
     public void execute(String string, Scanner scan, ExeClass eCla) {
         Ticket tick = eCla.getTicket();
         int i = tr.ticketsList.size();
-        tr.getStreamT().filter(ticket -> ticket.compareTo(tick) < 0).forEach(ticket -> tr.removeT(ticket, ticket.getKey()));
+        tr.getStreamT().filter(ticket -> ticket.compareTo(tick) < 0).forEach(ticket -> {
+            if (ticket.getTowner().equals(tr.ticketOwner)) {
+                tr.removeT(ticket, ticket.getKey());
+            }
+        });
+
+
         i -= tr.ticketsList.size();
         System.out.println("Deleted " + i + " Tickets");
     }
@@ -33,9 +39,14 @@ public class RemoveLower extends AbstractCommand {
     public void exe() {
         Ticket tick = (Ticket) com.getThirdArgument();
         int i = tr.ticketsList.size();
-        tr.getStreamT().filter(ticket -> ticket.compareTo(tick) < 0).forEach(ticket -> tr.removeT(ticket, ticket.getKey()));
+        tr.getStreamT().filter(ticket -> ticket.compareTo(tick) < 0).forEach(ticket -> {
+            if (ticket.getTowner().equals(tr.ticketOwner)) {
+                tr.removeT(ticket, ticket.getKey());
+            }
+        });
         i -= tr.ticketsList.size();
         com.setFirstArgument("Deleted " + i + " Tickets");
+        com.setSecondArgument(0);
         com.setThirdArgument(null);
         send(null);
     }

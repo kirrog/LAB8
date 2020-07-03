@@ -43,6 +43,10 @@ public class DataBaseManagerTickets {
 //        }
 //    }
 
+    public void close() throws SQLException {
+        connection.close();
+    }
+
     private int sendTown(Location town, boolean insert) throws SQLException {
         if (town == null) {
             return 0;
@@ -273,16 +277,21 @@ public class DataBaseManagerTickets {
     public int sendTOwner(TicketOwner towner, boolean insert) {
         String sql;
         if (insert) {
-            sql = "INSERT INTO users (id, name, password, mail) VALUES (DEFAULT, (?), (?), (?)) RETURNING id;";
+            sql = "INSERT INTO users (id, name, password, mail, salt) VALUES (DEFAULT, (?), (?), (?), (?)) RETURNING id;";
         } else {
-            sql = "UPDATE users SET name = (?), password = (?), mail = (?) WHERE id = (?) RETURNING id;";
+            sql = "UPDATE users SET mail = (?) WHERE id = (?) RETURNING id;";
         }
         try (PreparedStatement st = connection.prepareStatement(sql)) {
-            st.setString(1, towner.getName());
-            st.setBytes(2, towner.getPassword());
-            st.setString(3, towner.getMail());
+            if(insert){
+                st.setString(1, towner.getName());
+                st.setBytes(2, towner.getPassword());
+                st.setString(3, towner.getMail());
+                st.setString(4, towner.getSalt());
+            }
+
             if (!insert) {
-                st.setInt(4, towner.getId());
+                st.setString(1, towner.getMail());
+                st.setInt(2, towner.getId());
             }
             ResultSet resultSet = st.executeQuery();
             if (resultSet.next()) {
@@ -492,8 +501,9 @@ public class DataBaseManagerTickets {
                 String name = resultSet.getString("name");
                 byte[] password = resultSet.getBytes("password");
                 String mail = resultSet.getString("mail");
+                String salt = resultSet.getString("salt");
                 resultSet.close();
-                return new TicketOwner(id, name, password, mail);
+                return new TicketOwner(id, name, password, mail, salt);
             }
             resultSet.close();
         } catch (SQLException e) {
@@ -656,7 +666,8 @@ public class DataBaseManagerTickets {
                     String name = resultSet.getString("name");
                     byte[] password = resultSet.getBytes("password");
                     String mail = resultSet.getString("mail");
-                    baseOwners.put(id, new TicketOwner(id, name, password, mail));
+                    String salt = resultSet.getString("salt");
+                    baseOwners.put(id, new TicketOwner(id, name, password, mail, salt));
                 }
             }
             resultSet.close();

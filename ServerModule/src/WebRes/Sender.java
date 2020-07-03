@@ -44,6 +44,8 @@ public class Sender extends Thread {
     }
 
     synchronized void close() {
+        work = false;
+        notify();
         log.info("Closed");
     }
 

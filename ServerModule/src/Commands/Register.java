@@ -1,5 +1,6 @@
 package Commands;
 
+import DataBase.CriptoMaker;
 import DataBase.ThreadResurses;
 import DataBase.TicketOwner;
 import WebRes.Command;
@@ -23,9 +24,12 @@ public class Register extends AbstractCommand{
         System.out.println(tow.getName());
         if(tr.getStreamO().anyMatch(ticketOwner -> ticketOwner.getName().equals(tow.getName()))){
             com.setFirstArgument("Where are acc with this name!");
+            com.setSecondArgument(-1);
         }else {
+            CriptoMaker.saltAndPaper(tow, tow.getSalt());
             if(tr.putO(tow)){
                 com.setFirstArgument("You've registered with name '" + tow.getName() + "'");
+                com.setSecondArgument(0);
             }else {
                 com.setFirstArgument("Problem with base!");
             }

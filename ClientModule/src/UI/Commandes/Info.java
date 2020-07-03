@@ -1,5 +1,6 @@
 package UI.Commandes;
 
+import GUI.CommandFormer;
 import UI.AbstractCommand;
 import WebRes.Command;
 
@@ -14,16 +15,22 @@ public class Info extends AbstractCommand {
         super.check(command,arg);
     }
 
+String str = "";
 
     @Override
     public boolean receive() {
         try {
             Command com = receiver.receive();
-            System.out.println(com.getFirstArgument());
+            str = com.getFirstArgument();
             return true;
         } catch (IOException e) {
-            System.out.println("Server doesn't answer");
+            CommandFormer.setServerStatus(0);
             return false;
         }
+    }
+
+    @Override
+    public Object getResult() {
+        return str;
     }
 }

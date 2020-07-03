@@ -48,6 +48,7 @@ public class ServerUI {
         replies.put("register", new Register(tr));
         replies.put("change_register", new ChangeRegister(tr));
         replies.put("login", new Login(tr));
+        replies.put("check_condition", new CheckCondition(thres));
     }
 
     public void start() {

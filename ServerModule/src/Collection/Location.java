@@ -67,4 +67,14 @@ public class Location implements Serializable {
         result = result & (Objects.equals(this.z, loc.z));
         return result;
     }
+
+    public int compareTo(Location sec) {
+        int i = 0;
+        i += 20*((Integer)this.getId()).compareTo(sec.getId());
+        i += 10*((String)this.getName()).compareTo(sec.getName());
+        i += 5*((Double)this.getX()).compareTo(sec.getX());
+        i += 3*((Float)this.getY()).compareTo(sec.getY());
+        i += ((Long)this.getZ()).compareTo(sec.getZ());
+        return i;
+    }
 }

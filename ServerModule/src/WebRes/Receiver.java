@@ -79,7 +79,7 @@ public class Receiver extends Thread {
                 }
                 break;
             } catch (IOException | InterruptedException e) {
-                e.printStackTrace();
+                log.error("Reading from chanel", e);
             }
         }
     }

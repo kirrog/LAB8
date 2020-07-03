@@ -6,6 +6,7 @@ import DataBase.DataBaseManagerTickets;
 import DataBase.ThreadResurses;
 import ServerThreads.ServerManager;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 
@@ -16,59 +17,19 @@ import java.util.Scanner;
  * @version 3.2
  */
 public class Main {
-//    /**
-//     * Field with size of Hashtable
-//     */
-//    public static int hashSize = 1000;
-//    /**
-//     * Field Hashtable
-//     */
-//    public static Hashtable<String, Ticket> TicketsHashTable = new Hashtable<String, Ticket>(hashSize);
-//    /**
-//     * Field contains time of Hashtable creation
-//     */
-//    //DateTimeFormatter.ofPattern("MM/dd/yyyy - HH:mm:ss ZZ")
-//    private static ZonedDateTime hashCreationDate = ZonedDateTime.parse((ZonedDateTime.now().format(DateTimeFormatter.ofPattern("MM/dd/yyyy - HH:mm:ss ZZ"))),DateTimeFormatter.ofPattern("MM/dd/yyyy - HH:mm:ss ZZ"));
-//    /**
-//     * Field with object of @see Terminal
-//     */
-//    public static Terminal terminal;
-//    public static Contact contact;
-//    public static Sender sender;
-//    public static Receiver receiver;
-//
-//    public static ZonedDateTime getHashCreationDate() {
-//        return hashCreationDate;
-//    }
-//
-//    public static void setHashCreationDate(ZonedDateTime hashCreationDate) {
-//        Main.hashCreationDate = hashCreationDate;
-//    }
+    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(Main.class);
 
     private static String user = "programiifromskolkovo";
     private static String password = "programiifromskolkovo";
     private static String url = "jdbc:postgresql://localhost:5432/Tickets";
+//    private static String user = "s283904";
+//    private static String password = "ipe789";
+//    private static String url = "jdbc:postgresql://pg:5432/studs";
 
     public static void main(String[] args) {
         askServerer();
+        System.exit(0);
     }
-
-//    public static boolean setContact(){
-//        contact = null;
-//        try {
-//            contact = new Contact(4445);
-//            contact.receiveConnection();
-//            sender = new Sender(contact);
-//            receiver = new Receiver(contact);
-////            Command com = receiver.receive();
-////            System.out.println(com.getNameOfCommand());
-////            sender.send(com);
-//            return true;
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            return false;
-//        }
-//    }
 
     public static void askServerer(){
 
@@ -78,11 +39,18 @@ public class Main {
         string = scan.nextLine();
         //-----------------------------------------------------------------
         if (string.contains("Client")){
+            ServerManager sm = new ServerManager();
+            sm.start();
             DataBaseManagerTickets dbmt = BasesTableCreater.getDataBase(user, password, url);
             while (ServerManager.work){
                 ServerManager.makeThreads(dbmt);
             }
-        //-----------------------------------------------------------------
+            try {
+                dbmt.close();
+            } catch (SQLException e) {
+                log.error("Closing bd: " + e);
+            }
+            //-----------------------------------------------------------------
         }else if(string.contains("User")){
             DataBaseManagerTickets dbmt = BasesTableCreater.getDataBase(user, password, url);
             ThreadResurses tr = new ThreadResurses(dbmt);

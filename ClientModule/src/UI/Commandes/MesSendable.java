@@ -10,4 +10,5 @@ public interface MesSendable {
 
     boolean receive();  //Get from server answer or wait for it.
 
+    Object getResult();
 }

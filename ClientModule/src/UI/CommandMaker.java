@@ -8,16 +8,18 @@ public class CommandMaker {
             return false;
         }
 
+        if(!Terminal.logined) return false;
+
         switch(nameOfCommand){
             case "clear":{
-                if(!Terminal.logined) return false;
-                Terminal.logined = false;
+                //if(!Terminal.logined) return false;
+                //Terminal.logined = false;
                 AbstractCommand.replies.get("clear").check(nameOfCommand, arguments);
                 return true;
             }
             case "execute_script":{
-                if(!Terminal.logined) return false;
-                Terminal.logined = false;
+                //if(!Terminal.logined) return false;
+                //Terminal.logined = false;
                 AbstractCommand.replies.get("execute_script").check(nameOfCommand, arguments);
                 return true;
             }
@@ -34,8 +36,8 @@ public class CommandMaker {
                 return true;
             }
             case "insert":{
-                if(!Terminal.logined) return false;
-                Terminal.logined = false;
+                //if(!Terminal.logined) return false;
+                //Terminal.logined = false;
                 AbstractCommand.replies.get("insert").check(nameOfCommand, arguments);
                 return true;
             }
@@ -48,20 +50,20 @@ public class CommandMaker {
                 return true;
             }
             case "remove_greater_key":{
-                if(!Terminal.logined) return false;
-                Terminal.logined = false;
+                //if(!Terminal.logined) return false;
+                //Terminal.logined = false;
                 AbstractCommand.replies.get("remove_greater_key").check(nameOfCommand, arguments);
                 return true;
             }
             case "remove_lower":{
-                if(!Terminal.logined) return false;
-                Terminal.logined = false;
+                //if(!Terminal.logined) return false;
+                //Terminal.logined = false;
                 AbstractCommand.replies.get("remove_lower").check(nameOfCommand, arguments);
                 return true;
             }
             case "replace_if_lower":{
-                if(!Terminal.logined) return false;
-                Terminal.logined = false;
+                //if(!Terminal.logined) return false;
+                //Terminal.logined = false;
                 AbstractCommand.replies.get("replace_if_lower").check(nameOfCommand, arguments);
                 return true;
             }
@@ -70,14 +72,14 @@ public class CommandMaker {
                 return true;
             }
             case "update":{
-                if(!Terminal.logined) return false;
-                Terminal.logined = false;
+                //if(!Terminal.logined) return false;
+                //Terminal.logined = false;
                 AbstractCommand.replies.get("update").check(nameOfCommand, arguments);
                 return true;
             }
             case "remove_key":{
-                if(!Terminal.logined) return false;
-                Terminal.logined = false;
+                //if(!Terminal.logined) return false;
+                //Terminal.logined = false;
                 AbstractCommand.replies.get("remove_key").check(nameOfCommand, arguments);
                 return true;
             }
@@ -90,8 +92,8 @@ public class CommandMaker {
                 return true;
             }
             case "change_register":{
-                if(!Terminal.logined) return false;
-                Terminal.logined = false;
+                //if(!Terminal.logined) return false;
+                //Terminal.logined = false;
                 AbstractCommand.replies.get("change_register").check(nameOfCommand, arguments);
                 return true;
             }
